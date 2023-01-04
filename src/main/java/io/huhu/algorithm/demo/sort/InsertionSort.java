@@ -4,31 +4,21 @@ import java.util.Arrays;
 
 /**
  * 插入排序
- * 升级: 希尔排序
  */
 public class InsertionSort {
 
     public static void main(String[] args) {
-        int[] arr = {4, 5, 6, 3, 2, 1};
-        sort(arr);
+        int[] arr = {4, 6, 5, 2, 3, 1};
+        sort(arr, arr.length);
         System.out.println(Arrays.toString(arr));
     }
 
-    public static void sort(int... arr) {
-        if (arr.length <= 1) {
-            return;
-        }
-        for (int i = 1; i < arr.length; i++) {
-            int value = arr[i];
+    public static void sort(int[] a, int n) {
+        for (int i = 1; i < n; i++) {
+            int k = a[i];
             int j = i - 1;
-            for (; j >= 0; j--) {
-                if (arr[j] > value) {
-                    arr[j + 1] = arr[j];
-                } else {
-                    break;
-                }
-            }
-            arr[j + 1] = value;
+            while (j >= 0 && a[j] > k) a[j + 1] = a[j--];
+            a[j + 1] = k;
         }
     }
 

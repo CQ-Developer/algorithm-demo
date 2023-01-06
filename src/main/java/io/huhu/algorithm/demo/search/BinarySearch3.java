@@ -13,7 +13,7 @@ public class BinarySearch3 {
     }
 
     /**
-     * 参照 {@link BinarySearch1} 的思路
+     * 参照 {@link BinarySearch2} 的思路
      */
     public static int binarySearch(int[] a, int v) {
         int n = a.length - 1;

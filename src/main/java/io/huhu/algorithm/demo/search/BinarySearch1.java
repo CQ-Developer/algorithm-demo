@@ -1,7 +1,7 @@
 package io.huhu.algorithm.demo.search;
 
 /**
- * 二分查找变体1
+ * 二分查找变体一
  * 查找第一个值等于给定值的元素
  * 注意数组是有序的但存在重复的元素
  */

@@ -104,6 +104,20 @@ public class BinarySearchTree {
         else p.right = c;
     }
 
+    /**
+     * 查找二叉查找树中的最大节点
+     */
+    public Node findMax() {
+        if (tree == null) {
+            return null;
+        }
+        Node m = tree;
+        while (m.right != null) {
+            m = m.right;
+        }
+        return m;
+    }
+
     public static class Node {
 
         private int data;

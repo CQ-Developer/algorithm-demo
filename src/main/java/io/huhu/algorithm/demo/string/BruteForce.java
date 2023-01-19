@@ -18,7 +18,7 @@ public class BruteForce {
      * @return 第一个匹配的起始下标
      */
     public int bf(char[] a, int n, char[] b, int m) {
-        for (int i = 0; i < n - m; i++) {
+        for (int i = 0; i < n - m + 1; i++) {
             // j表示当前子串的下标
             int j = 0;
             while (j < m) {
@@ -32,6 +32,14 @@ public class BruteForce {
             }
         }
         return -1;
+    }
+
+    public static void main(String[] args) {
+        String source = "hello world";
+        String target = "or";
+        BruteForce bruteForce = new BruteForce();
+        int index = bruteForce.bf(source.toCharArray(), source.length(), target.toCharArray(), target.length());
+        System.out.println(index);
     }
 
 }

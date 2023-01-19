@@ -6,6 +6,7 @@ package io.huhu.algorithm.demo.tree;
 public class SegmentTree {
 
     private final int m;
+
     private final Segment[] segments;
 
     public SegmentTree(int m) {
@@ -49,7 +50,7 @@ public class SegmentTree {
             segments[i].count--;
             int mid = (left + right) / 2;
             if (data <= mid) {
-                right = mid;
+                right = mid + 1;
                 i = 2 * i;
             } else {
                 left = mid;
@@ -60,13 +61,37 @@ public class SegmentTree {
         segments[i].count--;
     }
 
+    /**
+     * 查询区间统计数据
+     */
     public int count(int left, int right) {
         return countInternal(left, right, 1);
     }
 
     /**
-     * 查询区间统计数据
+     * 查询区间的第K大值
      */
+    public int getKth(int left, int right, int k) {
+        return getKthInternal(left, right, 1, k);
+    }
+
+    private int getKthInternal(int left, int right, int i, int k) {
+        if (segments[i].left == left && segments[i].right == right) {
+            if (k != -1) {
+                return -1;
+            } else {
+                return segments[i].left;
+            }
+        }
+        int mid = (left + right) / 2;
+        int rightSegmentCount = countInternal(left, right, i * 2 + 1);
+        if (rightSegmentCount >= k) {
+            return getKthInternal(mid + 1, right, i * 2 + 1, k);
+        } else {
+            return getKthInternal(left, mid, i * 2, k - rightSegmentCount);
+        }
+    }
+
     private int countInternal(int left, int right, int i) {
         if (segments[i].left == left && segments[i].right == right) {
             return segments[i].count;

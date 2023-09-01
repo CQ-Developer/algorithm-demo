@@ -61,12 +61,31 @@ class Solution {
 
     /**
      * <h2>解法二：动态规划</h2>
+     * <p>核心思想：提前找出i位置的左侧最大值和右侧最大值</p>
      *
      * @param height 表示柱子高度的数组
      * @return 接住的雨水数量
      */
     public int trap2(int[] height) {
-        return -1;
+        int sum = 0;
+        int[] maxL = new int[height.length];
+        int[] maxR = new int[height.length];
+        // 记录i左侧最大值
+        for (int i = 1; i < height.length - 1; i++) {
+            maxL[i] = Math.max(maxL[i - 1], height[i - 1]);
+        }
+        // 记录i右侧最大值
+        for (int i = height.length - 2; i >= 0; i--) {
+            maxR[i] = Math.max(maxR[i + 1], height[i + 1]);
+        }
+        // 计算雨量
+        for (int i = 1; i < height.length; i++) {
+            int min = Math.min(maxL[i], maxR[i]);
+            if (min > height[i]) {
+                sum += (min - height[i]);
+            }
+        }
+        return sum;
     }
 
 }

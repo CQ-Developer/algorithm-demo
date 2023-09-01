@@ -88,4 +88,51 @@ class Solution {
         return sum;
     }
 
+    /**
+     * <h2>解法三：双指针</h2>
+     *
+     * @param height 表示柱子高度的数组
+     * @return 接住的与水量
+     */
+    public int trap3(int[] height) {
+        int sum = 0;
+        int maxL = 0, maxR = 0;
+        int l = 1, r = height.length - 2;
+        for (int i = 1; i < height.length - 1; i++) {
+            // 从左到右
+            if (height[l - 1] < height[r + 1]) {
+                maxL = Math.max(maxL, height[l - 1]);
+                if (maxL > height[l]) {
+                    sum += (maxL - height[l]);
+                }
+                l++;
+            }
+            // 从右到左
+            else {
+                maxR = Math.max(maxR, height[r + 1]);
+                if (maxR > height[r]) {
+                    sum += (maxR - height[r]);
+                }
+                r--;
+            }
+        }
+        return sum;
+    }
+
+    /**
+     * <h2>同 {@link #trap3(int[]) 解法三}</h2>
+     */
+    public int trap4(int[] height) {
+        int sum = 0;
+        int l = 0, r = height.length - 1;
+        int maxL = height[l++], maxR = height[r--];
+        while (l <= r) {
+            maxL = Math.max(maxL, height[l]);
+            maxR = Math.max(maxR, height[r]);
+            int count = maxL < maxR ? maxL - height[l++] : maxR - height[r--];
+            sum += count;
+        }
+        return sum;
+    }
+
 }

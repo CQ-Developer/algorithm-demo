@@ -2,7 +2,9 @@ package io.huhu.algorithm.leetcode.n49;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <h1>49.字母异位词分组</h1>
@@ -56,16 +58,13 @@ class Solution {
         boolean[] used = new boolean[strs.length];
         for (int i = 0; i < strs.length; i++) {
             if (!used[i]) {
-                used[i] = true;
                 List<String> list = new ArrayList<>();
                 list.add(strs[i]);
+                used[i] = true;
                 for (int j = i + 1; j < strs.length; j++) {
-                    if (used[j]) {
-                        continue;
-                    }
-                    if (strEquals(strs[i], strs[j])) {
-                        used[j] = true;
+                    if (!used[j] && strEquals2(strs[i], strs[j])) {
                         list.add(strs[j]);
+                        used[j] = true;
                     }
                 }
                 result.add(list);
@@ -74,7 +73,7 @@ class Solution {
         return result;
     }
 
-    // todo 这种比较方法有些问题 比如 duh ill
+    // 这种比较方法有些问题 比如 duh ill
     private int sum(String str) {
         int sum = 0;
         for (int i = 0; i < str.length(); i++) {
@@ -84,13 +83,33 @@ class Solution {
         return sum;
     }
 
-    // todo 超时
-    private boolean strEquals(String str1, String str2) {
+    // 超时
+    private boolean strEquals1(String str1, String str2) {
         char[] arr1 = str1.toCharArray();
         Arrays.sort(arr1);
         char[] arr2 = str2.toCharArray();
         Arrays.sort(arr2);
         return Arrays.equals(arr1, arr2);
+    }
+
+    // 超时
+    private boolean strEquals2(String str1, String str2) {
+        Map<Character, Integer> map1 = countCharacter(str1);
+        Map<Character, Integer> map2 = countCharacter(str2);
+        return map1.equals(map2);
+    }
+
+    private Map<Character, Integer> countCharacter(String str) {
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < str.length(); i++) {
+            map.compute(str.charAt(i), (k, v) -> v == null ? 1 : v + 1);
+        }
+        return map;
+    }
+
+    // todo
+    private boolean strEquals3(String str1, String str2) {
+        return false;
     }
 
 }

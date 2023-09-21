@@ -1,4 +1,4 @@
-package io.huhu.algorithm.gokking.algorithms.c1;
+package io.huhu.algorithm.gokking.algorithms;
 
 public final class BinarySearch {
 
@@ -11,7 +11,7 @@ public final class BinarySearch {
      * @param t   目标值
      * @return 目标值的下表，返回-1表示不存在
      */
-    public static int binarySearch(int[] arr, int t) {
+    public static int search(int[] arr, int t) {
         int l = 0;
         int r = arr == null ? -1 : arr.length - 1;
         while (l <= r) {

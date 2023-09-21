@@ -5,7 +5,8 @@ public final class BinarySearch {
     private BinarySearch() {}
 
     /**
-     * 二分查找法
+     * 二分查找法<br>
+     * 时间复杂度<b>O(log<sub>2</sub>n)</b>
      *
      * @param arr 升序排序的数组
      * @param t   目标值

@@ -5,7 +5,8 @@ public final class SelectionSort {
     private SelectionSort() {}
 
     /**
-     * 选择排序
+     * 选择排序<br>
+     * 时间复杂度<b>O(n<sup>2</sup>)</b>
      *
      * @param arr 数组
      * @return 升序排列后的数组

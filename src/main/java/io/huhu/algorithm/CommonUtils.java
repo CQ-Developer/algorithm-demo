@@ -53,4 +53,26 @@ public final class CommonUtils {
         return x == 1 ? 1 : x * recursionFactorial(x - 1);
     }
 
+    /**
+     * 使用递归计算数组元素的和
+     *
+     * @param arr 数组
+     * @return 数组元素的和
+     */
+    public static int recursionSum(int[] arr) {
+        return arr == null || arr.length == 0 ? 0 : recursionSum(arr, 0, arr.length);
+    }
+
+    /**
+     * 使用递归计算数组元素的和
+     *
+     * @param arr 数组
+     * @param i   起始位置，通常是0
+     * @param n   结束位置(不包含)，通常是数组长度
+     * @return 数组元素的和
+     */
+    public static int recursionSum(int[] arr, int i, int n) {
+        return i == n - 1 ? arr[i] : arr[i] + recursionSum(arr, i + 1, n);
+    }
+
 }

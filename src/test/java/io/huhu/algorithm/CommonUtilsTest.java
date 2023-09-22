@@ -39,4 +39,11 @@ class CommonUtilsTest {
         assertEquals(expect, CommonUtils.recursionFactorial(10));
     }
 
+    @Test
+    void recursionSum() {
+        int[] arr = {1, 2, 3, 4, 5};
+        assertEquals(15, CommonUtils.recursionSum(arr));
+        assertEquals(5, CommonUtils.recursionSum(arr, 1, 3));
+    }
+
 }

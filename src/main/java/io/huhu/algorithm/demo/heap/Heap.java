@@ -6,10 +6,10 @@ package io.huhu.algorithm.demo.heap;
 public class Heap {
 
     // 存储堆中的数据
-    private int[] a;
+    private final int[] a;
 
     // 堆可以存储的最大数据个数
-    private int n;
+    private final int n;
 
     // 堆中已存储的数据个数
     private int count;

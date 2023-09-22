@@ -42,7 +42,7 @@ public class OneWayLinkedList<T> {
 
     public static class Node<T> {
 
-        private T data;
+        private final T data;
 
         private Node<T> next;
 

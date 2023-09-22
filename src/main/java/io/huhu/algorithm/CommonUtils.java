@@ -63,16 +63,22 @@ public final class CommonUtils {
         return arr == null || arr.length == 0 ? 0 : recursionSum(arr, 0, arr.length);
     }
 
+    private static int recursionSum(int[] arr, int i, int n) {
+        return i == n - 1 ? arr[i] : arr[i] + recursionSum(arr, i + 1, n);
+    }
+
     /**
-     * 使用递归计算数组元素的和
+     * 使用递归统计元素的个数
      *
      * @param arr 数组
-     * @param i   起始位置，通常是0
-     * @param n   结束位置(不包含)，通常是数组长度
-     * @return 数组元素的和
+     * @return 数的元素个数
      */
-    public static int recursionSum(int[] arr, int i, int n) {
-        return i == n - 1 ? arr[i] : arr[i] + recursionSum(arr, i + 1, n);
+    public static int recursionCount(int[] arr) {
+        return arr == null || arr.length == 0 ? 0 : recursionCount(0, arr.length);
+    }
+
+    private static int recursionCount(int i, int n) {
+        return i == n - 1 ? 1 : 1 + recursionCount(i + 1, n);
     }
 
 }

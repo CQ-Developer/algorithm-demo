@@ -43,7 +43,12 @@ class CommonUtilsTest {
     void recursionSum() {
         int[] arr = {1, 2, 3, 4, 5};
         assertEquals(15, CommonUtils.recursionSum(arr));
-        assertEquals(5, CommonUtils.recursionSum(arr, 1, 3));
+    }
+
+    @Test
+    void recursionCount() {
+        int[] arr = {1, 2, 3, 4, 5};
+        assertEquals(5, CommonUtils.recursionCount(arr));
     }
 
 }

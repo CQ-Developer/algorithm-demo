@@ -22,7 +22,7 @@ public final class CommonUtils {
      *
      * @return A-Z字符数组
      */
-    public static char[] sequence_AZ() {
+    public static char[] sequenceAZ() {
         char[] AZ = new char['Z' - 'A' + 1];
         for (char c = 'A', i = 0; c <= 'Z'; c++) {
             AZ[i++] = c;
@@ -35,7 +35,7 @@ public final class CommonUtils {
      *
      * @return 0-9整数数组
      */
-    public static int[] sequence_09() {
+    public static int[] sequence09() {
         int[] arr = new int[10];
         for (int i = 1; i < 10; i++) {
             arr[i] = i;
@@ -49,8 +49,8 @@ public final class CommonUtils {
      * @param x 阶乘数
      * @return 阶乘结果
      */
-    public static int recursion_factorial(int x) {
-        return x == 1 ? 1 : x * recursion_factorial(x - 1);
+    public static int recursionFactorial(int x) {
+        return x == 1 ? 1 : x * recursionFactorial(x - 1);
     }
 
 }

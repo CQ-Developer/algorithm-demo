@@ -1,6 +1,7 @@
 package io.huhu.algorithm.demo.sort;
 
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * 快速排序
@@ -8,18 +9,23 @@ import java.util.Arrays;
 public class QuickSort {
 
     public static void main(String[] args) {
-        int[] a = {8, 10, 2, 3, 6, 1, 5};
-        sort(a, 0, a.length - 1);
-        System.out.println(Arrays.toString(a));
+        int[] arr = new int[30];
+        var rnd = new Random(System.currentTimeMillis());
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = rnd.nextInt(1000);
+        }
+        System.out.println(Arrays.toString(arr));
+        sort(arr, 0, arr.length - 1);
+        System.out.println(Arrays.toString(arr));
     }
 
-    public static void sort(int[] arr, int l, int r) {
-        if (l >= r) {
+    public static void sort(int[] arr, int start, int end) {
+        if (start >= end) {
             return;
         }
-        int left = l;
-        int right = r;
+        int left = start;
         int pivot = arr[left];
+        int right = end;
         while (left < right) {
             while (left < right && arr[right] >= pivot) {
                 right--;
@@ -37,8 +43,8 @@ public class QuickSort {
                 arr[left] = pivot;
             }
         }
-        sort(arr, l, right - 1);
-        sort(arr, right + 1, r);
+        sort(arr, start, right - 1);
+        sort(arr, right + 1, end);
     }
 
 }

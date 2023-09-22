@@ -51,4 +51,10 @@ class CommonUtilsTest {
         assertEquals(5, CommonUtils.recursionCount(arr));
     }
 
+    @Test
+    void recursionFindMax() {
+        int[] arr = {32, 10, 44, 21, 5};
+        assertEquals(2, CommonUtils.recursionFindMax(arr));
+    }
+
 }

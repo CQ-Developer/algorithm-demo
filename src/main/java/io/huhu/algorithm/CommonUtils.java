@@ -43,4 +43,14 @@ public final class CommonUtils {
         return arr;
     }
 
+    /**
+     * 使用递归计算阶乘的结果
+     *
+     * @param x 阶乘数
+     * @return 阶乘结果
+     */
+    public static int recursion_factorial(int x) {
+        return x == 1 ? 1 : x * recursion_factorial(x - 1);
+    }
+
 }

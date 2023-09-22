@@ -30,4 +30,13 @@ class CommonUtilsTest {
         }
     }
 
+    @Test
+    void recursion_factorial() {
+        int expect = 1;
+        for (int i = 2; i <= 10; i++) {
+            expect *= i;
+        }
+        assertEquals(expect, CommonUtils.recursion_factorial(10));
+    }
+
 }

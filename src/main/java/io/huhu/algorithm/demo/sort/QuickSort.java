@@ -14,16 +14,28 @@ public class QuickSort {
     }
 
     public static void sort(int[] arr, int l, int r) {
-        if (l >= r) return;
+        if (l >= r) {
+            return;
+        }
         int left = l;
         int right = r;
         int pivot = arr[left];
         while (left < right) {
-            while (left < right && arr[right] >= pivot) right--;
-            if (left < right) arr[left] = arr[right];
-            while (left < right && arr[left] <= pivot) left++;
-            if (left < right) arr[right] = arr[left];
-            if (left >= right) arr[left] = pivot;
+            while (left < right && arr[right] >= pivot) {
+                right--;
+            }
+            if (left < right) {
+                arr[left] = arr[right];
+            }
+            while (left < right && arr[left] <= pivot) {
+                left++;
+            }
+            if (left < right) {
+                arr[right] = arr[left];
+            }
+            if (left >= right) {
+                arr[left] = pivot;
+            }
         }
         sort(arr, l, right - 1);
         sort(arr, right + 1, r);

@@ -18,32 +18,35 @@ class QuickSortTest {
     @Test
     void sort_2() {
         int[] arr = {};
-        assertArrayEquals(arr, QuickSort.sort(arr));
+        QuickSort.sort(arr);
+        assertArrayEquals(new int[0], arr);
     }
 
     @Test
     void sort_3() {
         int[] arr = {1};
-        assertArrayEquals(arr, QuickSort.sort(arr));
+        QuickSort.sort(arr);
+        assertArrayEquals(new int[]{1}, arr);
     }
 
     @Test
     void sort_4() {
         int[] arr = {3, 5, 4, 1, 2};
-        assertArrayEquals(new int[]{1, 2, 3, 4, 5}, QuickSort.sort(arr));
+        QuickSort.sort(arr);
+        assertArrayEquals(new int[]{1, 2, 3, 4, 5}, arr);
     }
 
     @Test
     void sort_5() {
-        int n = 10;
+        int n = 50;
         int[] arr = new int[n];
         var rnd = new Random(System.currentTimeMillis());
         for (int i = 0; i < n; i++) {
-            arr[i] = rnd.nextInt(n);
+            arr[i] = rnd.nextInt(100);
         }
-        int[] result = QuickSort.sort(arr);
+        QuickSort.sort(arr);
         for (int i = 0; i < n - 1; i++) {
-            assertTrue(result[i] <= result[i + 1]);
+            assertTrue(arr[i] <= arr[i + 1]);
         }
     }
 

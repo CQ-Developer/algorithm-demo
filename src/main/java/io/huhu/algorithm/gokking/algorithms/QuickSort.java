@@ -13,57 +13,40 @@ public final class QuickSort {
      * 采用了分治的思想。<br>
      * 最差：O(n<sup>2</sup>)<br>
      * 最好：O(n*Log<sub>2</sub>n)
-     *
-     * @param arr 待排序的数组
      */
-    public static int[] sort(int[] arr) {
-        if (arr == null || arr.length < 2) {
-            return arr;
+    public static void sort(int[] arr) {
+        if (arr != null && arr.length > 1) {
+            sort(arr, 0, arr.length - 1);
         }
-        int p = 0;
-        int pivot = arr[p];
-        int[] less = findLess(arr, p, pivot);
-        int[] greater = findGreater(arr, p, pivot);
-        return concat(sort(less), pivot, sort(greater));
     }
 
-    private static int[] concat(int[] less, int p, int[] greater) {
-        int[] result = new int[less.length + 1 + greater.length];
-        int n = 0;
-        for (int i : less) {
-            result[n++] = i;
+    private static void sort(int[] arr, int start, int end) {
+        if (start >= end) {
+            return;
         }
-        result[n++] = p;
-        for (int i : greater) {
-            result[n++] = i;
-        }
-        return result;
-    }
-
-    private static int[] findGreater(int[] arr, int p, int pivot) {
-        int len = 0;
-        int[] greater = new int[arr.length];
-        for (int i = 0; i < arr.length; i++) {
-            if (i != p && arr[i] >= pivot) {
-                greater[len++] = arr[i];
+        int left = start;
+        int pivot = arr[start];
+        int right = end;
+        while (left < right) {
+            while (left < right && arr[right] >= pivot) {
+                right--;
             }
+            while (left < right && arr[left] <= pivot) {
+                left++;
+            }
+            swap(arr, left, right);
         }
-        int[] result = new int[len];
-        System.arraycopy(greater, 0, result, 0, len);
-        return result;
+        swap(arr, start, right);
+        sort(arr, start, right - 1);
+        sort(arr, left + 1, end);
     }
 
-    private static int[] findLess(int[] arr, int p, int pivot) {
-        int len = 0;
-        int[] less = new int[arr.length];
-        for (int i = 0; i < arr.length; i++) {
-            if (i != p && arr[i] < pivot) {
-                less[len++] = arr[i];
-            }
+    private static void swap(int[] arr, int left, int right) {
+        if (left != right) {
+            int i = arr[left];
+            arr[left] = arr[right];
+            arr[right] = i;
         }
-        int[] result = new int[len];
-        System.arraycopy(less, 0, result, 0, len);
-        return result;
     }
 
 }

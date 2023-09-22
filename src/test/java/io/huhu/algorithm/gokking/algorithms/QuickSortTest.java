@@ -38,14 +38,13 @@ class QuickSortTest {
 
     @Test
     void sort_5() {
-        int n = 50;
-        int[] arr = new int[n];
+        int[] arr = new int[100];
         var rnd = new Random(System.currentTimeMillis());
-        for (int i = 0; i < n; i++) {
-            arr[i] = rnd.nextInt(100);
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = rnd.nextInt(1000);
         }
         QuickSort.sort(arr);
-        for (int i = 0; i < n - 1; i++) {
+        for (int i = 0; i < arr.length - 1; i++) {
             assertTrue(arr[i] <= arr[i + 1]);
         }
     }

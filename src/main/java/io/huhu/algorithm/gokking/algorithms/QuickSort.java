@@ -21,26 +21,25 @@ public final class QuickSort {
     }
 
     private static void sort(int[] arr, int start, int end) {
-        if (start >= end) {
-            return;
-        }
-        int left = start;
-        int pivot = arr[start];
-        int right = end;
-        // 整个while循环只有一个目的，就是将所有大于pivot的值放到右侧，将所有小于pivot的值放到左侧
-        while (left < right) {
-            while (left < right && arr[right] >= pivot) {
-                right--;
+        if (start < end) {
+            int left = start;
+            int pivot = arr[start];
+            int right = end;
+            // 整个while循环只有一个目的，就是将所有大于pivot的值放到右侧，将所有小于pivot的值放到左侧
+            while (left < right) {
+                while (left < right && arr[right] >= pivot) {
+                    right--;
+                }
+                while (left < right && arr[left] <= pivot) {
+                    left++;
+                }
+                swap(arr, left, right);
             }
-            while (left < right && arr[left] <= pivot) {
-                left++;
-            }
-            swap(arr, left, right);
+            // 将pivot的值移动到合适的位置，然后分别对左半部分和右半部分进行排序
+            swap(arr, start, right);
+            sort(arr, start, right - 1);
+            sort(arr, left + 1, end);
         }
-        // 将pivot的值移动到合适的位置，然后分别对左半部分和右半部分进行排序
-        swap(arr, start, right);
-        sort(arr, start, right - 1);
-        sort(arr, left + 1, end);
     }
 
     private static void swap(int[] arr, int left, int right) {

@@ -16,6 +16,9 @@ public final class DijkstraSearch {
         while (node != null) {
             Map<String, Integer> neighbors = graph.get(node);
             for (String n : neighbors.keySet()) {
+                if (neighbors.get(n) < 0) {
+                    throw new RuntimeException("包含负权边，无法进行计算");
+                }
                 int newCost = costs.get(node) + neighbors.get(n);
                 if (costs.get(n) > newCost) {
                     costs.put(n, newCost);

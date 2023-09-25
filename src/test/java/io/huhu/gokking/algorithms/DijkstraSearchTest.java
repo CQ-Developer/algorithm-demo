@@ -7,6 +7,7 @@ import java.util.Map;
 
 import static java.lang.Integer.MAX_VALUE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DijkstraSearchTest {
 
@@ -78,6 +79,28 @@ class DijkstraSearchTest {
         Map<String, String> parents = new HashMap<>();
         parents.put("a", "start");
         assertEquals(60, DijkstraSearch.search(graph, costs, parents));
+    }
+
+    /**
+     * <img src="./doc-files/DijkstraSearch-3.png">
+     */
+    @Test
+    void search_4() {
+        Map<String, Map<String, Integer>> graph = new HashMap<>();
+        graph.put("start", Map.of("a", 2, "b", 2));
+        graph.put("a", Map.of("c", 2, "end", 2));
+        graph.put("b", Map.of("a", 2));
+        graph.put("c", Map.of("b", -1, "end", 2));
+        graph.put("end", Map.of());
+        Map<String, Integer> costs = new HashMap<>();
+        costs.put("a", 2);
+        costs.put("b", 2);
+        costs.put("c", MAX_VALUE);
+        costs.put("end", MAX_VALUE);
+        Map<String, String> parents = new HashMap<>();
+        parents.put("a", "start");
+        parents.put("b", "start");
+        assertThrows(RuntimeException.class, () -> DijkstraSearch.search(graph, costs, parents));
     }
 
 }

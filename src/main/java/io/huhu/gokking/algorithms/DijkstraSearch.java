@@ -12,13 +12,11 @@ public final class DijkstraSearch {
 
     public static int search(Map<String, Map<String, Integer>> graph, Map<String, Integer> costs, Map<String, String> parents) {
         Set<String> processed = new HashSet<>();
-        // 开始算法流程
         String node = findLowestCostNode(costs, processed);
         while (node != null) {
-            int cost = costs.get(node);
             Map<String, Integer> neighbors = graph.get(node);
             for (String n : neighbors.keySet()) {
-                int newCost = cost + neighbors.get(n);
+                int newCost = costs.get(node) + neighbors.get(n);
                 if (costs.get(n) > newCost) {
                     costs.put(n, newCost);
                     parents.put(n, node);
@@ -30,13 +28,13 @@ public final class DijkstraSearch {
         return costs.get("end");
     }
 
-    static String findLowestCostNode(Map<String, Integer> costs, Set<String> processed) {
+    private static String findLowestCostNode(Map<String, Integer> costs, Set<String> processed) {
         String node = null;
-        int min = MAX_VALUE;
-        for (String key : costs.keySet()) {
-            if (!processed.contains(key) && costs.get(key) < min) {
-                node = key;
-                min = costs.get(key);
+        int cost = MAX_VALUE;
+        for (String n : costs.keySet()) {
+            if (!processed.contains(n) && costs.get(n) < cost) {
+                node = n;
+                cost = costs.get(n);
             }
         }
         return node;

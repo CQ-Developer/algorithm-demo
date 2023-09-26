@@ -1,8 +1,5 @@
 package io.huhu.leetcode.n56;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * <h1>56.合并区间</h1>
  * <p>以数组intervals表示若干区间的集合，其中单个区间为intervals[i]=[start<sub>i</sub>, end<sub>i</sub>]。<br>
@@ -23,25 +20,39 @@ import java.util.List;
 class Solution {
 
     public int[][] merge(int[][] intervals) {
-        List<int[]> list = new ArrayList<>(intervals.length);
+        int c = 0;
         boolean[] used = new boolean[intervals.length];
         for (int i = 0; i < intervals.length; i++) {
             if (!used[i]) {
+                int[] current = {intervals[i][0], intervals[i][1]};
                 used[i] = true;
-                int[] tmp = {intervals[i][0], intervals[i][1]};
                 for (int j = i + 1; j < intervals.length; j++) {
-                    if (!used[j] && intervals[j][0] >= intervals[i][0] && intervals[j][0] <= intervals[i][1]) {
-                        tmp[1] = intervals[j][1];
-                        used[j] = true;
+                    if (!used[j]) {
+                        int[] next = {intervals[j][0], intervals[j][1]};
+                        if ((next[0] >= current[0] && next[0] <= current[1]) || (next[1] >= current[0] && next[1] <= current[1]) || (next[0] < current[0] && next[1] > current[1])) {
+                            current[0] = current[0] < next[0] ? current[0] : next[0];
+                            current[1] = current[1] > next[1] ? current[1] : next[1];
+                            used[j] = true;
+                        }
                     }
                 }
-                list.add(tmp);
+                if (c == 0) {
+                    intervals[c++] = current;
+                }
+                else {
+                    int[] before = {intervals[c - 1][0], intervals[c - 1][1]};
+                    if ((current[0] >= before[0] && current[0] <= before[1]) || (current[1] >= before[0] || current[1] <= before[1]) || (current[0] < before[0] && current[1] < before[1])) {
+                        before[0] = before[0] < current[0] ? before[0] : current[0];
+                        before[1] = before[1] > current[1] ? before[1] : current[1];
+                    }
+                    else {
+                        intervals[c++] = current;
+                    }
+                }
             }
         }
-        int[][] result = new int[list.size()][];
-        for (int i = 0; i < list.size(); i++) {
-            result[i] = list.get(i);
-        }
+        int[][] result = new int[c][];
+        System.arraycopy(intervals, 0, result, 0, c);
         return result;
     }
 

@@ -24,9 +24,30 @@ class SolutionTest {
 
     @Test
     void merge_3() {
-        // todo 用例错误
         int[][] expected = {{0, 4}};
         int[][] intervals = {{1, 4}, {0, 4}};
+        assertArrayEquals(expected, solution.merge(intervals));
+    }
+
+    @Test
+    void merge_4() {
+        int[][] expected = {{0, 5}};
+        int[][] intervals = {{1, 4}, {0, 5}};
+        assertArrayEquals(expected, solution.merge(intervals));
+    }
+
+    @Test
+    void merge_5() {
+        int[][] expected = {{1, 10}};
+        int[][] intervals = {{2, 3}, {4, 5}, {6, 7}, {8, 9}, {1, 10}};
+        assertArrayEquals(expected, solution.merge(intervals));
+    }
+
+    @Test
+    void merge_6() {
+        // todo 用例错误
+        int[][] expected = {{2, 7}};
+        int[][] intervals = {{2, 3}, {4, 6}, {5, 7}, {3, 4}};
         assertArrayEquals(expected, solution.merge(intervals));
     }
 

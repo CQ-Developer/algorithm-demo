@@ -57,4 +57,17 @@ class SolutionTest {
         assertNull(head);
     }
 
+    @Test
+    void rotateRight_4() {
+        // todo 用例错误
+        ListNode head = new ListNode(1,
+                new ListNode(2));
+        head = solution.rotateRight(head, 2);
+        assertEquals(1, head.val);
+        head = head.next;
+        assertEquals(2, head.val);
+        head = head.next;
+        assertNull(head);
+    }
+
 }

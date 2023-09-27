@@ -20,7 +20,7 @@ import java.util.List;
  * <b>1 <= m, n <= 10</b><br>
  * <b>-100 <= matrix[i][j] <= 100</b></p>
  */
-public class Solution {
+class Solution {
 
     public List<Integer> spiralOrder(int[][] matrix) {
         if (matrix.length == 0) {

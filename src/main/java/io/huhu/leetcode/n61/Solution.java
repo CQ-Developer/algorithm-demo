@@ -31,7 +31,7 @@ class Solution {
         // 找到新的头节点
         int i = 0;
         ListNode newHead = head;
-        while (i < k) {
+        while (i < k && k != 1) {
             newHead = newHead.next;
             i++;
         }

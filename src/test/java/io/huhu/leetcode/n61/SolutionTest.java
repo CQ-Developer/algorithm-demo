@@ -45,4 +45,16 @@ class SolutionTest {
         assertNull(head);
     }
 
+    @Test
+    void rotateRight_3() {
+        ListNode head = new ListNode(1,
+                new ListNode(2));
+        head = solution.rotateRight(head, 1);
+        assertEquals(2, head.val);
+        head = head.next;
+        assertEquals(1, head.val);
+        head = head.next;
+        assertNull(head);
+    }
+
 }

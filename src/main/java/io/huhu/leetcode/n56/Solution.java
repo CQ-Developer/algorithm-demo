@@ -20,40 +20,54 @@ package io.huhu.leetcode.n56;
 class Solution {
 
     public int[][] merge(int[][] intervals) {
-        int c = 0;
-        boolean[] used = new boolean[intervals.length];
-        for (int i = 0; i < intervals.length; i++) {
-            if (!used[i]) {
-                int[] current = {intervals[i][0], intervals[i][1]};
-                used[i] = true;
-                for (int j = i + 1; j < intervals.length; j++) {
-                    if (!used[j]) {
-                        int[] next = {intervals[j][0], intervals[j][1]};
-                        if ((next[0] >= current[0] && next[0] <= current[1]) || (next[1] >= current[0] && next[1] <= current[1]) || (next[0] < current[0] && next[1] > current[1])) {
-                            current[0] = current[0] < next[0] ? current[0] : next[0];
-                            current[1] = current[1] > next[1] ? current[1] : next[1];
-                            used[j] = true;
-                        }
-                    }
-                }
-                if (c == 0) {
-                    intervals[c++] = current;
-                }
-                else {
-                    int[] before = {intervals[c - 1][0], intervals[c - 1][1]};
-                    if ((current[0] >= before[0] && current[0] <= before[1]) || (current[1] >= before[0] || current[1] <= before[1]) || (current[0] < before[0] && current[1] < before[1])) {
-                        before[0] = before[0] < current[0] ? before[0] : current[0];
-                        before[1] = before[1] > current[1] ? before[1] : current[1];
-                    }
-                    else {
-                        intervals[c++] = current;
-                    }
-                }
+        sort(intervals);
+        int j = 1;
+        for (int i = 1; i < intervals.length; i++) {
+            if (intervals[i][0] > intervals[j - 1][1]) {
+                intervals[j++] = intervals[i];
+            } else {
+                intervals[j - 1][1] = intervals[j - 1][1] > intervals[i][1] ? intervals[j - 1][1] : intervals[i][1];
             }
         }
-        int[][] result = new int[c][];
-        System.arraycopy(intervals, 0, result, 0, c);
+        int[][] result = new int[j][];
+        System.arraycopy(intervals, 0, result, 0, j);
         return result;
+    }
+
+    /* 以下代码为快速排序，可以使用Arrays.sort()代替  */
+
+    private void sort(int[][] intervals) {
+        if (intervals.length > 1) {
+            sort(intervals, 0, intervals.length - 1);
+        }
+    }
+
+    private void sort(int[][] intervals, int start, int end) {
+        if (start < end) {
+            int left = start;
+            int[] pivot = intervals[start];
+            int right = end;
+            while (left < right) {
+                while (left < right && intervals[right][0] >= pivot[0]) {
+                    right--;
+                }
+                while (left < right && intervals[left][0] <= pivot[0]) {
+                    left++;
+                }
+                swap(intervals, left, right);
+            }
+            swap(intervals, start, right);
+            sort(intervals, start, right - 1);
+            sort(intervals, left + 1, end);
+        }
+    }
+
+    private void swap(int[][] intervals, int left, int right) {
+        if (left != right) {
+            int[] tmp = intervals[left];
+            intervals[left] = intervals[right];
+            intervals[right] = tmp;
+        }
     }
 
 }

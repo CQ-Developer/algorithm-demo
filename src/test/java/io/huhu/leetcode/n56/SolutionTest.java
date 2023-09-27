@@ -45,7 +45,6 @@ class SolutionTest {
 
     @Test
     void merge_6() {
-        // todo 用例错误
         int[][] expected = {{2, 7}};
         int[][] intervals = {{2, 3}, {4, 6}, {5, 7}, {3, 4}};
         assertArrayEquals(expected, solution.merge(intervals));

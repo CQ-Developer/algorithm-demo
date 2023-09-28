@@ -44,14 +44,35 @@ class Solution {
      * <ol>
      * <li>可以选择向下走，即m-1</li>
      * <li>可以选择向右走，即n-1</li>
-     * <li>其中只要右一个边走到头，那么只剩下1种走法</li>
+     * <li>其中只要有一个边走到头，那么只剩下1种走法</li>
      * </ul>
+     * <hr/>
+     * 下面代码是我想到的第一种算法啊，也就是根据上图进行的分析。
+     * <br/>
+     * <pre>{@code
+     * public int uniquePaths(int m, int n) {
+     *     if (m == 1 || n == 1) {
+     *         return 1;
+     *     }
+     *     return uniquePaths(m - 1, n) + uniquePaths(m, n - 1);
+     * }
+     * }</pre>
+     * 递归的方式使代码结构非常优雅，但是当m和n的值较大时，计算时间非常长，并且会出现栈溢出问题。
      */
     public int uniquePaths(int m, int n) {
-        if (m == 1 || n == 1) {
-            return 1;
+        int[][] f = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            f[i][0] = 1;
         }
-        return uniquePaths(m - 1, n) + uniquePaths(m, n - 1);
+        for (int i = 0; i < n; i++) {
+            f[0][i] = 1;
+        }
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                f[i][j] = f[i - 1][j] + f[i][j - 1];
+            }
+        }
+        return f[m - 1][n - 1];
     }
 
 }

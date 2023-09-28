@@ -40,8 +40,12 @@ class SolutionTest {
 
     @Test
     void uniquePaths_7() {
-        // todo 超时
         assertEquals(1916797311, solution.uniquePaths(51, 9));
+    }
+
+    @Test
+    void uniquePaths_8() {
+        assertEquals(1596692176, solution.uniquePaths(50, 100));
     }
 
 }

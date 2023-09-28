@@ -23,23 +23,28 @@ class Solution {
             return head;
         }
         // 将链表变成环
+        int n = 1;
         ListNode tail = head;
         while (tail.next != null) {
             tail = tail.next;
+            n++;
+        }
+        // 如果旋转是链表长度的整数倍
+        // 那么相当于旋转了360度回到初始状态
+        if (k % n == 0) {
+            return head;
         }
         tail.next = head;
-        // 找到新的头节点
-        int i = 0;
-        ListNode newHead = head;
-        while (i < k && k != 1) {
-            newHead = newHead.next;
-            i++;
+        // 找到新的头节点的前一个节点
+        // 这样可以方便的打断环
+        ListNode pre = head;
+        n = n - (k % n);
+        for (int i = 1; i < n; i++) {
+            pre = pre.next;
         }
-        // 断开头节点的前一个节点
-        ListNode pre = newHead;
-        newHead = newHead.next;
+        head = pre.next;
         pre.next = null;
-        return newHead;
+        return head;
     }
 
 }

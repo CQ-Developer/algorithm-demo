@@ -11,11 +11,7 @@ class SolutionTest {
 
     @Test
     void rotateRight_1() {
-        ListNode head = new ListNode(1,
-                new ListNode(2,
-                        new ListNode(3,
-                                new ListNode(4,
-                                        new ListNode(5)))));
+        ListNode head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
         head = solution.rotateRight(head, 2);
         assertEquals(4, head.val);
         head = head.next;
@@ -32,9 +28,7 @@ class SolutionTest {
 
     @Test
     void rotateRight_2() {
-        ListNode head = new ListNode(0,
-                new ListNode(1,
-                        new ListNode(2)));
+        ListNode head = new ListNode(0, new ListNode(1, new ListNode(2)));
         head = solution.rotateRight(head, 4);
         assertEquals(2, head.val);
         head = head.next;
@@ -47,8 +41,7 @@ class SolutionTest {
 
     @Test
     void rotateRight_3() {
-        ListNode head = new ListNode(1,
-                new ListNode(2));
+        ListNode head = new ListNode(1, new ListNode(2));
         head = solution.rotateRight(head, 1);
         assertEquals(2, head.val);
         head = head.next;
@@ -59,13 +52,20 @@ class SolutionTest {
 
     @Test
     void rotateRight_4() {
-        // todo 用例错误
-        ListNode head = new ListNode(1,
-                new ListNode(2));
+        ListNode head = new ListNode(1, new ListNode(2));
         head = solution.rotateRight(head, 2);
         assertEquals(1, head.val);
         head = head.next;
         assertEquals(2, head.val);
+        head = head.next;
+        assertNull(head);
+    }
+
+    @Test
+    void rotateRight_5() {
+        ListNode head = new ListNode(1);
+        head = solution.rotateRight(head, 2);
+        assertEquals(1, head.val);
         head = head.next;
         assertNull(head);
     }

@@ -79,37 +79,57 @@ class Solution {
      *     }
      * }
      * }</pre>
-     * 性能是最好的，但是失去了题目想表达的语义。
      * </p>
-     *
+     * <hr/>
      * <p>
      * 思路二：使用三指针计数，再遍历填充数据。
+     * <pre>{@code
+     * public void sortColors(int[] nums) {
+     *     int r = 0;
+     *     int w = 0;
+     *     int b = 0;
+     *     for (int num : nums) {
+     *         switch (num) {
+     *             case 0 -> r++;
+     *             case 1 -> w++;
+     *             case 2 -> b++;
+     *             default -> {}
+     *         }
+     *     }
+     *     int i = 0;
+     *     while (r > 0) {
+     *         nums[i++] = 0;
+     *         r--;
+     *     }
+     *     while (w > 0) {
+     *         nums[i++] = 1;
+     *         w--;
+     *     }
+     *     while (b > 0) {
+     *         nums[i++] = 2;
+     *         b--;
+     *     }
+     * }
+     * }</pre>
+     * </p>
+     * <hr/>
+     * <p>
+     * 看了其他大佬的思路，想法非常奇特，代码十分优雅简洁。这里相当于使用了3指针。需要画图一步步走，方便理解。
+     * 这里的赋值操作相当于交换操作。
      * </p>
      */
     public void sortColors(int[] nums) {
         int r = 0;
         int w = 0;
-        int b = 0;
-        for (int num : nums) {
-            switch (num) {
-                case 0 -> r++;
-                case 1 -> w++;
-                case 2 -> b++;
-                default -> {}
+        for (int b = 0; b < nums.length; b++) {
+            int num = nums[b];
+            nums[b] = 2;
+            if (num < 2) {
+                nums[w++] = 1;
             }
-        }
-        int i = 0;
-        while (r > 0) {
-            nums[i++] = 0;
-            r--;
-        }
-        while (w > 0) {
-            nums[i++] = 1;
-            w--;
-        }
-        while (b > 0) {
-            nums[i++] = 2;
-            b--;
+            if (num < 1) {
+                nums[r++] = 0;
+            }
         }
     }
 

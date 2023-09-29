@@ -1,8 +1,5 @@
 package io.huhu.leetcode.n73;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * <h1>
  * 73.矩阵置零
@@ -56,30 +53,64 @@ import java.util.Set;
  */
 class Solution {
 
+    /**
+     * <h2>
+     * O(1)空间思路
+     * </h2>
+     *
+     * <p>
+     * 使用第一行和第一列记录当前行是否存在零。
+     * </p>
+     *
+     * <p>
+     * 第一行和第一列需要单独计算是否存在零。
+     * </p>
+     */
     public void setZeroes(int[][] matrix) {
-        Set<Integer> row = new HashSet<>();
-        Set<Integer> col = new HashSet<>();
-        // 记录零所在的行和列
+        boolean row = false;
+        boolean col = false;
         int m = matrix.length;
         int n = matrix[0].length;
+        // 第一行是否存在零
+        for (int j = 0; j < n; j++) {
+            if (matrix[0][j] == 0) {
+                row = true;
+                break;
+            }
+        }
+        // 第一列是否存在零
         for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
+            if (matrix[i][0] == 0) {
+                col = true;
+                break;
+            }
+        }
+        // 记录当前行或当前列是否存在零
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
                 if (matrix[i][j] == 0) {
-                    row.add(i);
-                    col.add(j);
+                    matrix[0][j] = matrix[i][0] = 0;
                 }
             }
         }
-        // 将行置零
-        for (int i : row) {
-            for (int j = 0; j < n; j++) {
-                matrix[i][j] = 0;
+        // 将行首或列首存在零的行列全部置零
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if (matrix[0][j] == 0 || matrix[i][0] == 0) {
+                    matrix[i][j] = 0;
+                }
             }
         }
-        // 将列置零
-        for (int i = 0; i < m; i++) {
-            for (int j : col) {
-                matrix[i][j] = 0;
+        // 判断是否要将第一行置零
+        if (row) {
+            for (int j = 0; j < n; j++) {
+                matrix[0][j] = 0;
+            }
+        }
+        // 判断是否要将第一列置零
+        if (col) {
+            for (int i = 0; i < m; i++) {
+                matrix[i][0] = 0;
             }
         }
     }

@@ -42,39 +42,74 @@ package io.huhu.leetcode.n75;
 class Solution {
 
     /**
+     * <p>
      * 思路一：使用快速排序
+     * <pre>{@code
+     * public void sortColors(int[] nums) {
+     *     if (nums.length > 1) {
+     *         sortColors(nums, 0, nums.length - 1);
+     *     }
+     * }
+     *
+     * private void sortColors(int[] nums, int start, int end) {
+     *     if (start < end) {
+     *         int left = start;
+     *         int pivot = nums[start];
+     *         int right = end;
+     *         while (left < right) {
+     *             while (left < right && nums[right] >= pivot) {
+     *                 right--;
+     *             }
+     *             while (left < right && nums[left] <= pivot) {
+     *                 left++;
+     *             }
+     *             swap(nums, left, right);
+     *         }
+     *         swap(nums, start, right);
+     *         sortColors(nums, start, right - 1);
+     *         sortColors(nums, left + 1, end);
+     *     }
+     * }
+     *
+     * private void swap(int[] nums, int i, int j) {
+     *     if (i != j) {
+     *         int t = nums[i];
+     *         nums[i] = nums[j];
+     *         nums[j] = t;
+     *     }
+     * }
+     * }</pre>
+     * 性能是最好的，但是失去了题目想表达的语义。
+     * </p>
+     *
+     * <p>
+     * 思路二：使用三指针计数，再遍历填充数据。
+     * </p>
      */
     public void sortColors(int[] nums) {
-        if (nums.length > 1) {
-            sortColors(nums, 0, nums.length - 1);
-        }
-    }
-
-    private void sortColors(int[] nums, int start, int end) {
-        if (start < end) {
-            int left = start;
-            int pivot = nums[start];
-            int right = end;
-            while (left < right) {
-                while (left < right && nums[right] >= pivot) {
-                    right--;
-                }
-                while (left < right && nums[left] <= pivot) {
-                    left++;
-                }
-                swap(nums, left, right);
+        int r = 0;
+        int w = 0;
+        int b = 0;
+        for (int num : nums) {
+            switch (num) {
+                case 0 -> r++;
+                case 1 -> w++;
+                case 2 -> b++;
+                default -> {}
             }
-            swap(nums, start, right);
-            sortColors(nums, start, right - 1);
-            sortColors(nums, left + 1, end);
         }
-    }
-
-    private void swap(int[] nums, int i, int j) {
-        if (i != j) {
-            int t = nums[i];
-            nums[i] = nums[j];
-            nums[j] = t;
+        int i = 0;
+        while (r > 0) {
+            nums[i++] = 0;
+            r--;
+        }
+        while (w > 0) {
+            nums[i++] = 1;
+            w--;
+        }
+        while (b > 0) {
+            nums[i++] = 2;
+            b--;
         }
     }
 

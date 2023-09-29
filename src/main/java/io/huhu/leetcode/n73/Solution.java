@@ -1,7 +1,7 @@
 package io.huhu.leetcode.n73;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * <h1>
@@ -57,29 +57,30 @@ import java.util.List;
 class Solution {
 
     public void setZeroes(int[][] matrix) {
-        List<int[]> list = new ArrayList<>();
+        Set<Integer> row = new HashSet<>();
+        Set<Integer> col = new HashSet<>();
+        // 记录零所在的行和列
         int m = matrix.length;
         int n = matrix[0].length;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (matrix[i][j] == 0) {
-                    for (int k = 0; k < m; k++) {
-                        if (k != i && matrix[k][j] != 0) {
-                            int[] idx = {k, j};
-                            list.add(idx);
-                        }
-                    }
-                    for (int k = 0; k < n; k++) {
-                        if (k != j && matrix[i][k] != 0) {
-                            int[] idx = {i, k};
-                            list.add(idx);
-                        }
-                    }
+                    row.add(i);
+                    col.add(j);
                 }
             }
         }
-        for (int[] idx : list) {
-            matrix[idx[0]][idx[1]] = 0;
+        // 将行置零
+        for (int i : row) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = 0;
+            }
+        }
+        // 将列置零
+        for (int i = 0; i < m; i++) {
+            for (int j : col) {
+                matrix[i][j] = 0;
+            }
         }
     }
 

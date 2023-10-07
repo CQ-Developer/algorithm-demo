@@ -1,5 +1,8 @@
 package io.huhu;
 
+import java.util.Collections;
+import java.util.List;
+
 public final class CommonUtils {
 
     private CommonUtils() {}
@@ -97,6 +100,28 @@ public final class CommonUtils {
             return arr[m] > arr[n] ? m : n;
         }
         return m;
+    }
+
+    public static <T extends Comparable<? super T>> int deepSort(List<T> list1, List<T> list2) {
+        if (list1.size() > list2.size()) {
+            return 1;
+        }
+        if (list1.size() < list2.size()) {
+            return -1;
+        }
+        Collections.sort(list1);
+        Collections.sort(list2);
+        for (int i = 0; i < list1.size(); i++) {
+            T x = list1.get(i);
+            T y = list2.get(i);
+            if (x.compareTo(y) > 0) {
+                return 1;
+            }
+            if (x.compareTo(y) < 0) {
+                return -1;
+            }
+        }
+        return 0;
     }
 
 }

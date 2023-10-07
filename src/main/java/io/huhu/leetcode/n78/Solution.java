@@ -1,5 +1,6 @@
 package io.huhu.leetcode.n78;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,7 +42,24 @@ import java.util.List;
 class Solution {
 
     public List<List<Integer>> subsets(int[] nums) {
-        return null;
+        List<List<Integer>> result = new ArrayList<>();
+        result.add(List.of());
+        for (int i = 0; i < nums.length; i++) {
+            dfs(nums, 0, i + 1, new ArrayList<>(), result);
+        }
+        return result;
+    }
+
+    private void dfs(int[] nums, int i, int count, List<Integer> path, List<List<Integer>> result) {
+        if (path.size() == count) {
+            result.add(new ArrayList<>(path));
+            return;
+        }
+        for (int j = i; j < nums.length; j++) {
+            path.add(nums[j]);
+            dfs(nums, j + 1, count, path, result);
+            path.remove(path.size() - 1);
+        }
     }
 
 }

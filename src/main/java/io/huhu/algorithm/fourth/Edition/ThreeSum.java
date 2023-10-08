@@ -42,4 +42,26 @@ final class ThreeSum {
         return cnt;
     }
 
+    public static int countFast2(int[] array) {
+        Arrays.sort(array);
+        int count = 0;
+        for (int i = 0; i < array.length; i++) {
+            int l = i + 1;
+            int r = array.length - 1;
+            while (l < r) {
+                int sum = array[i] + array[l] + array[r];
+                if (sum == 0) {
+                    count++;
+                    l++;
+                    r--;
+                } else if (sum > 0) {
+                    r--;
+                } else {
+                    l++;
+                }
+            }
+        }
+        return count;
+    }
+
 }

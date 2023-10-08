@@ -133,15 +133,15 @@ public final class CommonUtils {
     /**
      * 生成一个不包含重复元素的无序整数数组
      */
-    public static int[] generateArray(int max) {
+    public static int[] generateArray(int len) {
         Random rdm = new Random(System.currentTimeMillis());
-        Set<Integer> set = new HashSet<>(max);
-        while (set.size() < max) {
+        Set<Integer> set = new HashSet<>(len);
+        while (set.size() < len) {
             int i = rdm.nextInt(Integer.MIN_VALUE, Integer.MAX_VALUE);
             set.add(i);
         }
         int i = 0;
-        int[] arr = new int[max];
+        int[] arr = new int[len];
         for (int j : set) {
             arr[i++] = j;
         }

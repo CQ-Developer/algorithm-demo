@@ -1,9 +1,10 @@
 package io.huhu;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 public final class CommonUtils {
@@ -134,18 +135,23 @@ public final class CommonUtils {
      * 生成一个不包含重复元素的无序整数数组
      */
     public static int[] generateArray(int len) {
-        Random rdm = new Random(System.currentTimeMillis());
-        Set<Integer> set = new HashSet<>(len);
-        while (set.size() < len) {
-            int i = rdm.nextInt(-len, len);
-            set.add(i);
+        try {
+            var rdm = SecureRandom.getInstanceStrong();
+            rdm.setSeed(System.currentTimeMillis());
+            Set<Integer> set = new HashSet<>(len);
+            while (set.size() < len) {
+                int i = rdm.nextInt(-len * 10, len * 10);
+                set.add(i);
+            }
+            int i = 0;
+            int[] arr = new int[len];
+            for (int j : set) {
+                arr[i++] = j;
+            }
+            return arr;
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
-        int i = 0;
-        int[] arr = new int[len];
-        for (int j : set) {
-            arr[i++] = j;
-        }
-        return arr;
     }
 
 }

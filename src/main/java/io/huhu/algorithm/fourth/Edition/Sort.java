@@ -28,11 +28,12 @@ final class Sort {
      */
     public static void insertionSort(int[] arr) {
         for (int i = 1; i < arr.length; i++) {
-            for (int j = i; j > 0 && arr[j] < arr[j - 1]; j--) {
-                int t = arr[j];
-                arr[j] = arr[j - 1];
-                arr[j - 1] = t;
+            int num = arr[i];
+            int j = i - 1;
+            while (j >= 0 && arr[j] > num) {
+                arr[j + 1] = arr[j--];
             }
+            arr[j + 1] = num;
         }
     }
 

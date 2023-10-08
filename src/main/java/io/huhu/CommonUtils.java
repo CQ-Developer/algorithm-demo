@@ -1,7 +1,10 @@
 package io.huhu;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 public final class CommonUtils {
 
@@ -102,6 +105,9 @@ public final class CommonUtils {
         return m;
     }
 
+    /**
+     * 比较集合的大小
+     */
     public static <T extends Comparable<? super T>> int deepSort(List<T> list1, List<T> list2) {
         if (list1.size() > list2.size()) {
             return 1;
@@ -122,6 +128,24 @@ public final class CommonUtils {
             }
         }
         return 0;
+    }
+
+    /**
+     * 生成一个不包含重复元素的无序整数数组
+     */
+    public static int[] generateArray(int max) {
+        Random rdm = new Random(System.currentTimeMillis());
+        Set<Integer> set = new HashSet<>(max);
+        while (set.size() < max) {
+            int i = rdm.nextInt(-max, max);
+            set.add(i);
+        }
+        int i = 0;
+        int[] arr = new int[max];
+        for (int j : set) {
+            arr[i++] = j;
+        }
+        return arr;
     }
 
 }

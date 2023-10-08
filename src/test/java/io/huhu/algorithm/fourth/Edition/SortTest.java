@@ -6,16 +6,20 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.function.Consumer;
+import java.util.stream.LongStream;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class SortTest {
 
+    static final int LOOP = 20;
+    static final int SKIP = 3;
+
     int[] arr;
 
     @BeforeEach
     void beforeEach() {
-        arr = CommonUtils.generateArray(100_0000);
+        arr = CommonUtils.generateArray(100000);
     }
 
     @Test
@@ -39,13 +43,24 @@ class SortTest {
     }
 
     private void sort(Consumer<int[]> sort) {
-        int[] actual = arr;
         int[] expected = arr.clone();
         Arrays.sort(expected);
-        long start = System.currentTimeMillis();
-        sort.accept(actual);
-        System.out.printf("cost: %dms%n", System.currentTimeMillis() - start);
-        assertArrayEquals(expected, actual);
+        long[] costs = new long[LOOP];
+        for (int i = 0; i < LOOP; i++) {
+            int[] actual = arr.clone();
+            long start = System.currentTimeMillis();
+            sort.accept(actual);
+            long cost = System.currentTimeMillis() - start;
+            costs[i] = cost;
+            assertArrayEquals(expected, actual);
+        }
+        double ave = LongStream.of(costs)
+                .sorted()
+                .skip(SKIP)
+                .limit(LOOP - 2 * SKIP)
+                .average()
+                .orElseThrow();
+        System.out.printf("cost: %6.3f%n", ave);
     }
 
 }

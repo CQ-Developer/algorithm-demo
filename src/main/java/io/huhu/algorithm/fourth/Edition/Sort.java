@@ -2,6 +2,8 @@ package io.huhu.algorithm.fourth.Edition;
 
 final class Sort {
 
+    private Sort() {}
+
     /**
      * 选择排序
      */

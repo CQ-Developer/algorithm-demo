@@ -54,4 +54,37 @@ final class Sort {
         }
     }
 
+    /**
+     * 归并排序
+     */
+    public static void mergeSort(int[] arr) {
+        split(arr, 0, arr.length - 1);
+    }
+
+    private static void split(int[] arr, int s, int e) {
+        if (s < e) {
+            int m = (s + e) >> 1;
+            split(arr, s, m);
+            split(arr, m + 1, e);
+            merge(arr, s, m, e);
+        }
+    }
+
+    private static void merge(int[] arr, int s, int m, int e) {
+        int[] tmp = new int[e - s + 1];
+        int i = s;
+        int j = m + 1;
+        int k = 0;
+        while (i <= m && j <= e) {
+            tmp[k++] = arr[i] < arr[j] ? arr[i++] : arr[j++];
+        }
+        while (i <= m) {
+            tmp[k++] = arr[i++];
+        }
+        while (j <= e) {
+            tmp[k++] = arr[j++];
+        }
+        System.arraycopy(tmp, 0, arr, s, k);
+    }
+
 }

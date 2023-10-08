@@ -11,7 +11,7 @@ class SortTest {
 
     @BeforeEach
     void beforeEach() {
-        arr = CommonUtils.generateArray(10_0000);
+        arr = CommonUtils.generateArray(100_0000);
     }
 
     @Test
@@ -39,6 +39,16 @@ class SortTest {
         long start = System.currentTimeMillis();
         Sort.shellSort(arr);
         System.out.printf("shell cost: %dms%n", System.currentTimeMillis() - start);
+        for (int i = 0; i < arr.length - 1; i++) {
+            Assertions.assertTrue(arr[i] <= arr[i + 1]);
+        }
+    }
+
+    @Test
+    void mergeSort() {
+        long start = System.currentTimeMillis();
+        Sort.mergeSort(arr);
+        System.out.printf("merge cost: %dms%n", System.currentTimeMillis() - start);
         for (int i = 0; i < arr.length - 1; i++) {
             Assertions.assertTrue(arr[i] <= arr[i + 1]);
         }

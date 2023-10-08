@@ -44,7 +44,7 @@ class SortTest {
         Arrays.sort(expected);
         long start = System.currentTimeMillis();
         sort.accept(actual);
-        System.out.printf("selection cost: %dms%n", System.currentTimeMillis() - start);
+        System.out.printf("cost: %dms%n", System.currentTimeMillis() - start);
         assertArrayEquals(expected, actual);
     }
 

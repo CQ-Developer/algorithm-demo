@@ -18,7 +18,7 @@ class SortTest {
     void selectionSort() {
         long start = System.currentTimeMillis();
         Sort.selectionSort(arr);
-        System.out.printf("cost: %dms%n", System.currentTimeMillis() - start);
+        System.out.printf("selection cost: %dms%n", System.currentTimeMillis() - start);
         for (int i = 0; i < arr.length - 1; i++) {
             Assertions.assertTrue(arr[i] <= arr[i + 1]);
         }
@@ -28,7 +28,17 @@ class SortTest {
     void insertionSort() {
         long start = System.currentTimeMillis();
         Sort.insertionSort(arr);
-        System.out.printf("cost: %dms%n", System.currentTimeMillis() - start);
+        System.out.printf("insertion cost: %dms%n", System.currentTimeMillis() - start);
+        for (int i = 0; i < arr.length - 1; i++) {
+            Assertions.assertTrue(arr[i] <= arr[i + 1]);
+        }
+    }
+
+    @Test
+    void shellSort() {
+        long start = System.currentTimeMillis();
+        Sort.shellSort(arr);
+        System.out.printf("shell cost: %dms%n", System.currentTimeMillis() - start);
         for (int i = 0; i < arr.length - 1; i++) {
             Assertions.assertTrue(arr[i] <= arr[i + 1]);
         }

@@ -34,4 +34,24 @@ final class Sort {
         }
     }
 
+    /**
+     * 希尔排序
+     */
+    public static void shellSort(int[] arr) {
+        int h = 1;
+        while (h < arr.length / 3) {
+            h = 3 * h + 1;
+        }
+        while (h >= 1) {
+            for (int i = h; i < arr.length; i++) {
+                for (int j = i; j >= h && arr[j] < arr[j - h]; j -= h) {
+                    int t = arr[j];
+                    arr[j] = arr[j - h];
+                    arr[j - h] = t;
+                }
+            }
+            h /= 3;
+        }
+    }
+
 }

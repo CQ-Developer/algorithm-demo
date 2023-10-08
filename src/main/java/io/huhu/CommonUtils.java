@@ -137,7 +137,7 @@ public final class CommonUtils {
         Random rdm = new Random(System.currentTimeMillis());
         Set<Integer> set = new HashSet<>(len);
         while (set.size() < len) {
-            int i = rdm.nextInt(Integer.MIN_VALUE, Integer.MAX_VALUE);
+            int i = rdm.nextInt(-len, len);
             set.add(i);
         }
         int i = 0;

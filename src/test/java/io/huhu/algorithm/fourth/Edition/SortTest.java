@@ -1,9 +1,13 @@
 package io.huhu.algorithm.fourth.Edition;
 
 import io.huhu.CommonUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.function.Consumer;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class SortTest {
 
@@ -16,42 +20,32 @@ class SortTest {
 
     @Test
     void selectionSort() {
-        long start = System.currentTimeMillis();
-        Sort.selectionSort(arr);
-        System.out.printf("selection cost: %dms%n", System.currentTimeMillis() - start);
-        for (int i = 0; i < arr.length - 1; i++) {
-            Assertions.assertTrue(arr[i] <= arr[i + 1]);
-        }
+        sort(Sort::selectionSort);
     }
 
     @Test
     void insertionSort() {
-        long start = System.currentTimeMillis();
-        Sort.insertionSort(arr);
-        System.out.printf("insertion cost: %dms%n", System.currentTimeMillis() - start);
-        for (int i = 0; i < arr.length - 1; i++) {
-            Assertions.assertTrue(arr[i] <= arr[i + 1]);
-        }
+        sort(Sort::insertionSort);
     }
 
     @Test
     void shellSort() {
-        long start = System.currentTimeMillis();
-        Sort.shellSort(arr);
-        System.out.printf("shell cost: %dms%n", System.currentTimeMillis() - start);
-        for (int i = 0; i < arr.length - 1; i++) {
-            Assertions.assertTrue(arr[i] <= arr[i + 1]);
-        }
+        sort(Sort::shellSort);
     }
 
     @Test
     void mergeSort() {
+        sort(Sort::mergeSort);
+    }
+
+    private void sort(Consumer<int[]> sort) {
+        int[] actual = arr;
+        int[] expected = arr.clone();
+        Arrays.sort(expected);
         long start = System.currentTimeMillis();
-        Sort.mergeSort(arr);
-        System.out.printf("merge cost: %dms%n", System.currentTimeMillis() - start);
-        for (int i = 0; i < arr.length - 1; i++) {
-            Assertions.assertTrue(arr[i] <= arr[i + 1]);
-        }
+        sort.accept(actual);
+        System.out.printf("selection cost: %dms%n", System.currentTimeMillis() - start);
+        assertArrayEquals(expected, actual);
     }
 
 }

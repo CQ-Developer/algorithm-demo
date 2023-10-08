@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 class ThreeSumTest {
 
-    final int[] arr = CommonUtils.generateArray(5000);
+    final int[] arr = CommonUtils.generateArray(3000);
 
     @Test
     void count() {

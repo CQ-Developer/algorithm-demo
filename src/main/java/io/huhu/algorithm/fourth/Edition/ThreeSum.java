@@ -10,7 +10,7 @@ final class ThreeSum {
     private ThreeSum() {}
 
     /**
-     * O(N<sup>3</sup>/2)
+     * O(N<sup>3</sup>)
      */
     public static int count(int[] arr) {
         int cnt = 0;

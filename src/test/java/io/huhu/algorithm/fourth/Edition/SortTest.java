@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 class SortTest {
@@ -19,12 +20,17 @@ class SortTest {
     static void beforeAll() throws NoSuchAlgorithmException {
         ARRAY = CommonUtils.generateArrayUnique(50_0000);
         EXPECTED = ARRAY.clone();
-        Sort.selectionSort(EXPECTED);
+        Arrays.sort(EXPECTED);
     }
 
     @BeforeEach
     void beforeEach() {
         arr = ARRAY.clone();
+    }
+
+    @Test
+    void selectionSort() {
+        sort(Sort::selectionSort);
     }
 
     @Test
@@ -45,6 +51,11 @@ class SortTest {
     @Test
     void quickSort() {
         sort(Sort::quickSort);
+    }
+
+    @Test
+    void quick3WaySort() {
+        sort(Sort::quick3WaySort);
     }
 
     private void sort(Consumer<int[]> sort) {

@@ -134,4 +134,41 @@ final class Sort {
         }
     }
 
+    /**
+     * 3向切分快速排序
+     */
+    public static void quick3WaySort(int[] array) {
+        if (array != null && array.length > 1) {
+            quick3WaySort(array, 0, array.length - 1);
+        }
+    }
+
+    private static void quick3WaySort(int[] arr, int start, int end) {
+        if (end > start) {
+            int l = start;
+            int r = end;
+            int i = start + 1;
+            int num = arr[start];
+            while (i <= r) {
+                if (arr[i] < num) {
+                    swap(arr, l++, i++);
+                } else if (arr[i] > num) {
+                    swap(arr, i, r--);
+                } else {
+                    i++;
+                }
+            }
+            quick3WaySort(arr, start, l - 1);
+            quick3WaySort(arr, r + 1, end);
+        }
+    }
+
+    private static void swap(int[] a, int i, int j) {
+        if (i != j) {
+            int t = a[i];
+            a[i] = a[j];
+            a[j] = t;
+        }
+    }
+
 }

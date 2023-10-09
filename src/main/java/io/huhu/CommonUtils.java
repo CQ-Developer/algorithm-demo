@@ -147,9 +147,11 @@ public final class CommonUtils {
         for (int j : set) {
             arr[i++] = j;
         }
-        for (int j = 0; j < i; j++) {
+        System.out.println("数组生成完成");
+        for (int j = 0; j < 3; j++) {
             shuffle(arr, rdm);
         }
+        System.out.println("数组打乱完成");
         return arr;
     }
 

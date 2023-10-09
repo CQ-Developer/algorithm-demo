@@ -7,18 +7,20 @@ final class Sort {
     /**
      * 选择排序
      */
-    public static void selectionSort(int[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            int m = i;
-            for (int j = i + 1; j < arr.length; j++) {
-                if (arr[j] < arr[m]) {
-                    m = j;
+    public static void selectionSort(int[] array) {
+        if (array != null && array.length > 1) {
+            for (int i = 0; i < array.length; i++) {
+                int m = i;
+                for (int j = i + 1; j < array.length; j++) {
+                    if (array[j] < array[m]) {
+                        m = j;
+                    }
                 }
-            }
-            if (m != i) {
-                int t = arr[i];
-                arr[i] = arr[m];
-                arr[m] = t;
+                if (m != i) {
+                    int t = array[i];
+                    array[i] = array[m];
+                    array[m] = t;
+                }
             }
         }
     }
@@ -26,42 +28,48 @@ final class Sort {
     /**
      * 插入排序
      */
-    public static void insertionSort(int[] arr) {
-        for (int i = 1; i < arr.length; i++) {
-            int num = arr[i];
-            int j = i - 1;
-            while (j >= 0 && arr[j] > num) {
-                arr[j + 1] = arr[j--];
+    public static void insertionSort(int[] array) {
+        if (array != null && array.length > 1) {
+            for (int i = 1; i < array.length; i++) {
+                int num = array[i];
+                int j = i - 1;
+                while (j >= 0 && array[j] > num) {
+                    array[j + 1] = array[j--];
+                }
+                array[j + 1] = num;
             }
-            arr[j + 1] = num;
         }
     }
 
     /**
      * 希尔排序
      */
-    public static void shellSort(int[] arr) {
-        int h = 1;
-        while (h < arr.length / 3) {
-            h = 3 * h + 1;
-        }
-        while (h >= 1) {
-            for (int i = h; i < arr.length; i++) {
-                for (int j = i; j >= h && arr[j] < arr[j - h]; j -= h) {
-                    int t = arr[j];
-                    arr[j] = arr[j - h];
-                    arr[j - h] = t;
-                }
+    public static void shellSort(int[] array) {
+        if (array != null && array.length > 1) {
+            int h = 1;
+            while (h < array.length / 3) {
+                h = 3 * h + 1;
             }
-            h /= 3;
+            while (h >= 1) {
+                for (int i = h; i < array.length; i++) {
+                    for (int j = i; j >= h && array[j] < array[j - h]; j -= h) {
+                        int t = array[j];
+                        array[j] = array[j - h];
+                        array[j - h] = t;
+                    }
+                }
+                h /= 3;
+            }
         }
     }
 
     /**
      * 归并排序
      */
-    public static void mergeSort(int[] arr) {
-        split(arr, 0, arr.length - 1);
+    public static void mergeSort(int[] array) {
+        if (array != null && array.length > 1) {
+            split(array, 0, array.length - 1);
+        }
     }
 
     private static void split(int[] arr, int s, int e) {

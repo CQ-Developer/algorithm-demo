@@ -139,15 +139,31 @@ public final class CommonUtils {
         rdm.setSeed(System.currentTimeMillis());
         Set<Integer> set = new HashSet<>(len);
         while (set.size() < len) {
-            int i = rdm.nextInt(-len * 10, len * 10);
-            set.add(i);
+            set.add(rdm.nextInt(-len * 10, len * 10));
         }
         int i = 0;
         int[] arr = new int[len];
         for (int j : set) {
             arr[i++] = j;
         }
+        for (int j = 0; j < i; j++) {
+            shuffle(arr, rdm);
+        }
         return arr;
+    }
+
+    /**
+     * 打乱数组顺序
+     */
+    public static void shuffle(int[] a, SecureRandom rdm) {
+        for (int i = 0; i < a.length; i++) {
+            int j = rdm.nextInt(a.length);
+            if (i != j) {
+                int t = a[i];
+                a[i] = a[j];
+                a[j] = t;
+            }
+        }
     }
 
 }

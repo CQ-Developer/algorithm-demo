@@ -42,7 +42,12 @@ class SortTest {
         sort(Sort::mergeSort, "merge");
     }
 
-    private void sort(Consumer<int[]> sort) {
+    @Test
+    void quickSort() {
+        sort(Sort::quickSort, "quick");
+    }
+
+    private void sort(Consumer<int[]> sort, String name) {
         int[] expected = arr.clone();
         Arrays.sort(expected);
         long[] costs = new long[LOOP];

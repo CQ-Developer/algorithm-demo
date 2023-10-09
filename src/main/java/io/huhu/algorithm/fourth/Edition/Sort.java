@@ -98,4 +98,40 @@ final class Sort {
         System.arraycopy(tmp, 0, arr, s, k);
     }
 
+    /**
+     * 快速排序
+     */
+    public static void quickSort(int[] array) {
+        if (array != null && array.length > 1) {
+            quickSort(array, 0, array.length - 1);
+        }
+    }
+
+    private static void quickSort(int[] a, int s, int e) {
+        if (s < e) {
+            int l = s;
+            int num = a[l];
+            int r = e;
+            while (l < r) {
+                while (l < r && a[r] >= num) {
+                    r--;
+                }
+                if (l < r) {
+                    a[l] = a[r];
+                }
+                while (l < r && a[l] <= num) {
+                    l++;
+                }
+                if (l < r) {
+                    a[r] = a[l];
+                }
+                if (l >= r) {
+                    a[l] = num;
+                }
+            }
+            quickSort(a, s, r - 1);
+            quickSort(a, r + 1, e);
+        }
+    }
+
 }

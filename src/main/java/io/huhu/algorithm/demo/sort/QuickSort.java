@@ -2,6 +2,7 @@ package io.huhu.algorithm.demo.sort;
 
 import io.huhu.CommonUtils;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Arrays;
  */
 public class QuickSort {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchAlgorithmException {
         int[] arr = CommonUtils.generateArray(20);
         System.out.println(Arrays.toString(arr));
         sort(arr, 0, arr.length - 1);

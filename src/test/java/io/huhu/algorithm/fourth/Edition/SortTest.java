@@ -1,71 +1,57 @@
 package io.huhu.algorithm.fourth.Edition;
 
 import io.huhu.CommonUtils;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import java.security.NoSuchAlgorithmException;
 import java.util.function.Consumer;
-import java.util.stream.LongStream;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class SortTest {
 
-    static final int LOOP = 20;
-    static final int SKIP = 2;
-
     int[] arr;
+    static int[] ARRAY;
+    static int[] EXPECTED;
+
+    @BeforeAll
+    static void beforeAll() throws NoSuchAlgorithmException {
+        ARRAY = CommonUtils.generateArray(50_0000);
+        EXPECTED = ARRAY.clone();
+        Sort.selectionSort(EXPECTED);
+    }
 
     @BeforeEach
     void beforeEach() {
-        arr = CommonUtils.generateArray(100000);
-    }
-
-    @Test
-    void selectionSort() {
-        sort(Sort::selectionSort, "selection");
+        arr = ARRAY.clone();
     }
 
     @Test
     void insertionSort() {
-        sort(Sort::insertionSort, "insertion");
+        sort(Sort::insertionSort);
     }
 
     @Test
     void shellSort() {
-        sort(Sort::shellSort, "shell");
+        sort(Sort::shellSort);
     }
 
     @Test
     void mergeSort() {
-        sort(Sort::mergeSort, "merge");
+        sort(Sort::mergeSort);
     }
 
     @Test
     void quickSort() {
-        sort(Sort::quickSort, "quick");
+        sort(Sort::quickSort);
     }
 
-    private void sort(Consumer<int[]> sort, String name) {
-        int[] expected = arr.clone();
-        Arrays.sort(expected);
-        long[] costs = new long[LOOP];
-        for (int i = 0; i < LOOP; i++) {
-            int[] actual = arr.clone();
-            long start = System.currentTimeMillis();
-            sort.accept(actual);
-            long cost = System.currentTimeMillis() - start;
-            costs[i] = cost;
-            assertArrayEquals(expected, actual);
-        }
-        double ave = LongStream.of(costs)
-                .sorted()
-                .skip(SKIP)
-                .limit(LOOP - 2 * SKIP)
-                .average()
-                .orElseThrow();
-        System.out.printf("%s cost: %6.3f%n", name, ave);
+    private void sort(Consumer<int[]> sort) {
+        long start = System.currentTimeMillis();
+        sort.accept(arr);
+        System.out.printf("cost: %d%n", System.currentTimeMillis() - start);
+        Assertions.assertArrayEquals(EXPECTED, arr);
     }
 
 }

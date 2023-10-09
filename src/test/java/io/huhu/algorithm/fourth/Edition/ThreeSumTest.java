@@ -6,20 +6,20 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.function.Function;
 
 class ThreeSumTest {
 
-    static int EXPECTED;
+    int[] arr;
     static int[] ARR;
+    static int EXPECTED;
 
     @BeforeAll
-    static void beforeAll() {
+    static void beforeAll() throws NoSuchAlgorithmException {
         ARR = CommonUtils.generateArray(5000);
         EXPECTED = ThreeSum.count(ARR);
     }
-
-    int[] arr;
 
     @BeforeEach
     void beforeEach() {

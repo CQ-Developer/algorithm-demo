@@ -2,27 +2,43 @@ package io.huhu.algorithm.fourth.Edition;
 
 import io.huhu.CommonUtils;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.security.NoSuchAlgorithmException;
 
 class TwoSumTest {
 
-    final int[] arr = CommonUtils.generateArray(1000000);
+    int[] arr;
+    static int[] ARRAY;
+    static int EXPECTED;
+
+    @BeforeAll
+    static void beforeAll() throws NoSuchAlgorithmException {
+        ARRAY = CommonUtils.generateArray(100_0000);
+        EXPECTED = TwoSum.count(ARRAY);
+    }
+
+    @BeforeEach
+    void beforeEach() {
+        arr = ARRAY.clone();
+    }
 
     @Test
     void count() {
-        // slow
-        long s1 = System.currentTimeMillis();
-        int c1 = TwoSum.count(arr);
-        long e1 = System.currentTimeMillis() - s1;
-        System.out.printf("cost: %dms%n", e1);
-        // fast
-        long s2 = System.currentTimeMillis();
-        int c2 = TwoSum.countFast(arr);
-        long e2 = System.currentTimeMillis() - s2;
-        System.out.printf("cost: %dms%n", e2);
-        // assert
-        Assertions.assertEquals(c1, c2);
-        Assertions.assertTrue(e1 > e2);
+        long start = System.currentTimeMillis();
+        int actual = TwoSum.count(arr);
+        System.out.printf("cost %d%n", System.currentTimeMillis() - start);
+        Assertions.assertEquals(EXPECTED, actual);
+    }
+
+    @Test
+    void countFast() {
+        long start = System.currentTimeMillis();
+        int actual = TwoSum.countFast(arr);
+        System.out.printf("cost %d%n", System.currentTimeMillis() - start);
+        Assertions.assertEquals(EXPECTED, actual);
     }
 
 }

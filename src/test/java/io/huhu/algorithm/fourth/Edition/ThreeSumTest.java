@@ -1,6 +1,8 @@
 package io.huhu.algorithm.fourth.Edition;
 
 import io.huhu.CommonUtils;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,33 +10,39 @@ import java.util.function.Function;
 
 class ThreeSumTest {
 
+    static int EXPECTED;
+    static int[] ARR;
+
+    @BeforeAll
+    static void beforeAll() {
+        ARR = CommonUtils.generateArray(5000);
+        EXPECTED = ThreeSum.count(ARR);
+    }
+
     int[] arr;
 
     @BeforeEach
     void beforeEach() {
-        arr = CommonUtils.generateArray(5000);
-    }
-
-    @Test
-    void count() {
-        count(ThreeSum::count);
+        arr = ARR.clone();
     }
 
     @Test
     void countFast() {
-        count(ThreeSum::countFast);
+        int actual = count(ThreeSum::countFast, "countFast");
+        Assertions.assertEquals(EXPECTED, actual);
     }
 
     @Test
-    void countFast2() {
-        count(ThreeSum::countFast2);
+    void countFaster() {
+        int actual = count(ThreeSum::countFaster, "countFaster");
+        Assertions.assertEquals(EXPECTED, actual);
     }
 
-    private void count(Function<int[], Integer> threeSum) {
+    private int count(Function<int[], Integer> threeSum, String name) {
         long start = System.currentTimeMillis();
         int count = threeSum.apply(arr);
-        long end = System.currentTimeMillis() - start;
-        System.out.printf("count is %d, cost: %dms%n", count, end);
+        System.out.printf("%s cost: %d%n", name, System.currentTimeMillis() - start);
+        return count;
     }
 
 }

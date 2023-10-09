@@ -17,7 +17,7 @@ class ThreeSumTest {
 
     @BeforeAll
     static void beforeAll() throws NoSuchAlgorithmException {
-        ARR = CommonUtils.generateArray(5000);
+        ARR = CommonUtils.generateArrayUnique(5000);
         EXPECTED = ThreeSum.count(ARR);
     }
 

@@ -16,7 +16,7 @@ class TwoSumTest {
 
     @BeforeAll
     static void beforeAll() throws NoSuchAlgorithmException {
-        ARRAY = CommonUtils.generateArray(100_0000);
+        ARRAY = CommonUtils.generateArrayUnique(100_0000);
         EXPECTED = TwoSum.count(ARRAY);
     }
 

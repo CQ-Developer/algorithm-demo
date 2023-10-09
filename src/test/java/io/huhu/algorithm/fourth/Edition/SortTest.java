@@ -17,7 +17,7 @@ class SortTest {
 
     @BeforeAll
     static void beforeAll() throws NoSuchAlgorithmException {
-        ARRAY = CommonUtils.generateArray(50_0000);
+        ARRAY = CommonUtils.generateArrayUnique(50_0000);
         EXPECTED = ARRAY.clone();
         Sort.selectionSort(EXPECTED);
     }

@@ -134,12 +134,13 @@ public final class CommonUtils {
     /**
      * 生成一个不包含重复元素的无序整数数组
      */
-    public static int[] generateArray(int len) throws NoSuchAlgorithmException {
+    public static int[] generateArrayUnique(int len) throws NoSuchAlgorithmException {
         var rdm = SecureRandom.getInstanceStrong();
         rdm.setSeed(System.currentTimeMillis());
         Set<Integer> set = new HashSet<>(len);
+        int range = len * 10;
         while (set.size() < len) {
-            set.add(rdm.nextInt(-len * 10, len * 10));
+            set.add(rdm.nextInt(-range, range));
         }
         int i = 0;
         int[] arr = new int[len];
@@ -148,6 +149,20 @@ public final class CommonUtils {
         }
         for (int j = 0; j < i; j++) {
             shuffle(arr, rdm);
+        }
+        return arr;
+    }
+
+    /**
+     * 生成一个包含重复元素的无序整数数组
+     */
+    public static int[] generateArrayRepeated(int len) throws NoSuchAlgorithmException {
+        var rdm = SecureRandom.getInstanceStrong();
+        rdm.setSeed(System.currentTimeMillis());
+        int range = len * 10;
+        int[] arr = new int[len];
+        for (int i = 0; i < len; i++) {
+            arr[i] = rdm.nextInt(-range, range);
         }
         return arr;
     }

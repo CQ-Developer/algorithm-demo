@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class QuickSort {
 
     public static void main(String[] args) throws NoSuchAlgorithmException {
-        int[] arr = CommonUtils.generateArray(20);
+        int[] arr = CommonUtils.generateArrayUnique(20);
         System.out.println(Arrays.toString(arr));
         sort(arr, 0, arr.length - 1);
         System.out.println(Arrays.toString(arr));

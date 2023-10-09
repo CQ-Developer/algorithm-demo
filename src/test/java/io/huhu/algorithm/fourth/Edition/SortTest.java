@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 class SortTest {
 
     static final int LOOP = 20;
-    static final int SKIP = 3;
+    static final int SKIP = 2;
 
     int[] arr;
 
@@ -24,22 +24,22 @@ class SortTest {
 
     @Test
     void selectionSort() {
-        sort(Sort::selectionSort);
+        sort(Sort::selectionSort, "selection");
     }
 
     @Test
     void insertionSort() {
-        sort(Sort::insertionSort);
+        sort(Sort::insertionSort, "insertion");
     }
 
     @Test
     void shellSort() {
-        sort(Sort::shellSort);
+        sort(Sort::shellSort, "shell");
     }
 
     @Test
     void mergeSort() {
-        sort(Sort::mergeSort);
+        sort(Sort::mergeSort, "merge");
     }
 
     private void sort(Consumer<int[]> sort) {
@@ -60,7 +60,7 @@ class SortTest {
                 .limit(LOOP - 2 * SKIP)
                 .average()
                 .orElseThrow();
-        System.out.printf("cost: %6.3f%n", ave);
+        System.out.printf("%s cost: %6.3f%n", name, ave);
     }
 
 }

@@ -15,8 +15,7 @@ class SolutionTest {
                 {'A', 'B', 'C', 'E'},
                 {'S', 'F', 'C', 'S'},
                 {'A', 'D', 'E', 'E'}};
-        var word = "ABCCED";
-        assertTrue(solution.exist(board, word));
+        assertTrue(solution.exist(board, "ABCCED"));
     }
 
     @Test
@@ -25,8 +24,7 @@ class SolutionTest {
                 {'A', 'B', 'C', 'E'},
                 {'S', 'F', 'C', 'S'},
                 {'A', 'D', 'E', 'E'}};
-        var word = "SEE";
-        assertTrue(solution.exist(board, word));
+        assertTrue(solution.exist(board, "SEE"));
     }
 
     @Test
@@ -35,8 +33,7 @@ class SolutionTest {
                 {'A', 'B', 'C', 'E'},
                 {'S', 'F', 'C', 'S'},
                 {'A', 'D', 'E', 'E'}};
-        var word = "ABCB";
-        assertFalse(solution.exist(board, word));
+        assertFalse(solution.exist(board, "ABCB"));
     }
 
 }

@@ -69,35 +69,39 @@ package io.huhu.leetcode.n79;
  */
 class Solution {
 
+    /**
+     * 回溯、深度有限搜索
+     */
     public boolean exist(char[][] board, String word) {
-        // todo
-        int x = 0;
-        int y = 0;
-        boolean[] isFind = new boolean[word.length()];
-        for (int i = 0; i < word.length(); i++) {
-            char c = word.charAt(i);
-            for (int j = x; j < board.length - 1; j++) {
-                for (int k = y; k < board[j].length - 1; k++) {
-                    if (i == 0 && c == board[j][k]) {
-                        x = j;
-                        y = k;
-                        isFind[i] = true;
-                    } else if (c == board[j + 1][k]) {
-                        x = j + 1;
-                        y = k;
-                        isFind[i] = true;
-                    } else if (c == board[j][k + 1]) {
-                        x = j;
-                        y = k + 1;
-                        isFind[i] = true;
-                    }
+        char[] words = word.toCharArray();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if (dfs(board, words, i, j, 0)) {
+                    return true;
                 }
             }
-            if (!isFind[i]) {
-                return false;
-            }
         }
-        return true;
+        return false;
+    }
+
+    private boolean dfs(char[][] board, char[] words, int i, int j, int k) {
+        // 是否越界、是否是目标字符
+        if (i >= board.length || i < 0 || j >= board[i].length || j < 0 || board[i][j] != words[k]) {
+            return false;
+        }
+        // 所有字符都被搜索到了
+        if (k == words.length - 1) {
+            return true;
+        }
+        // 将被搜索到的字符设置为空字符，以免重复搜索
+        board[i][j] = '\0';
+        // 4个搜索方向(下上右左)搜索下一个字符
+        // 这里短路或会在命中一个分支后跳过余下的分支
+        boolean res = dfs(board, words, i + 1, j, k + 1) || dfs(board, words, i - 1, j, k + 1)
+                   || dfs(board, words, i, j + 1, k + 1) || dfs(board, words, i, j - 1, k + 1);
+        // 回溯，还原上一轮的状态
+        board[i][j] = words[k];
+        return res;
     }
 
 }

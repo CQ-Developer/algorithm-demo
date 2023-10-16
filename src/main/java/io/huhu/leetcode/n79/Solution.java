@@ -97,8 +97,10 @@ class Solution {
         board[i][j] = '\0';
         // 4个搜索方向(下上右左)搜索下一个字符
         // 这里短路或会在命中一个分支后跳过余下的分支
-        boolean res = dfs(board, words, i + 1, j, k + 1) || dfs(board, words, i - 1, j, k + 1)
-                   || dfs(board, words, i, j + 1, k + 1) || dfs(board, words, i, j - 1, k + 1);
+        boolean res = dfs(board, words, i + 1, j, k + 1)
+                   || dfs(board, words, i - 1, j, k + 1)
+                   || dfs(board, words, i, j + 1, k + 1)
+                   || dfs(board, words, i, j - 1, k + 1);
         // 回溯，还原上一轮的状态
         board[i][j] = words[k];
         return res;

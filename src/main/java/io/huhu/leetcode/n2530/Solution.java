@@ -5,7 +5,7 @@ import java.util.PriorityQueue;
 
 /**
  * <h1>
- * 2530.执行K次操作后的最大分数
+ * 执行K次操作后的最大分数
  * </h1>
  *
  * <p>
@@ -70,7 +70,7 @@ class Solution {
         for (int i = 0; i < k; i++) {
             int v = queue.poll();
             sum += v;
-            queue.offer((int) Math.ceil(v / 3.0));
+            queue.offer((v + 2) / 3);
         }
         return sum;
     }

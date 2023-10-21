@@ -60,25 +60,17 @@ package io.huhu.leetcode.n80;
  */
 class Solution {
 
+    /**
+     * 该算法相当于使用了快慢指针，一次遍历。
+     */
     public int removeDuplicates(int[] nums) {
-        int len = nums.length;
-        int count = 1;
-        for (int i = 1; i < len; i++) {
-            if (nums[i] == nums[i - 1]) {
-                if (++count > 2) {
-                    for (int j = i + 1; j < len; j++) {
-                        int t = nums[j - 1];
-                        nums[j - 1] = nums[j];
-                        nums[j] = t;
-                    }
-                    len--;
-                    i--;
-                }
-            } else {
-                count = 1;
+        int i = 0;
+        for (int num : nums) {
+            if (i < 2 || nums[i - 2] != num) {
+                nums[i++] = num;
             }
         }
-        return len;
+        return i;
     }
 
 }

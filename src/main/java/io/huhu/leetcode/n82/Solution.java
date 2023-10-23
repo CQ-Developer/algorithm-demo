@@ -27,13 +27,13 @@ class Solution {
                 }
             } else {
                 tmp = tmp.next;
+                if (first) {
+                    head = tmp;
+                    first = false;
+                }
             }
             if (tmp.val == 101 && tmp.next == null) {
                 return null;
-            }
-            if (count == 1 && first) {
-                head = tmp.val == 101 ? tmp.next : tmp;
-                first = false;
             }
         }
         return head;

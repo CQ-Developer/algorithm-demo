@@ -41,4 +41,16 @@ class SolutionTest {
         assertNull(head);
     }
 
+    @Test
+    void deleteDuplicated3() {
+        var head =
+                new ListNode(1,
+                        new ListNode(1,
+                                new ListNode(1)));
+        head = solution.deleteDuplicated(head);
+        assertEquals(1, head.val);
+        head = head.next;
+        assertNull(head);
+    }
+
 }

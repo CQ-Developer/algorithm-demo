@@ -107,4 +107,30 @@ class SolutionTest {
         Assertions.assertNull(head);
     }
 
+    @Test
+    void deleteDuplicates7() {
+        var head =
+                new ListNode(1,
+                        new ListNode(1,
+                                new ListNode(2,
+                                        new ListNode(2))));
+        head = solution.deleteDuplicates(head);
+        Assertions.assertNull(head);
+    }
+
+    @Test
+    void deleteDuplicates8() {
+        var head =
+                new ListNode(1,
+                        new ListNode(1,
+                                new ListNode(1,
+                                        new ListNode(2,
+                                                new ListNode(2,
+                                                        new ListNode(3))))));
+        head = solution.deleteDuplicates(head);
+        Assertions.assertEquals(3, head.val);
+        head = head.next;
+        Assertions.assertNull(head);
+    }
+
 }

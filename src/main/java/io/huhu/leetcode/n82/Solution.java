@@ -1,8 +1,5 @@
 package io.huhu.leetcode.n82;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 /**
  * <h1>
  * 82.删除排序链表中的重复元素II
@@ -15,24 +12,31 @@ import java.util.Map;
 class Solution {
 
     public ListNode deleteDuplicates(ListNode head) {
-        Map<Integer, Integer> map = new LinkedHashMap<>();
-        var tmp = head;
-        while (tmp != null) {
-            map.compute(tmp.val, (key, oldValue) -> oldValue == null ? 1 : oldValue + 1);
-            tmp = tmp.next;
-        }
-        for (var key : map.keySet()) {
-            if (map.get(key) == 1) {
-                if (tmp == null) {
-                    head = new ListNode(key);
-                    tmp = head;
-                } else {
-                    head.next = new ListNode(key);
-                    head = head.next;
+        var tmp = new ListNode(101, head);
+        boolean first = true;
+        while (tmp.next != null) {
+            int count = 1;
+            var i = tmp.next;
+            while (i.next != null && i.val == i.next.val) {
+                count++;
+                i = i.next;
+            }
+            if (count > 1) {
+                for (int j = 0; tmp.next != null && j < count; j++) {
+                    tmp.next = tmp.next.next;
                 }
+            } else {
+                tmp = tmp.next;
+            }
+            if (tmp.val == 101 && tmp.next == null) {
+                return null;
+            }
+            if (count == 1 && first) {
+                head = tmp.val == 101 ? tmp.next : tmp;
+                first = false;
             }
         }
-        return tmp;
+        return head;
     }
 
 }

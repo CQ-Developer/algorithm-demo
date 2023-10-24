@@ -31,11 +31,7 @@ class Solution {
         int[] heights = new int[cols];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                if (matrix[i][j] == '1') {
-                    heights[j]++;
-                } else {
-                    heights[j] = 0;
-                }
+                heights[j] = matrix[i][j] == '1' ? heights[j] + 1 : 0;
             }
             int area = largestArea(heights);
             if (area > max) {

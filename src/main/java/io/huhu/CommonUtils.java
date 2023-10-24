@@ -169,6 +169,17 @@ public final class CommonUtils {
         return arr;
     }
 
+    public static int[] generateArrayRepeatedPositive(int len) throws NoSuchAlgorithmException {
+        var rdm = SecureRandom.getInstanceStrong();
+        rdm.setSeed(System.currentTimeMillis());
+        int range = len * 10;
+        int[] arr = new int[len];
+        for (int i = 0; i < len; i++) {
+            arr[i] = rdm.nextInt(range);
+        }
+        return arr;
+    }
+
     /**
      * 打乱数组顺序
      */

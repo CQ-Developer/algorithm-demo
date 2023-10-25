@@ -26,23 +26,23 @@ class Solution {
      * 双指针
      */
     public ListNode partition(ListNode head, int x) {
-        var h = new ListNode();
-        var i = h;
-        var b = new ListNode();
-        var j = b;
+        var pre = new ListNode();
+        var p = pre;
+        var suf = new ListNode();
+        var s = suf;
         while (head != null) {
             if (head.val < x) {
-                i.next = head;
-                i = i.next;
+                p.next = head;
+                p = p.next;
             } else {
-                j.next = head;
-                j = j.next;
+                s.next = head;
+                s = s.next;
             }
             head = head.next;
         }
-        j.next = null;
-        i.next = b.next;
-        return h.next;
+        s.next = null;
+        p.next = suf.next;
+        return pre.next;
     }
 
 }

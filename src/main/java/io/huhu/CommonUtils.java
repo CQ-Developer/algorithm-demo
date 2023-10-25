@@ -3,6 +3,7 @@ package io.huhu;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -192,6 +193,14 @@ public final class CommonUtils {
                 a[j] = t;
             }
         }
+    }
+
+    public static void deepSortLists(List<List<Integer>> lists) {
+        lists.forEach(Collections::sort);
+        Comparator<List<Integer>> c = Comparator.comparingInt(list -> list.isEmpty() ? 0 : list.get(0));
+        c = c.thenComparingInt(List::size);
+        c = c.thenComparingInt(list -> list.stream().mapToInt(Integer::intValue).sum());
+        lists.sort(c);
     }
 
 }

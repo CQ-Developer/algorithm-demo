@@ -22,8 +22,27 @@ package io.huhu.leetcode.n86;
  */
 class Solution {
 
+    /**
+     * 双指针
+     */
     public ListNode partition(ListNode head, int x) {
-        return null;
+        var h = new ListNode();
+        var i = h;
+        var b = new ListNode();
+        var j = b;
+        while (head != null) {
+            if (head.val < x) {
+                i.next = head;
+                i = i.next;
+            } else {
+                j.next = head;
+                j = j.next;
+            }
+            head = head.next;
+        }
+        j.next = null;
+        i.next = b.next;
+        return h.next;
     }
 
 }

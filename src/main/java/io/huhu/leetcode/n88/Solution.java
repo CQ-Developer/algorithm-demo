@@ -28,21 +28,15 @@ package io.huhu.leetcode.n88;
 class Solution {
 
     public void merge(int[] nums1, int m, int[] nums2, int n) {
-        int k = 0;
-        int[] nums = new int[m + n];
-        int i = 0;
-        int j = 0;
-        while (i < m && j < n) {
-            int num = nums1[i] < nums2[j] ? nums1[i++] : nums2[j++];
-            nums[k++] = num;
+        int i = m - 1;
+        int j = n - 1;
+        int c = m + n - 1;
+        while (i >= 0 && j >= 0) {
+            nums1[c--] = nums1[i] > nums2[j] ? nums1[i--] : nums2[j--];
         }
-        while (i < m) {
-            nums[k++] = nums1[i++];
+        while (j >= 0) {
+            nums1[c--] = nums2[j--];
         }
-        while (j < n) {
-            nums[k++] = nums2[j++];
-        }
-        System.arraycopy(nums, 0, nums1, 0, nums.length);
     }
 
 }

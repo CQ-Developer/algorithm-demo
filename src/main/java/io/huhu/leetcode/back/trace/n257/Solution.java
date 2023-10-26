@@ -30,9 +30,9 @@ class Solution {
             if (root.left == null && root.right == null) {
                 result.add(builder.toString());
             } else {
-                builder.append("->");
-                backTrace(root.left, builder.toString(), result);
-                backTrace(root.right, builder.toString(), result);
+                path = builder.append("->").toString();
+                backTrace(root.left, path, result);
+                backTrace(root.right, path, result);
             }
         }
     }

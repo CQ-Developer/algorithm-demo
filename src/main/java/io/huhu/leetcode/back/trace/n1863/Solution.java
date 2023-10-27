@@ -28,23 +28,32 @@ import java.util.List;
 class Solution {
 
     public int subsetXORSum(int[] nums) {
-        int sum = 0;
         List<List<Integer>> subset = new ArrayList<>();
         subset.add(new ArrayList<>());
-        for (int num : nums) {
-            int size = subset.size();
-            for (int i = 0; i < size; i++) {
-                List<Integer> list = new ArrayList<>(subset.get(i));
-                list.add(num);
-                subset.add(list);
-                int tmp = 0;
-                for (int j : list) {
-                    tmp ^= j;
-                }
-                sum += tmp;
+        for (int i = 0; i < nums.length; i++) {
+            subsetXORSum(nums, 0, i + 1, new ArrayList<>(), subset);
+        }
+        int sum = 0;
+        for (var list : subset) {
+            int t = 0;
+            for (int i : list) {
+                t ^= i;
             }
+            sum += t;
         }
         return sum;
+    }
+
+    private void subsetXORSum(int[] nums, int i, int size, List<Integer> list, List<List<Integer>> subset) {
+        if (size == list.size()) {
+            subset.add(new ArrayList<>(list));
+            return;
+        }
+        for (int j = i; j < nums.length; j++) {
+            list.add(nums[j]);
+            subsetXORSum(nums, j + 1, size, list, subset);
+            list.remove(list.size() - 1);
+        }
     }
 
 }

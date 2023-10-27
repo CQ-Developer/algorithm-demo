@@ -1,8 +1,5 @@
 package io.huhu.leetcode.back.trace.n1863;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * <h1>
  * 1863.找出所有子集的异或总和再求和
@@ -27,33 +24,17 @@ import java.util.List;
  */
 class Solution {
 
+    /**
+     * <img src="https://pic.leetcode-cn.com/1621163470-ibTKtj-%E6%8D%95%E8%8E%B7.PNG"/>
+     * <br/>
+     * 纯数学解法，真大佬！
+     */
     public int subsetXORSum(int[] nums) {
-        List<List<Integer>> subset = new ArrayList<>();
-        subset.add(new ArrayList<>());
-        for (int i = 0; i < nums.length; i++) {
-            subsetXORSum(nums, 0, i + 1, new ArrayList<>(), subset);
-        }
         int sum = 0;
-        for (var list : subset) {
-            int t = 0;
-            for (int i : list) {
-                t ^= i;
-            }
-            sum += t;
+        for (int num : nums) {
+            sum |= num;
         }
-        return sum;
-    }
-
-    private void subsetXORSum(int[] nums, int i, int size, List<Integer> list, List<List<Integer>> subset) {
-        if (size == list.size()) {
-            subset.add(new ArrayList<>(list));
-            return;
-        }
-        for (int j = i; j < nums.length; j++) {
-            list.add(nums[j]);
-            subsetXORSum(nums, j + 1, size, list, subset);
-            list.remove(list.size() - 1);
-        }
+        return sum << (nums.length - 1);
     }
 
 }

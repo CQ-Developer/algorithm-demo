@@ -26,6 +26,22 @@ class Solution {
 
     private final int[] times = {1, 2, 4, 8, 1, 2, 4, 8, 16, 32};
 
+    /**
+     * 补充穷举算法，时间复杂度O(1)，空间复杂度O(1)
+     * <pre>{@code
+     * public List<String> readBinaryWatch(int turnedOn) {
+     *     List<String> list = new ArrayList<>();
+     *     for (int h = 0; h < 12; h++) {
+     *         for (int m = 0; m < 60; m++) {
+     *             if (Integer.bitCount(h) + Integer.bitCount(m) == turnedOn) {
+     *                 list.add(h + ":" + (m > 10 ? m : "0" + m));
+     *             }
+     *         }
+     *     }
+     *     return list;
+     * }
+     * }</pre>
+     */
     public List<String> readBinaryWatch(int turnedOn) {
         List<String> result = new ArrayList<>();
         traceBack(turnedOn, 0, 0, 0, result);

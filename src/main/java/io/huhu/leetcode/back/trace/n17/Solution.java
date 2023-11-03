@@ -9,31 +9,6 @@ import java.util.List;
  * <br/>
  * 给出数字到字母的映射如下(与电话按键相同)，注意1不对应任何字母
  * <br/>
- * 递归算法：
- * <pre>{@code
- * public List<String> letterCombinations(String digits) {
- *     List<String> result = new ArrayList<>();
- *     if (digits.isEmpty()) {
- *         return result;
- *     }
- *     letterCombinations(digits, 0, "", result);
- *     System.out.println(result);
- *     return result;
- * }
- *
- * private void letterCombinations(
- *         String digits, int i, String s, List<String> result) {
- *     if (i == digits.length()) {
- *         result.add(s);
- *         return;
- *     }
- *     char c = digits.charAt(i);
- *     var letters = letters[c - '0'];
- *     for (int j = 0; j < letters.length(); j++) {
- *         letterCombinations(digits, i + 1, s + letters.charAt(j), result);
- *     }
- * }
- * }</pre>
  */
 class Solution {
 
@@ -48,6 +23,9 @@ class Solution {
         return result;
     }
 
+    /**
+     * 回溯算法
+     */
     private void backTrace(String digits, int i, StringBuilder sb, List<String> result) {
         if (sb.length() == digits.length()) {
             result.add(sb.toString());

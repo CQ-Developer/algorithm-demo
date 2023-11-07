@@ -27,9 +27,25 @@ class Solution {
         return false;
     }
 
+    /**
+     * 回溯算法
+     * 选择条件: c == word.length - 1
+     * 剪枝条件: i越界 || j越界 || word[c] != bard[i][j]
+     */
     private boolean backTrace(char[][] board, int i, int j, String word, int c) {
-        // todo
-        return false;
+        if (i < 0 || i == board.length || j < 0 || j == board[i].length || word.charAt(c) != board[i][j]) {
+            return false;
+        }
+        if (c == word.length() - 1) {
+            return true;
+        }
+        board[i][j] = '\0';
+        boolean result = backTrace(board, i - 1, j, word, c + 1)
+                      || backTrace(board, i + 1, j, word, c + 1)
+                      || backTrace(board, i, j - 1, word, c + 1)
+                      || backTrace(board, i, j + 1, word, c + 1);
+        board[i][j] = word.charAt(c);
+        return result;
     }
 
 }

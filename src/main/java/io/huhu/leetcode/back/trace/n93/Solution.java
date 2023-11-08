@@ -16,59 +16,50 @@ class Solution {
 
     /**
      * 1 <= s.length <= 20
+     * s仅由数字组成
      */
     public List<String> restoreIpAddresses(String s) {
         List<String> result = new ArrayList<>();
+        if (s.length() < 4 || s.length() > 12) {
+            return result;
+        }
         backTrace(s, 0, new ArrayDeque<>(), result);
-        System.out.println(result);
         return result;
     }
 
-    // todo 考虑剪枝、补全回溯图
+    /**
+     * 回溯算法
+     * todo 补充图解
+     */
     private void backTrace(String s, int i, Deque<String> path, List<String> result) {
-        if (i == s.length() && path.size() == 4) {
+        if (path.size() == 4) {
             result.add(String.join(".", path));
-            return;
-        }
-        if (path.size() > 4) {
             return;
         }
         for (int j = 1; j <= 3; j++) {
             if (i + j > s.length()) {
                 return;
             }
-            var ip = s.substring(i, i + j);
-            if (j > 1 && ip.startsWith("0")) {
+            boolean isLast = path.size() == 3;
+            var ip = isLast ? s.substring(i) : s.substring(i, i + j);
+            if (ip.length() == 3 && ip.compareTo("255") > 0) {
                 continue;
             }
-            if (Integer.parseInt(ip) > 255) {
+            if (ip.length() > 1 && ip.charAt(0) == '0') {
+                continue;
+            }
+            int len = s.length() - i - ip.length();
+            int seg = 4 - path.size() - 1;
+            if (len < seg || len > seg * 3) {
                 continue;
             }
             path.addLast(ip);
-            backTrace(s, i + j, path, result);
+            backTrace(s, i + ip.length(), path, result);
             path.removeLast();
+            if (isLast) {
+                return;
+            }
         }
     }
-
-    // private void backTrace(String s, int i, Deque<String> path, int len, List<String> result) {
-    //     if (path.size() == 4) {
-    //         result.add(String.join(".", path));
-    //         return;
-    //     }
-    //     int rest = s.length() - len;
-    //     int min = 4 - path.size();
-    //     int max = 3 * min;
-    //     // 如果剩余字符串长度不够组成一个边界
-    //     if (rest < min || rest > max) {
-    //         return;
-    //     }
-    //     // 如果剩字符串长度正好在剩余段的边界上
-    //     int x = rest == min ? 1 : rest == max ? 3 : 0;
-    //     if (x != 0) {
-    //         for (int j = 0; j < 4; j++) {
-    //             String a = s.substring(i + x, i * x + x);
-    //         }
-    //     }
-    // }
 
 }

@@ -29,7 +29,6 @@ class Solution {
 
     /**
      * 回溯算法
-     * todo 补充图解
      */
     private void backTrace(String s, int i, Deque<String> path, List<String> result) {
         if (path.size() == 4) {

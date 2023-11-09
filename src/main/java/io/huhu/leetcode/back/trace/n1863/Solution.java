@@ -1,8 +1,13 @@
 package io.huhu.leetcode.back.trace.n1863;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
+
 /**
  * <h1>
- * 1863.找出所有子集的异或总和再求和
+ * <a href ="https://leetcode.cn/problems/sum-of-all-subset-xor-totals/description/">1863.找出所有子集的异或总和再求和</a>
  * </h1>
  *
  * <p>
@@ -25,16 +30,39 @@ package io.huhu.leetcode.back.trace.n1863;
 class Solution {
 
     /**
-     * <img src="https://pic.leetcode-cn.com/1621163470-ibTKtj-%E6%8D%95%E8%8E%B7.PNG"/>
+     * 1 <= nums.length <= 12
      * <br/>
-     * 纯数学解法，真大佬！
+     * 1 <= nums[i] <= 20
      */
     public int subsetXORSum(int[] nums) {
-        int sum = 0;
-        for (int num : nums) {
-            sum |= num;
+        List<List<Integer>> subLists = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            backTrace(nums, 0, i + 1, new ArrayDeque<>(), subLists);
         }
-        return sum << (nums.length - 1);
+        int sum = 0;
+        for (List<Integer> subList : subLists) {
+            int xor = 0;
+            for (int i : subList) {
+                xor ^= i;
+            }
+            sum += xor;
+        }
+        return sum;
+    }
+
+    /**
+     * 回溯算法
+     */
+    private void backTrace(int[] nums, int i, int len, Deque<Integer> path, List<List<Integer>> subLists) {
+        if (path.size() == len) {
+            subLists.add(new ArrayList<>(path));
+            return;
+        }
+        for (int j = i; j < nums.length - len + path.size() + 1; j++) {
+            path.addLast(nums[j]);
+            backTrace(nums, j + 1, len, path, subLists);
+            path.removeLast();
+        }
     }
 
 }

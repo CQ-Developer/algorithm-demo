@@ -26,10 +26,8 @@ class Solution {
      */
     private void backTrace(int n, int cnt, boolean[] used,
             TreeNode root, Set<List<Integer>> set, List<TreeNode> result) {
-        if (cnt == n) {
-            if (result.isEmpty() || canAdd(root, set)) {
-                result.add(cloneTree(root));
-            }
+        if (cnt == n && canAdd(root, set)) {
+            result.add(cloneTree(root));
             return;
         }
         for (int i = 0; i < n; i++) {

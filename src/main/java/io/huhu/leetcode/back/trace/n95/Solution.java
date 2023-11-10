@@ -1,7 +1,9 @@
 package io.huhu.leetcode.back.trace.n95;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <a href="https://leetcode.cn/problems/unique-binary-search-trees-ii/">95.不同的二叉搜索树II</a>
@@ -14,17 +16,18 @@ class Solution {
      */
     public List<TreeNode> generateTrees(int n) {
         List<TreeNode> result = new ArrayList<>();
-        backTrace(n, 0, new boolean[n], null, result);
+        backTrace(n, 0, new boolean[n], null, result, new HashSet<>());
         return result;
     }
 
     /**
      * 回溯算法
      */
-    private void backTrace(int n, int cnt, boolean[] used, TreeNode root, List<TreeNode> result) {
+    private void backTrace(int n, int cnt, boolean[] used, TreeNode root, List<TreeNode> result, Set<List<Integer>> set) {
         if (cnt == n) {
-            if (result.isEmpty() || !isSame(result, root)) {
-                result.add(cloneTree(root));
+            if (result.isEmpty() || canAdd(root, set)) {
+                TreeNode tree = cloneTree(root);
+                result.add(tree);
             }
             return;
         }
@@ -35,13 +38,35 @@ class Solution {
             var node = new TreeNode(i + 1);
             used[i] = true;
             if (root == null) {
-                backTrace(n, cnt + 1, used, node, result);
+                backTrace(n, cnt + 1, used, node, result, set);
             } else {
                 attachTree(root, node);
-                backTrace(n, cnt + 1, used, root, result);
+                backTrace(n, cnt + 1, used, root, result, set);
                 detachTree(root, node);
             }
             used[i] = false;
+        }
+    }
+
+    /**
+     * 解决去重问题
+     */
+    private boolean canAdd(TreeNode root, Set<List<Integer>> set) {
+        List<Integer> list = new ArrayList<>();
+        copyToList(root, list);
+        return set.add(list);
+    }
+
+    /**
+     * 前序遍历拷贝树
+     */
+    private void copyToList(TreeNode node, List<Integer> list) {
+        if (node == null) {
+            list.add(null);
+        } else {
+            list.add(node.val);
+            copyToList(node.left, list);
+            copyToList(node.right, list);
         }
     }
 
@@ -84,35 +109,6 @@ class Solution {
                     detachTree(pre.right, node);
                 }
             }
-        }
-    }
-
-    /**
-     * 解决重复问题
-     */
-    private boolean isSame(List<TreeNode> result, TreeNode node2) {
-        for (TreeNode node1 : result) {
-            if (isSame(node1, node2)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 解决重复问题
-     */
-    private boolean isSame(TreeNode node1, TreeNode node2) {
-        if (node1 == null && node2 == null) {
-            return true;
-        } else if (node1 == null) {
-            return false;
-        } else if (node2 == null) {
-            return false;
-        } else if (node1.val != node2.val) {
-            return false;
-        } else {
-            return isSame(node1.left, node2.left) && isSame(node1.right, node2.right);
         }
     }
 

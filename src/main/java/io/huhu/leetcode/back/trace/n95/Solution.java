@@ -22,6 +22,7 @@ class Solution {
 
     /**
      * 回溯算法
+     * todo 改为值转递而不是引用传递, 那么就不用复制树, 也不用对树节点进行回溯
      */
     private void backTrace(int n, int cnt, boolean[] used,
             TreeNode root, Set<List<Integer>> set, List<TreeNode> result) {

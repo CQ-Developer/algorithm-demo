@@ -16,18 +16,18 @@ class Solution {
      */
     public List<TreeNode> generateTrees(int n) {
         List<TreeNode> result = new ArrayList<>();
-        backTrace(n, 0, new boolean[n], null, result, new HashSet<>());
+        backTrace(n, 0, new boolean[n], null, new HashSet<>(), result);
         return result;
     }
 
     /**
      * 回溯算法
      */
-    private void backTrace(int n, int cnt, boolean[] used, TreeNode root, List<TreeNode> result, Set<List<Integer>> set) {
+    private void backTrace(int n, int cnt, boolean[] used,
+            TreeNode root, Set<List<Integer>> set, List<TreeNode> result) {
         if (cnt == n) {
             if (result.isEmpty() || canAdd(root, set)) {
-                TreeNode tree = cloneTree(root);
-                result.add(tree);
+                result.add(cloneTree(root));
             }
             return;
         }
@@ -38,10 +38,10 @@ class Solution {
             var node = new TreeNode(i + 1);
             used[i] = true;
             if (root == null) {
-                backTrace(n, cnt + 1, used, node, result, set);
+                backTrace(n, cnt + 1, used, node, set, result);
             } else {
                 attachTree(root, node);
-                backTrace(n, cnt + 1, used, root, result, set);
+                backTrace(n, cnt + 1, used, root, set, result);
                 detachTree(root, node);
             }
             used[i] = false;
@@ -49,7 +49,7 @@ class Solution {
     }
 
     /**
-     * 解决去重问题
+     * 利用Set进行去重
      */
     private boolean canAdd(TreeNode root, Set<List<Integer>> set) {
         List<Integer> list = new ArrayList<>();
@@ -58,7 +58,7 @@ class Solution {
     }
 
     /**
-     * 前序遍历拷贝树
+     * 通过二叉树的前序遍历将树转成列表
      */
     private void copyToList(TreeNode node, List<Integer> list) {
         if (node == null) {

@@ -17,54 +17,104 @@ class Solution {
      * num仅由数字0~9组成
      */
     public boolean isAdditiveNumber(String num) {
-        if (num.length() < 3) {
-            return false;
-        }
-        if (num.startsWith("0")) {
-            for (int i = 0; i < num.length(); i++) {
-                if (num.charAt(i) != '0') {
-                    return false;
-                }
-            }
-            return true;
-        }
         boolean[] result = {false};
-        backTrace(num, 0, new ArrayList<>(), result);
+        deepFirstSearch(num, 0, new ArrayList<>(), result);
         return result[0];
     }
 
     /**
-     * 回溯算法
-     * todo 算法错误
+     * 深度优先搜索: 回溯算法
      */
-    private void backTrace(String num, int i, List<Integer> path, boolean[] result) {
-        if (i == num.length() && path.size() == 3) {
-            result[0] = true;
-            return;
+    private void deepFirstSearch(String sequence, int i, List<String> path, boolean[] result) {
+        if (path.size() > 2) {
+            if (!path.get(path.size() - 1).equals(sum(path.get(path.size() - 2), path.get(path.size() - 3)))) {
+                return;
+            } else if (i == sequence.length()) {
+                result[0] = true;
+            }
         }
-        for (int j = i; j < num.length(); j++) {
-            if (result[0]) {
-                return;
-            }
-            int n = Integer.parseInt(num, i, j + 1, 10);
-            if (n == 0) {
-                return;
-            }
-            if (path.size() == 2) {
-                int sum = path.get(0) + path.get(1);
-                if (sum > n) {
+        // 剪枝1
+        // 已经证明了是字符串是一个累加数
+        // 程序不用再进行下去了
+        for (int j = i; j < sequence.length() && !result[0]; j++) {
+            boolean is0 = sequence.charAt(i) == '0';
+            var num = is0 ? sequence.substring(i, i + 1) : sequence.substring(i, j + 1);
+            if (path.size() >= 2) {
+                var a = path.get(path.size() - 1);
+                var b = path.get(path.size() - 2);
+                var sum = sum(a, b);
+                // 剪枝3
+                // 如果当前数字小于前两个数字中的任何一个
+                // 那么强两个数字的和不可能等于当前数字
+                if (sum.length() < a.length() || sum.length() < b.length()) {
                     continue;
-                } else if (sum < n) {
+                }
+                // 剪枝3
+                // 如果当前数字大于前两个数字之和
+                // 那么后续截取到的数字指挥更大
+                if (num.length() > sum.length() || num.compareTo(sum) > 0) {
                     return;
                 }
-                path.remove(0);
             }
-            path.add(n);
-            backTrace(num, j + 1, path, result);
-            if (!path.isEmpty()) {
-                path.remove(path.size() - 1);
+            // 递归 & 回溯
+            path.add(num);
+            deepFirstSearch(sequence, is0 ? i + 1 : j + 1, path, result);
+            path.remove(path.size() - 1);
+            // 剪枝4
+            // 如果是0, 那么只能用0
+            // 后续不用再继续做了
+            if (is0) {
+                return;
             }
         }
+    }
+
+    /**
+     * 计算两个数字字符串的和
+     */
+    private String sum(String a, String b) {
+        int n = 0;
+        int i = a.length() - 1;
+        int j = b.length() - 1;
+        var builder = new StringBuilder();
+        while (i >= 0 && j >= 0) {
+            int x = a.charAt(i--) - '0';
+            int y = b.charAt(j--) - '0';
+            int sum = x + y + n;
+            if (sum >= 10) {
+                n = 1;
+                sum -= 10;
+            } else {
+                n = 0;
+            }
+            builder.append(sum);
+        }
+        while (i >= 0) {
+            int c = a.charAt(i--) - '0';
+            int sum = c + n;
+            if (sum >= 10) {
+                n = 1;
+                sum -= 10;
+            } else {
+                n = 0;
+            }
+            builder.append(sum);
+        }
+        while (j >= 0) {
+            int c = b.charAt(j--) - '0';
+            int sum = c + n;
+            if (sum >= 10) {
+                n = 1;
+                sum -= 10;
+            } else {
+                n = 0;
+            }
+            builder.append(sum);
+        }
+        if (n == 1) {
+            builder.append(1);
+        }
+        return builder.reverse().toString();
     }
 
 }

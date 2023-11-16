@@ -37,4 +37,34 @@ class SolutionTest {
         Assertions.assertTrue(solution.isAdditiveNumber("112358"));
     }
 
+    @Test
+    void isAdditiveNumber_7() {
+        Assertions.assertTrue(solution.isAdditiveNumber("101"));
+    }
+
+    @Test
+    void isAdditiveNumber_8() {
+        Assertions.assertTrue(solution.isAdditiveNumber("011"));
+    }
+
+    @Test
+    void isAdditiveNumber_9() {
+        Assertions.assertFalse(solution.isAdditiveNumber("0110"));
+    }
+
+    @Test
+    void isAdditiveNumber_10() {
+        Assertions.assertFalse(solution.isAdditiveNumber("0101"));
+    }
+
+    @Test
+    void isAdditiveNumber_11() {
+        Assertions.assertFalse(solution.isAdditiveNumber("19910011992"));
+    }
+
+    @Test
+    void isAdditiveNumber_12() {
+        Assertions.assertFalse(solution.isAdditiveNumber("11235813213455890144"));
+    }
+
 }

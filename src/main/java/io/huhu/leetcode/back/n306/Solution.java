@@ -30,7 +30,6 @@ class Solution {
             if (!path.get(path.size() - 1).equals(sum(path.get(path.size() - 2), path.get(path.size() - 3)))) {
                 return;
             } else if (i == sequence.length()) {
-                System.out.println("选中 " + path + " ✔");
                 result[0] = true;
             }
         }
@@ -67,10 +66,8 @@ class Solution {
             }
             // 递归 & 回溯
             path.add(num);
-            System.out.println("递归 " + path);
             deepFirstSearch(sequence, is0 ? i + 1 : j + 1, path, result);
             path.remove(path.size() - 1);
-            System.out.println("回溯 " + path);
             // 剪枝5
             // 如果是0, 那么只能用0, 后续不用再继续做了
             if (is0) {

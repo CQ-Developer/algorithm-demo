@@ -30,6 +30,7 @@ class Solution {
             if (!path.get(path.size() - 1).equals(sum(path.get(path.size() - 2), path.get(path.size() - 3)))) {
                 return;
             } else if (i == sequence.length()) {
+                System.out.println("选中 " + path + " ✔");
                 result[0] = true;
             }
         }
@@ -43,26 +44,35 @@ class Solution {
                 var a = path.get(path.size() - 1);
                 var b = path.get(path.size() - 2);
                 var sum = sum(a, b);
+                // 剪枝2
+                // 如果当前数字是0, 那么前两个数必须都是0
+                if (is0 && !"0".equals(a) || is0 && !"0".equals(b)) {
+                    return;
+                }
                 // 剪枝3
-                // 如果当前数字小于前两个数字中的任何一个
-                // 那么强两个数字的和不可能等于当前数字
-                if (sum.length() < a.length() || sum.length() < b.length()) {
+                // 如果当前数字小于前两个数字中的一个, 那么前两个数字的和不可能等于当前数字
+                if (num.length() < a.length() || num.length() == a.length() && num.compareTo(sum) < 0) {
                     continue;
                 }
                 // 剪枝3
-                // 如果当前数字大于前两个数字之和
-                // 那么后续截取到的数字指挥更大
-                if (num.length() > sum.length() || num.compareTo(sum) > 0) {
+                // 如果当前数字小于前两个数字中的一个, 那么前两个数字的和不可能等于当前数字
+                if (num.length() < b.length() || num.length() == b.length() && num.compareTo(sum) < 0) {
+                    continue;
+                }
+                // 剪枝4
+                // 如果当前数字大于前两个数字之和, 那么后续截取到的数字只会更大
+                if (num.length() > sum.length() || num.length() == sum.length() && num.compareTo(sum) > 0) {
                     return;
                 }
             }
             // 递归 & 回溯
             path.add(num);
+            System.out.println("递归 " + path);
             deepFirstSearch(sequence, is0 ? i + 1 : j + 1, path, result);
             path.remove(path.size() - 1);
-            // 剪枝4
-            // 如果是0, 那么只能用0
-            // 后续不用再继续做了
+            System.out.println("回溯 " + path);
+            // 剪枝5
+            // 如果是0, 那么只能用0, 后续不用再继续做了
             if (is0) {
                 return;
             }

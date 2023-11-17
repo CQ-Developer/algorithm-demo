@@ -24,6 +24,44 @@ class Solution {
 
     /**
      * 深度优先搜索: 回溯算法
+     * <pre>{@code
+     * // 大佬的解, 非常优雅
+     * // https://leetcode.cn/problems/additive-number/solutions/1202024/tong-ge-lai-shua-ti-la-dfs-jian-zhi-by-t-jxsf/
+     * class Solution {
+     *
+     *     public boolean isAdditiveNumber(String num) {
+     *         return deepFirstSearch(num, num.length(), 0, 0, 0, 0);
+     *     }
+     *
+     *     private boolean deepFirstSearch(
+     *             String num, int len, int i, int cnt, long a, long b) {
+     *         if (i >= len) {
+     *             return cnt > 2;
+     *         }
+     *         long c = 0;
+     *         for (int j = i; j < len; j++) {
+     *             if (num.charAt(i) == '0' && j > i) {
+     *                 return false;
+     *             }
+     *             c = 10 * c + num.charAt(j) - '0';
+     *             if (cnt >= 2) {
+     *                 long sum = a + b;
+     *                 if (c > sum) {
+     *                     return false;
+     *                 }
+     *                 if (c < sum) {
+     *                     continue;
+     *                 }
+     *             }
+     *             if (deepFirstSearch(num, len, j + 1, cnt + 1, b, c)) {
+     *                 return true;
+     *             }
+     *         }
+     *         return false;
+     *     }
+     *
+     * }
+     * }</pre>
      */
     private void deepFirstSearch(String sequence, int i, List<String> path, boolean[] result) {
         if (path.size() > 2) {

@@ -15,32 +15,28 @@ class Solution {
         if (n == 0) {
             return 1;
         }
-        int[] result = {0};
-        for (int i = n; i > 0; i--) {
-            dfs(i, new boolean[10], 0, result);
-        }
-        return result[0] + 1;
+        return dfs(n, 0, new boolean[10]);
     }
 
     /**
      * 回溯算法
      */
-    private void dfs(int n, boolean[] used, int path, int[] result) {
-        if (n == path) {
-            result[0]++;
-            return;
-        }
-        for (int i = 9; i >= 0; i--) {
-            if (used[i]) {
-                continue;
+    private int dfs(int n, int j, boolean[] used) {
+        int cnt = 0;
+        if (j != n) {
+            for (int i = 0; i < 10; i++) {
+                if (used[i]) {
+                    continue;
+                }
+                if (i == 0 && n > 1 && j == 1) {
+                    continue;
+                }
+                used[i] = true;
+                cnt += dfs(n, j + 1, used) + 1;
+                used[i] = false;
             }
-            if (path == 0 && i == 0) {
-                return;
-            }
-            used[i] = true;
-            dfs(n, used, path + 1, result);
-            used[i] = false;
         }
+        return cnt;
     }
 
 }

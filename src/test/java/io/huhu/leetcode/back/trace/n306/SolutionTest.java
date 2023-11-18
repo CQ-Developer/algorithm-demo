@@ -1,4 +1,4 @@
-package io.huhu.leetcode.back.n306;
+package io.huhu.leetcode.back.trace.n306;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

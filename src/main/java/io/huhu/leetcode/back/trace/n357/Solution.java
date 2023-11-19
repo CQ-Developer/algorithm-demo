@@ -23,14 +23,12 @@ class Solution {
      */
     private int dfs(int n, int j, boolean[] used) {
         int cnt = 0;
-        if (j != n) {
-            for (int i = 0; i < 10; i++) {
-                if (used[i]) {
-                    continue;
-                }
-                if (i == 0 && n > 1 && j == 1) {
-                    continue;
-                }
+        for (int i = 0; i < 10 && j != n; i++) {
+            // 剪枝1: used[i]
+            // 不能使用已经用过的数字
+            // 剪枝2: i == 0 && n > 1 && j == 1
+            // 第一位数字不能为0
+            if (!(used[i] || i == 0 && n > 1 && j == 1)) {
                 used[i] = true;
                 cnt += dfs(n, j + 1, used) + 1;
                 used[i] = false;

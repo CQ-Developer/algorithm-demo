@@ -25,4 +25,22 @@ class SolutionTest {
         Assertions.assertTrue(solution.makesquare(matchsticks));
     }
 
+    @Test
+    void makesquare_4() {
+        int[] matchsticks = {1, 1, 2};
+        Assertions.assertFalse(solution.makesquare(matchsticks));
+    }
+
+    @Test
+    void makesquare_5() {
+        int[] matchsticks = {1, 1, 1, 1};
+        Assertions.assertTrue(solution.makesquare(matchsticks));
+    }
+
+    @Test
+    void makesquare_6() {
+        int[] matchsticks = {5, 5, 5, 5, 16, 4, 4, 4, 4, 4, 3, 3, 3, 3, 4};
+        Assertions.assertFalse(solution.makesquare(matchsticks));
+    }
+
 }

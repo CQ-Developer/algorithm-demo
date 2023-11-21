@@ -20,7 +20,7 @@ class Solution {
      * -100 <= nums[i] <= 100
      */
     public List<List<Integer>> findSubsequences(int[] nums) {
-        Set<List<Integer>> result = new HashSet<>();
+        List<List<Integer>> result = new ArrayList<>();
         dfs(nums, 0, new ArrayDeque<>(), result);
         return new ArrayList<>(result);
     }
@@ -28,10 +28,11 @@ class Solution {
     /**
      * 深度优先遍历
      */
-    private void dfs(int[] nums, int j, Deque<Integer> path, Set<List<Integer>> result) {
+    private void dfs(int[] nums, int j, Deque<Integer> path, List<List<Integer>> result) {
         if (path.size() >= 2) {
             result.add(new ArrayList<>(path));
         }
+        Set<Integer> used = new HashSet<>();
         for (int i = j; i < nums.length; i++) {
             if (path.isEmpty() && i == nums.length -1) {
                 return;
@@ -39,7 +40,7 @@ class Solution {
             if (!path.isEmpty() && nums[i] < path.peekLast()) {
                 continue;
             }
-            if (i > j && nums[i] == nums[i - 1]) {
+            if (!used.add(nums[i])) {
                 continue;
             }
             path.offerLast(nums[i]);

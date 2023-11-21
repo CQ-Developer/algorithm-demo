@@ -3,9 +3,7 @@ package io.huhu.leetcode.back.trace.n473;
 import java.util.Arrays;
 
 /**
- * <a href="https://leetcode.cn/problems/matchsticks-to-square/submissions/483226904/">
- * 473.火柴拼正方形
- * </a>
+ * <a href="https://leetcode.cn/problems/matchsticks-to-square/submissions/483226904/">473.火柴拼正方形</a>
  * 你将得到一个整数数组matchsticks, 其中matchsticks[i]是第i个火柴棒的长度.
  * 你要用所有火柴棍拼成一个正方形.
  * 你不能折断任何一根火柴棒, 但你可以把它们连在一起, 而且每根火柴棒必须使用一次.
@@ -31,18 +29,16 @@ class Solution {
 
     /**
      * 深度优先遍历
-     * <a href="https://leetcode.cn/problems/matchsticks-to-square/solutions/615092/hui-su-suan-fa-jie-jue-ji-you-hua-chao-g-9iyl/">
-     * 解题思路
-     * </a>
+     * <a href="https://leetcode.cn/problems/matchsticks-to-square/solutions/615092/hui-su-suan-fa-jie-jue-ji-you-hua-chao-g-9iyl/">解题思路</a>
      */
-    private boolean dfs(int[] matchsticks, int m, int[] sides, int len) {
+    private boolean dfs(int[] matchsticks, int j, int[] sides, int len) {
         // 所有火柴都放完了
-        if (m < 0) {
+        if (j < 0) {
             return true;
         }
         for (int i = 0; i < sides.length; i++) {
             // 如果把火柴放进当前边大于len,
-            if (sides[i] + matchsticks[m] > len) {
+            if (sides[i] + matchsticks[j] > len) {
                 continue;
             }
             // 如果前一条边没有放成功, 且当前边和前一条边相等
@@ -50,11 +46,11 @@ class Solution {
             if (i > 0 && sides[i - 1] < len && sides[i - 1] == sides[i]) {
                 continue;
             }
-            sides[i] += matchsticks[m];
-            if (dfs(matchsticks, m - 1, sides, len)) {
+            sides[i] += matchsticks[j];
+            if (dfs(matchsticks, j - 1, sides, len)) {
                 return true;
             }
-            sides[i] -= matchsticks[m];
+            sides[i] -= matchsticks[j];
         }
         return false;
     }

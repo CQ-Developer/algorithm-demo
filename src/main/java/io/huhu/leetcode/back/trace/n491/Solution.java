@@ -33,7 +33,13 @@ class Solution {
             result.add(new ArrayList<>(path));
         }
         for (int i = j; i < nums.length; i++) {
+            if (path.isEmpty() && i == nums.length -1) {
+                return;
+            }
             if (!path.isEmpty() && nums[i] < path.peekLast()) {
+                continue;
+            }
+            if (i > j && nums[i] == nums[i - 1]) {
                 continue;
             }
             path.offerLast(nums[i]);

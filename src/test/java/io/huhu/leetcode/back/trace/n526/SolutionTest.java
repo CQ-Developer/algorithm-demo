@@ -45,7 +45,7 @@ class SolutionTest {
     }
 
     @Test
-    void countArrangement_15() {
+    void countArrangement_7() {
         assertEquals(24679, solution.countArrangement(15));
     }
 

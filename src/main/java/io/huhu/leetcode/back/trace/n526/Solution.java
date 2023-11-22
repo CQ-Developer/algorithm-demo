@@ -9,37 +9,35 @@ package io.huhu.leetcode.back.trace.n526;
  */
 class Solution {
 
-    int cnt;
-
     /**
      * 1 <= n <= 15
      */
     public int countArrangement(int n) {
-        dfs(n, 1, new boolean[n]);
-        return cnt;
+        int[] result = {0};
+        dfs(n, new boolean[n], 1, result);
+        return result[0];
     }
 
     /**
-     * 深度优先遍历
+     * 回溯算法
      */
-    private int dfs(int n, int i, boolean[] used) {
-        if (i > n) {
-            return 1;
+    private void dfs(int n, boolean[] used, int b, int[] result) {
+        if (b > n) {
+            result[0]++;
+            return;
         }
-        for (int j = 1; j <= n; j++) {
-            if (used[j - 1]) {
+        for (int i = 0; i < n; i++) {
+            if (used[i]) {
                 continue;
             }
-            if (j % i != 0 && i % j != 0) {
+            int a = i + 1;
+            if (a % b != 0 && b % a != 0) {
                 continue;
             }
-            used[j - 1] = true;
-            if (1 == dfs(n, i + 1, used)) {
-                cnt++;
-            }
-            used[j - 1] = false;
+            used[i] = true;
+            dfs(n, used, b + 1, result);
+            used[i] = false;
         }
-        return 0;
     }
 
 }

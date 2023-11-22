@@ -26,7 +26,23 @@ class Solution {
         if (i >= nums.length) {
             return sum == target ? 1 : 0;
         }
+        // 若结果小于target且之后的所有数字相加都小于target, 那么不用再进行递归
+        if (sum < target && sum + sumRest(i, nums) < target) {
+            return 0;
+        }
+        // 若结果大于target且之后的所有数字相减都大于target, 那么不用再进行递归
+        if (sum > target && sum - sumRest(i, nums) > target) {
+            return 0;
+        }
         return dfs(nums, i + 1, sum - nums[i], target) + dfs(nums, i + 1, sum + nums[i], target);
+    }
+
+    private int sumRest(int i, int[] nums) {
+        int result = 0;
+        for (int j = i; j < nums.length; j++) {
+            result += nums[j];
+        }
+        return result;
     }
 
 }

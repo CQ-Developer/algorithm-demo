@@ -1,7 +1,9 @@
 package io.huhu.leetcode.back.trace.n638;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <a href="https://leetcode.cn/problems/shopping-offers/description/">638.大礼包</a>
@@ -20,9 +22,10 @@ import java.util.List;
  */
 class Solution {
 
-    List<List<Integer>> specials = new ArrayList<>();
-    List<Integer> needs = new ArrayList<>();
-    int result = Integer.MAX_VALUE;
+    private List<Integer> needs;
+    private List<Integer> price;
+    private Map<List<Integer>, Integer> special;
+    private int result = Integer.MAX_VALUE;
 
     /**
      * n == price.length
@@ -43,54 +46,100 @@ class Solution {
      *                needs[i]表示需要购买第i件物品的数量
      */
     public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
-        int n = needs.size();
-        for (int i = 0; i < n; i++) {
-            List<Integer> list = new ArrayList<>();
-            for (int j = 0; j < n; j++) {
-                list.add(0);
-            }
-            list.set(i, 1);
-            list.add(price.get(i));
-            this.specials.add(list);
-        }
-        this.specials.addAll(special);
-        this.needs.addAll(needs);
+        this.needs = needs;
+        this.price = price;
+        this.special = initSpecial(special);
         dfs(0);
+        return this.result;
+    }
+
+    /**
+     * 将大礼包转换成 -> 物品数量:价格
+     * 同样的大礼包只选取价格最低的
+     */
+    private Map<List<Integer>, Integer> initSpecial(List<List<Integer>> special) {
+        Map<List<Integer>, Integer> result = new HashMap<>();
+        for (List<Integer> sp : special) {
+            List<Integer> key = new ArrayList<>();
+            int i = 0;
+            while (i < sp.size() - 1) {
+                key.add(sp.get(i++));
+            }
+            int value = sp.get(i);
+            result.compute(key, (k, v) -> v == null ? value : v < value ? v : value);
+        }
         return result;
     }
 
+    /**
+     * 深度优先遍历
+     */
     private void dfs(int cost) {
-        if (isFinish(needs) && cost < result) {
-            System.out.println(cost);
-            result = cost;
+        if (isFinish() && cost < this.result) {
+            this.result = cost;
+            return;
         }
-        for (List<Integer> special : specials) {
-            int n = needs.size();
-            if (!canBuy(needs, special, n)) {
-                continue;
+        this.special.forEach((list, c) -> {
+            if (!canBuySpecial(list)) {
+                return;
             }
-            for (int j = 0; j < n; j++) {
-                needs.set(j, needs.get(j) - special.get(j));
+            buySpecial(list);
+            dfs(cost + c);
+            backTrace(list);
+        });
+        buySingle(cost);
+    }
+
+    /**
+     * 单买一件直到买全所有物品
+     */
+    private void buySingle(int cost) {
+        for (int i = 0; i < this.needs.size(); i++) {
+            if (this.needs.get(i) > 0) {
+                cost += this.needs.get(i) * this.price.get(i);
             }
-            dfs(cost + special.get(n));
-            for (int j = 0; j < n; j++) {
-                needs.set(j, needs.get(j) + special.get(j));
-            }
+        }
+        if (cost < result) {
+            this.result = cost;
         }
     }
 
-    private boolean isFinish(List<Integer> needs) {
-        for (int need : needs) {
-            if (need != 0) {
+    /**
+     * 回溯
+     */
+    private void backTrace(List<Integer> sp) {
+        for (int i = 0; i < this.needs.size(); i++) {
+            this.needs.set(i, this.needs.get(i) + sp.get(i));
+        }
+    }
+
+    /**
+     * 买一件大礼包
+     */
+    private void buySpecial(List<Integer> sp) {
+        for (int i = 0; i < this.needs.size(); i++) {
+            this.needs.set(i, this.needs.get(i) - sp.get(i));
+        }
+    }
+
+    /**
+     * 检查是否能买大礼包
+     */
+    private boolean canBuySpecial(List<Integer> sp) {
+        for (int i = 0; i < this.needs.size(); i++) {
+            if (this.needs.get(i) - sp.get(i) < 0) {
                 return false;
             }
         }
         return true;
     }
 
-    private boolean canBuy(List<Integer> needs, List<Integer> special, int n) {
-        for (int i = 0; i < n; i++) {
-            if (needs.get(i) - special.get(i) < 0) {
+    /**
+     * 检查是否已经购买完所有物品
+     */
+    private boolean isFinish() {
+        for (int need : this.needs) {
+            if (need != 0) {
                 return false;
             }
         }

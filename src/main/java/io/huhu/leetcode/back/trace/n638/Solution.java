@@ -79,12 +79,17 @@ class Solution {
             this.result = cost;
             return;
         }
-        this.special.forEach((list, c) -> {
+        this.special.forEach((list, price) -> {
+            // 剪枝一：礼包不能买
             if (!canBuySpecial(list)) {
                 return;
             }
+            // 剪枝二：如果买了礼包后价格已经不是最低了
+            if (cost + price > this.result) {
+                return;
+            }
             buySpecial(list);
-            dfs(cost + c);
+            dfs(cost + price);
             backTrace(list);
         });
         buySingle(cost);

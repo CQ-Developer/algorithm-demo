@@ -63,7 +63,7 @@ class SolutionTest {
         needs.add(1);
         needs.add(2);
         needs.add(1);
-        Assertions.assertEquals(11, solution.shoppingOffers(price, new ArrayList<>(special), needs));
+        Assertions.assertEquals(11, solution.shoppingOffers(price, special, needs));
     }
 
     @Test
@@ -101,7 +101,7 @@ class SolutionTest {
         needs.add(6);
         needs.add(4);
         needs.add(1);
-        Assertions.assertEquals(11, solution.shoppingOffers(price, new ArrayList<>(special), needs));
+        Assertions.assertEquals(11, solution.shoppingOffers(price, special, needs));
     }
 
 }

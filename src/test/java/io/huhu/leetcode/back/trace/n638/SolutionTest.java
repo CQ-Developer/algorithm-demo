@@ -3,11 +3,12 @@ package io.huhu.leetcode.back.trace.n638;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-// @Timeout(value = 3, threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+@Timeout(value = 3, threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
 class SolutionTest {
 
     Solution solution;

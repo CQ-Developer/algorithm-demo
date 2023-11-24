@@ -91,6 +91,18 @@ class Solution {
     }
 
     /**
+     * 检查是否能买大礼包
+     */
+    private boolean canBuySpecial(List<Integer> sp) {
+        for (int i = 0; i < this.needs.size(); i++) {
+            if (this.needs.get(i) - sp.get(i) < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * 单买一件直到买全所有物品
      */
     private void buySingle(int cost) {
@@ -105,15 +117,6 @@ class Solution {
     }
 
     /**
-     * 回溯
-     */
-    private void backTrace(List<Integer> sp) {
-        for (int i = 0; i < this.needs.size(); i++) {
-            this.needs.set(i, this.needs.get(i) + sp.get(i));
-        }
-    }
-
-    /**
      * 买一件大礼包
      */
     private void buySpecial(List<Integer> sp) {
@@ -123,15 +126,12 @@ class Solution {
     }
 
     /**
-     * 检查是否能买大礼包
+     * 回溯
      */
-    private boolean canBuySpecial(List<Integer> sp) {
+    private void backTrace(List<Integer> sp) {
         for (int i = 0; i < this.needs.size(); i++) {
-            if (this.needs.get(i) - sp.get(i) < 0) {
-                return false;
-            }
+            this.needs.set(i, this.needs.get(i) + sp.get(i));
         }
-        return true;
     }
 
     /**

@@ -55,7 +55,6 @@ class Solution {
 
     /**
      * 将大礼包转换成 -> 物品数量:价格
-     * 同样的大礼包只选取价格最低的
      */
     private Map<List<Integer>, Integer> initSpecial(List<List<Integer>> special) {
         Map<List<Integer>, Integer> result = new HashMap<>();
@@ -63,10 +62,20 @@ class Solution {
             List<Integer> key = new ArrayList<>();
             int i = 0;
             while (i < sp.size() - 1) {
-                key.add(sp.get(i++));
+                int s = sp.get(i);
+                // 如果大礼包内的物品数量大于需要购买的物品数量, 将它提前排除
+                if (s > this.needs.get(i)) {
+                    key.clear();
+                    break;
+                }
+                key.add(s);
+                i++;
             }
-            int value = sp.get(i);
-            result.compute(key, (k, v) -> v == null ? value : v < value ? v : value);
+            if (!key.isEmpty()) {
+                int value = sp.get(i);
+                // 同样的大礼包只选取价格最低的
+                result.compute(key, (k, v) -> v == null ? value : v < value ? v : value);
+            }
         }
         return result;
     }

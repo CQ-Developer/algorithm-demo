@@ -80,4 +80,11 @@ class SolutionTest {
         Assertions.assertFalse(solution.canPartitionKSubsets(nums, k));
     }
 
+    @Test
+    void canPartitionKSubsets_10() {
+        int[] nums = {960, 3787, 1951, 5450, 4813, 752, 1397, 801, 1990, 1095, 3643, 8133, 893, 5306, 8341, 5246};
+        int k = 6;
+        Assertions.assertTrue(solution.canPartitionKSubsets(nums, k));
+    }
+
 }

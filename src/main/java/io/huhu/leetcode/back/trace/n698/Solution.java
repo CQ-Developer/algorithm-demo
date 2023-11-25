@@ -18,74 +18,54 @@ class Solution {
         for (int num : nums) {
             sum += num;
         }
+        // 判断数组是否可能分成k组
         if (sum % k != 0) {
             return false;
         }
+        // 每组的总合
         int target = sum / k;
+        // 倒叙排序数组
         Arrays.sort(nums);
         if (nums[nums.length - 1] > target) {
             return false;
         }
-        return dfs(nums, new boolean[nums.length], new int[k], 0, target);
+        int l = 0, r = nums.length - 1;
+        while (l < r) {
+            int num = nums[l];
+            nums[l++] = nums[r];
+            nums[r--] = num;
+        }
+        // 深度优先遍历
+        return dfs(nums, 0, new boolean[nums.length], new int[k], 0, target);
     }
 
-    private boolean dfs(int[] nums, boolean[] used, int[] groups, int k, int target) {
+    /**
+     * 深度优先遍历
+     */
+    private boolean dfs(int[] nums, int j, boolean[] used, int[] groups, int k, int target) {
+        // 所有子集都找到了
         if (k == groups.length) {
             return true;
         }
-        // 剩余的组合不可能再凑出target
-        if (k > 0 && groups[k] == 0) {
-            int sum = 0;
-            for (int j = 0; j < nums.length; j++) {
-                if (used[j]) {
-                    continue;
-                }
-                sum += nums[j];
-            }
-            if (sum % (groups.length - k) != 0) {
-                return false;
-            }
-        }
-        for (int i = nums.length - 1; i >= 0; i--) {
+        // groups[k] == 0 表示开始寻找一个新的子集, 那么从0开始找
+        // 否则表示一个正在寻找中的子集, 那么从j开始找, 因为j之前的数字在上一层已经验证过了
+        for (int i = groups[k] == 0 ? 0 : j; i < nums.length; i++) {
+            // 如果当前数字使用过了那么跳过
             if (used[i]) {
                 continue;
             }
-            // 之前的相同数字没有被使用, 那么当前使用它也不可能成功
-            if (i < nums.length - 1 && nums[i] == nums[i + 1] && !used[i + 1]) {
+            // 如果当前数字和上一个数字相同, 且上一个数字没有使用, 那么当前数字也不可能被使用
+            if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) {
                 continue;
             }
-            int num = groups[k] + nums[i];
-            if (num > target) {
+            // 如果当前结果大于target, 那么跳过
+            if (groups[k] + nums[i] > target) {
                 continue;
             }
-            if (num < target) {
-                // 本层的所有剩余数字相加都小于target
-                int remaining = 0;
-                for (int j = 0; j < nums.length; j++) {
-                    if (used[j] || j == i) {
-                        continue;
-                    }
-                    remaining += nums[j];
-                }
-                if (num + remaining < target) {
-                    break;
-                }
-                // 当前数字加上最小的数字大于target
-                int min = -1;
-                for (int j = 0; j < nums.length; j++) {
-                    if (used[j] || j == i) {
-                        continue;
-                    }
-                    min = nums[j];
-                    break;
-                }
-                if (min != -1 && num + min > target) {
-                    break;
-                }
-            }
+            // 回溯
             groups[k] += nums[i];
             used[i] = true;
-            if (dfs(nums, used, groups, groups[k] == target ? k + 1 : k, target)) {
+            if (dfs(nums, i + 1, used, groups, groups[k] == target ? k + 1 : k, target)) {
                 return true;
             }
             groups[k] -= nums[i];

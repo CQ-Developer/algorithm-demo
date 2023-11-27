@@ -29,38 +29,34 @@ class Solution {
             if (b.length() > 1 && b.startsWith("0") && b.endsWith("0")) {
                 continue;
             }
-            List<String> path1 = new ArrayList<>();
-            StringBuilder sb = new StringBuilder(a);
-            if (check(sb)) {
-                path1.add(sb.toString());
-            }
-            for (int j = 1; j < sb.length(); j++) {
-                sb.insert(j, '.');
-                if (check(sb)) {
-                    path1.add(sb.toString());
-                }
-                sb.deleteCharAt(j);
-            }
-            List<String> path2 = new ArrayList<>();
-            sb = new StringBuilder(b);
-            if (check(sb)) {
-                path2.add(sb.toString());
-            }
-            for (int j = 1; j < sb.length(); j++) {
-                sb.insert(j, '.');
-                if (check(sb)) {
-                    path2.add(sb.toString());
-                }
-                sb.deleteCharAt(j);
-            }
-            for (String p1 : path1) {
-                for (String p2 : path2) {
+            List<String> part1 = new ArrayList<>();
+            addChecked(new StringBuilder(a), part1);
+            List<String> part2 = new ArrayList<>();
+            addChecked(new StringBuilder(b), part2);
+            for (String p1 : part1) {
+                for (String p2 : part2) {
                     String t = "(" + p1 + ", " + p2 + ")";
                     result.add(t);
                 }
             }
         }
         return result;
+    }
+
+    /**
+     * 添加已检查过的坐标
+     */
+    private void addChecked(StringBuilder sb, List<String> path1) {
+        if (check(sb)) {
+            path1.add(sb.toString());
+        }
+        for (int j = 1; j < sb.length(); j++) {
+            sb.insert(j, '.');
+            if (check(sb)) {
+                path1.add(sb.toString());
+            }
+            sb.deleteCharAt(j);
+        }
     }
 
     /**

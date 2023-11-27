@@ -18,25 +18,33 @@ class SolutionTest {
     @Test
     void ambiguousCoordinates1() {
         List<String> expected = List.of("(1, 23)", "(12, 3)", "(1.2, 3)", "(1, 2.3)");
-        Assertions.assertIterableEquals(expected, this.solution.ambiguousCoordinates("(123)"));
+        List<String> actual = this.solution.ambiguousCoordinates("(123)");
+        Assertions.assertEquals(expected.size(), actual.size());
+        Assertions.assertTrue(expected.containsAll(actual));
     }
 
     @Test
     void ambiguousCoordinates2() {
         List<String> expected = List.of("(0.001, 1)", "(0, 0.011)");
-        Assertions.assertIterableEquals(expected, this.solution.ambiguousCoordinates("(00011)"));
+        List<String> actual = this.solution.ambiguousCoordinates("(00011)");
+        Assertions.assertEquals(expected.size(), actual.size());
+        Assertions.assertTrue(expected.containsAll(actual));
     }
 
     @Test
     void ambiguousCoordinates3() {
         List<String> expected = List.of("(0, 123)", "(0, 12.3)", "(0, 1.23)", "(0.1, 23)", "(0.1, 2.3)", "(0.12, 3)");
-        Assertions.assertIterableEquals(expected, this.solution.ambiguousCoordinates("(0123)"));
+        List<String> actual = this.solution.ambiguousCoordinates("(0123)");
+        Assertions.assertEquals(expected.size(), actual.size());
+        Assertions.assertTrue(expected.containsAll(actual));
     }
 
     @Test
     void ambiguousCoordinates4() {
         List<String> expected = List.of("(10, 0)");
-        Assertions.assertIterableEquals(expected, this.solution.ambiguousCoordinates("(100)"));
+        List<String> actual = this.solution.ambiguousCoordinates("(100)");
+        Assertions.assertEquals(expected.size(), actual.size());
+        Assertions.assertTrue(expected.containsAll(actual));
     }
 
 }

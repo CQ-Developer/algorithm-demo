@@ -19,7 +19,69 @@ class Solution {
      */
     public List<String> ambiguousCoordinates(String s) {
         List<String> result = new ArrayList<>();
+        s = s.substring(1, s.length() - 1);
+        for (int i = 1; i < s.length(); i++) {
+            String a = s.substring(0, i);
+            if (a.length() > 1 && a.startsWith("0") && a.endsWith("0")) {
+                continue;
+            }
+            String b = s.substring(i);
+            if (b.length() > 1 && b.startsWith("0") && b.endsWith("0")) {
+                continue;
+            }
+            List<String> path1 = new ArrayList<>();
+            StringBuilder sb = new StringBuilder(a);
+            if (check(sb)) {
+                path1.add(sb.toString());
+            }
+            for (int j = 1; j < sb.length(); j++) {
+                sb.insert(j, '.');
+                if (check(sb)) {
+                    path1.add(sb.toString());
+                }
+                sb.deleteCharAt(j);
+            }
+            List<String> path2 = new ArrayList<>();
+            sb = new StringBuilder(b);
+            if (check(sb)) {
+                path2.add(sb.toString());
+            }
+            for (int j = 1; j < sb.length(); j++) {
+                sb.insert(j, '.');
+                if (check(sb)) {
+                    path2.add(sb.toString());
+                }
+                sb.deleteCharAt(j);
+            }
+            for (String p1 : path1) {
+                for (String p2 : path2) {
+                    String t = "(" + p1 + ", " + p2 + ")";
+                    result.add(t);
+                }
+            }
+        }
         return result;
+    }
+
+    /**
+     * 检查字符串是否合法
+     */
+    private boolean check(StringBuilder sb) {
+        int n = sb.length();
+        if (n == 1) {
+            return true;
+        }
+        int i = sb.indexOf(".");
+        if (i != 1 && sb.charAt(0) == '0') {
+            return false;
+        }
+        if (i > 0) {
+            int j = n - 1 - i;
+            if (j > 0 && sb.charAt(n - 1) == '0') {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

@@ -13,69 +13,100 @@ import java.util.List;
  */
 class Solution {
 
+    private final char[] items = {',', '.'};
+
     /**
      * 4 <= s.length <= 12
      * s[0]="(", s[s.length-1]=")", 且字符串s中的其他元素都是数字.
      */
     public List<String> ambiguousCoordinates(String s) {
         List<String> result = new ArrayList<>();
-        s = s.substring(1, s.length() - 1);
-        for (int i = 1; i < s.length(); i++) {
-            String a = s.substring(0, i);
-            if (a.length() > 1 && a.startsWith("0") && a.endsWith("0")) {
-                continue;
-            }
-            String b = s.substring(i);
-            if (b.length() > 1 && b.startsWith("0") && b.endsWith("0")) {
-                continue;
-            }
-            List<String> part1 = new ArrayList<>();
-            addChecked(new StringBuilder(a), part1);
-            List<String> part2 = new ArrayList<>();
-            addChecked(new StringBuilder(b), part2);
-            for (String p1 : part1) {
-                for (String p2 : part2) {
-                    String t = "(" + p1 + ", " + p2 + ")";
-                    result.add(t);
-                }
-            }
-        }
+        dfs(new StringBuilder(s), 0, result);
         return result;
     }
 
     /**
-     * 添加已检查过的坐标
+     * 回溯算法
      */
-    private void addChecked(StringBuilder sb, List<String> path1) {
-        if (check(sb)) {
-            path1.add(sb.toString());
-        }
-        for (int j = 1; j < sb.length(); j++) {
-            sb.insert(j, '.');
-            if (check(sb)) {
-                path1.add(sb.toString());
+    private void dfs(StringBuilder sb, int j, List<String> result) {
+        if (j > 0) {
+            int i = sb.indexOf(",");
+            String part1 = sb.substring(1, i);
+            String part2 = sb.substring(i + 1, sb.length() - 1);
+            // 两边都是整数
+            if (j == 1) {
+                if (checkInt(part1) && checkInt(part2)) {
+                    setResult(sb, result, i);
+                }
             }
-            sb.deleteCharAt(j);
+            // 一边是整数, 另一边是浮点数
+            if (j == 2) {
+                // 前边是浮点数, 后边是整数
+                if (sb.indexOf(".") < i) {
+                    if (checkFloat(part1) && checkInt(part2)) {
+                        setResult(sb, result, i);
+                    }
+                    // 后边只有一位不可能变为浮点数
+                    if (part2.length() == 1) {
+                        return;
+                    }
+                }
+                // 前边是整数, 后边是浮点数
+                else {
+                    if (checkInt(part1) && checkFloat(part2)) {
+                        setResult(sb, result, i);
+                    }
+                    return;
+                }
+            }
+            // 两边都是浮点数
+            if (j == 3) {
+                if (checkFloat(part1) && checkFloat(part2)) {
+                    setResult(sb, result, i);
+                }
+                return;
+            }
+        }
+        for (int i = 2; i <= sb.length() - 2; i++) {
+            sb.insert(i, items[j < 2 ? j : 1]);
+            dfs(sb, j + 1, result);
+            sb.deleteCharAt(i);
         }
     }
 
     /**
-     * 检查字符串是否合法
+     * 添加结果
      */
-    private boolean check(StringBuilder sb) {
-        int n = sb.length();
-        if (n == 1) {
-            return true;
-        }
-        int i = sb.indexOf(".");
-        if (i != 1 && sb.charAt(0) == '0') {
+    private void setResult(StringBuilder sb, List<String> result, int i) {
+        sb.insert(i + 1, ' ');
+        result.add(sb.toString());
+        sb.deleteCharAt(i + 1);
+    }
+
+    /**
+     * 判断整数是否合法
+     */
+    private boolean checkInt(String i) {
+        return i.length() == 1 || !i.startsWith("0");
+    }
+
+    /**
+     * 判断浮点数是否合法
+     */
+    private boolean checkFloat(String f) {
+        int i = f.indexOf(".");
+        if (i < 0) {
             return false;
         }
-        if (i > 0) {
-            int j = n - 1 - i;
-            if (j > 0 && sb.charAt(n - 1) == '0') {
-                return false;
-            }
+        if (f.length() == 2) {
+            return false;
+        }
+        if (f.startsWith(".") || f.endsWith(".") || f.endsWith("0")) {
+            return false;
+        }
+        String s = f.substring(0, i);
+        if (s.length() > 1 && s.startsWith("0")) {
+            return false;
         }
         return true;
     }

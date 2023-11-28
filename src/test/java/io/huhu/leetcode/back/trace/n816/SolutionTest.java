@@ -47,4 +47,12 @@ class SolutionTest {
         Assertions.assertTrue(expected.containsAll(actual));
     }
 
+    @Test
+    void ambiguousCoordinates5() {
+        List<String> expected = List.of("(0, 1.001)", "(0, 10.01)", "(0, 100.1)", "(0, 1001)", "(0.1, 0.01)");
+        List<String> actual = this.solution.ambiguousCoordinates("(01001)");
+        Assertions.assertEquals(expected.size(), actual.size());
+        Assertions.assertTrue(expected.containsAll(actual));
+    }
+
 }

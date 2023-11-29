@@ -31,7 +31,6 @@ class Solution {
     private void dfs(String str, int j, List<Integer> path, List<Integer> result) {
         if (j == str.length() && path.size() >= 3) {
             result.addAll(new ArrayList<>(path));
-            System.out.println("✔");
             return;
         }
         for (int i = j; i < str.length() && result.isEmpty(); i++) {
@@ -50,23 +49,20 @@ class Solution {
                 break;
             }
             // 判断是否为斐波那契数列
-            if (path.size() >= 2 && notFib(path, num)) {
-                continue;
+            if (path.size() >= 2) {
+                int sum = path.get(path.size() - 2) + path.get(path.size() - 1);
+                if (num < sum) {
+                    continue;
+                }
+                if (num > sum) {
+                    break;
+                }
             }
             // 回溯
             path.add(num);
-            System.out.println("递归 " + path);
             dfs(str, i + 1, path, result);
             path.remove(path.size() - 1);
-            System.out.println("回溯 " + path);
         }
-    }
-
-    /**
-     * 判断是加入当前数字后能否形成斐波那契数列
-     */
-    private boolean notFib(List<Integer> path, int num) {
-        return path.get(path.size() - 2) + path.get(path.size() - 1) != num;
     }
 
     /**

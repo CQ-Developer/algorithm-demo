@@ -19,9 +19,7 @@ class Solution {
     public int[] numsSameConsecDiff(int n, int k) {
         List<Integer> result = new ArrayList<>();
         for (int i = 1; i < 10; i++) {
-            List<Integer> path = new ArrayList<>(n);
-            path.add(i);
-            dfs(n - 1, k, path, result);
+            dfs(n - 1, k, i, result);
         }
         int[] arr = new int[result.size()];
         for (int i = 0; i < arr.length; i++) {
@@ -33,28 +31,17 @@ class Solution {
     /**
      * 回溯算法
      */
-    private void dfs(int n, int k, List<Integer> path, List<Integer> result) {
+    private void dfs(int n, int k, int num, List<Integer> result) {
         if (n == 0) {
-            result.add(toInt(path));
+            result.add(num);
             return;
         }
         for (int i = 0; i <= 9; i++) {
-            if (Math.abs(path.get(path.size() - 1) - i) != k) {
+            if (Math.abs(num % 10 - i) != k) {
                 continue;
             }
-            path.add(i);
-            dfs(n - 1, k, path, result);
-            path.remove(path.size() - 1);
+            dfs(n - 1, k, num * 10 + i, result);
         }
-    }
-
-    private int toInt(List<Integer> path) {
-        int n = path.size(), f = 1, sum = 0;
-        for (int i = n - 1; i >= 0; i--) {
-            sum += f * path.get(i);
-            f *= 10;
-        }
-        return sum;
     }
 
 }

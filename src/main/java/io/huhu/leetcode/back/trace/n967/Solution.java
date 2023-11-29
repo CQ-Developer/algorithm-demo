@@ -36,7 +36,7 @@ class Solution {
             result.add(num);
             return;
         }
-        for (int i = 0; i <= 9; i++) {
+        for (int i = 0; i < 10; i++) {
             if (Math.abs(num % 10 - i) != k) {
                 continue;
             }

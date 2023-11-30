@@ -37,25 +37,22 @@ class Solution {
      * 核心点: 四个方向都进行探索
      */
     private int dfs(int[][] grid, int i, int j) {
-        int sum = grid[i][j];
-        int g = grid[i][j];
+        int g = grid[i][j], m = 0;
         grid[i][j] = 0;
-        int max = 0;
         if (i != 0 && grid[i - 1][j] != 0) {
-            max = Math.max(max, dfs(grid, i - 1, j));
+            m = Math.max(m, dfs(grid, i - 1, j));
         }
         if (i != grid.length - 1 && grid[i + 1][j] != 0) {
-            max = Math.max(max, dfs(grid, i + 1, j));
+            m = Math.max(m, dfs(grid, i + 1, j));
         }
         if (j != 0 && grid[i][j - 1] != 0) {
-            max = Math.max(max, dfs(grid, i, j - 1));
+            m = Math.max(m, dfs(grid, i, j - 1));
         }
         if (j != grid[i].length - 1 && grid[i][j + 1] != 0) {
-            max = Math.max(max, dfs(grid, i, j + 1));
+            m = Math.max(m, dfs(grid, i, j + 1));
         }
-        sum += max;
         grid[i][j] = g;
-        return sum;
+        return g + m;
     }
 
 }

@@ -33,45 +33,29 @@ class Solution {
     }
 
     /**
-     * 深度优先遍历
+     * 回溯算法
      * 核心点: 四个方向都进行探索
      */
     private int dfs(int[][] grid, int i, int j) {
         int sum = grid[i][j];
-        int[] dir = findNext(grid, i, j);
-        int cache = grid[i][j];
+        int g = grid[i][j];
         grid[i][j] = 0;
-        int max = dir[0] == 0 ? 0 : dfs(grid, i - 1, j);
-        max = Math.max(max, dir[1] == 0 ? 0 : dfs(grid, i + 1, j));
-        max = Math.max(max, dir[2] == 0 ? 0 : dfs(grid, i, j - 1));
-        max = Math.max(max, dir[3] == 0 ? 0 : dfs(grid, i, j + 1));
+        int max = 0;
+        if (i != 0 && grid[i - 1][j] != 0) {
+            max = Math.max(max, dfs(grid, i - 1, j));
+        }
+        if (i != grid.length - 1 && grid[i + 1][j] != 0) {
+            max = Math.max(max, dfs(grid, i + 1, j));
+        }
+        if (j != 0 && grid[i][j - 1] != 0) {
+            max = Math.max(max, dfs(grid, i, j - 1));
+        }
+        if (j != grid[i].length - 1 && grid[i][j + 1] != 0) {
+            max = Math.max(max, dfs(grid, i, j + 1));
+        }
         sum += max;
-        grid[i][j] = cache;
+        grid[i][j] = g;
         return sum;
-    }
-
-    /**
-     * 查找上下左右四个方向上的黄金数量
-     */
-    private int[] findNext(int[][] grid, int i, int j) {
-        int[] dir = new int[4];
-        // 可以向上走
-        if (i != 0) {
-            dir[0] = grid[i - 1][j];
-        }
-        // 可以向下走
-        if (i != grid.length - 1) {
-            dir[1] = grid[i + 1][j];
-        }
-        // 可以向左走
-        if (j != 0) {
-            dir[2] = grid[i][j - 1];
-        }
-        // 可以向右走
-        if (j != grid[i].length - 1) {
-            dir[3] = grid[i][j + 1];
-        }
-        return dir;
     }
 
 }

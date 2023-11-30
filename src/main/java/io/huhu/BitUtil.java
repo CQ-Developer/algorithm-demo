@@ -37,10 +37,18 @@ public final class BitUtil {
     public static int count1(int i) {
         int cnt = 0;
         while (i != 0) {
-            i = i & (i - 1);
+            i &= (i - 1);
             cnt++;
         }
         return cnt;
+    }
+
+
+    /**
+     * 判断一个数是否为2的n次方
+     */
+    public static boolean is2n(int i) {
+        return (i & (i - 1)) == 0;
     }
 
 }

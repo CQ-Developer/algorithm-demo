@@ -33,7 +33,6 @@ class SolutionTest {
 
     @Test
     void getMaximumGold3() {
-        // todo 用例错误
         int[][] grid = {{1, 0, 7, 0, 0, 0},
                         {2, 0, 6, 0, 1, 0},
                         {3, 5, 6, 7, 4, 2},

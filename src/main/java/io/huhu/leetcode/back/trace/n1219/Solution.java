@@ -1,5 +1,7 @@
 package io.huhu.leetcode.back.trace.n1219;
 
+import java.util.Arrays;
+
 /**
  * <a href="https://leetcode.cn/problems/path-with-maximum-gold/description/">1219.黄金矿工</a>
  * <p>你要开发一座金矿, 地址勘探学家已经探明了这座金矿中的资源分布, 并放进大小为m*n的网格grid进行了标注.
@@ -34,37 +36,21 @@ class Solution {
 
     /**
      * 深度优先遍历
-     * 核心点: 向黄金最多的单元格走
+     * 核心点: 四个方向都进行探索
      */
     private int dfs(int[][] grid, int i, int j) {
         int sum = grid[i][j];
         int[] dir = findNext(grid, i, j);
-        int d = findMax(dir);
         int cache = grid[i][j];
         grid[i][j] = 0;
-        sum += switch (d) {
-            case 0 -> dfs(grid, i - 1, j);
-            case 1 -> dfs(grid, i + 1, j);
-            case 2 -> dfs(grid, i, j - 1);
-            case 3 -> dfs(grid, i, j + 1);
-            default -> 0;
-        };
+        dir[0] = dir[0] == 0 ? 0 : dfs(grid, i - 1, j);
+        dir[1] = dir[1] == 0 ? 0 : dfs(grid, i + 1, j);
+        dir[2] = dir[2] == 0 ? 0 : dfs(grid, i, j - 1);
+        dir[3] = dir[3] == 0 ? 0 : dfs(grid, i, j + 1);
+        Arrays.sort(dir);
+        sum += dir[3];
         grid[i][j] = cache;
         return sum;
-    }
-
-    /**
-     * 查找上下左右四个方向上黄金最多的方向
-     */
-    private int findMax(int[] dir) {
-        int d = -1, m = 0;
-        for (int k = 0; k < dir.length; k++) {
-            if (dir[k] > m) {
-                d = k;
-                m = dir[k];
-            }
-        }
-        return d;
     }
 
     /**

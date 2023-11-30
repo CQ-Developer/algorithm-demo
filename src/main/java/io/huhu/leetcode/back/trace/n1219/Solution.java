@@ -1,7 +1,5 @@
 package io.huhu.leetcode.back.trace.n1219;
 
-import java.util.Arrays;
-
 /**
  * <a href="https://leetcode.cn/problems/path-with-maximum-gold/description/">1219.黄金矿工</a>
  * <p>你要开发一座金矿, 地址勘探学家已经探明了这座金矿中的资源分布, 并放进大小为m*n的网格grid进行了标注.
@@ -43,12 +41,11 @@ class Solution {
         int[] dir = findNext(grid, i, j);
         int cache = grid[i][j];
         grid[i][j] = 0;
-        dir[0] = dir[0] == 0 ? 0 : dfs(grid, i - 1, j);
-        dir[1] = dir[1] == 0 ? 0 : dfs(grid, i + 1, j);
-        dir[2] = dir[2] == 0 ? 0 : dfs(grid, i, j - 1);
-        dir[3] = dir[3] == 0 ? 0 : dfs(grid, i, j + 1);
-        Arrays.sort(dir);
-        sum += dir[3];
+        int max = dir[0] == 0 ? 0 : dfs(grid, i - 1, j);
+        max = Math.max(max, dir[1] == 0 ? 0 : dfs(grid, i + 1, j));
+        max = Math.max(max, dir[2] == 0 ? 0 : dfs(grid, i, j - 1));
+        max = Math.max(max, dir[3] == 0 ? 0 : dfs(grid, i, j + 1));
+        sum += max;
         grid[i][j] = cache;
         return sum;
     }

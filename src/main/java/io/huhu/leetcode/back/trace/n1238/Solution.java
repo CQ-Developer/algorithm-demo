@@ -64,7 +64,7 @@ class Solution {
     private boolean check(int i) {
         int cnt = 0;
         while (i != 0) {
-            i = i & (i - 1);
+            i &= (i - 1);
             if (++cnt > 1) {
                 return true;
             }

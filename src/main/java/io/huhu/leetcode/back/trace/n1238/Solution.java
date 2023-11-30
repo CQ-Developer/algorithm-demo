@@ -44,10 +44,10 @@ class Solution {
             if (used[i]) {
                 continue;
             }
-            if (1 != check(i ^ path.getLast())) {
+            if (check(i ^ path.getLast())) {
                 continue;
             }
-            if (path.size() == used.length - 1 && 1 != check(i ^ path.getFirst())) {
+            if (path.size() == used.length - 1 && check(i ^ path.getFirst())) {
                 continue;
             }
             used[i] = true;
@@ -59,15 +59,17 @@ class Solution {
     }
 
     /**
-     * 统二进制位不同的个数
+     * 统计二进制位1的个数
      */
-    private int check(int i) {
+    private boolean check(int i) {
         int cnt = 0;
         while (i != 0) {
             i = i & (i - 1);
-            cnt++;
+            if (++cnt > 1) {
+                return true;
+            }
         }
-        return cnt;
+        return false;
     }
 
 }

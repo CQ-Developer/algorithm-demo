@@ -3,9 +3,11 @@ package io.huhu.leetcode.back.trace.n1239;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 import java.util.List;
 
+@Timeout(value = 5, threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
 class SolutionTest {
 
     Solution solution;
@@ -37,6 +39,18 @@ class SolutionTest {
     void maxLength4() {
         List<String> arr = List.of("aa", "bb");
         Assertions.assertEquals(0, solution.maxLength(arr));
+    }
+
+    @Test
+    void maxLength5() {
+        List<String> arr = List.of("ab", "ba", "cb");
+        Assertions.assertEquals(2, solution.maxLength(arr));
+    }
+
+    @Test
+    void maxLength6() {
+        List<String> arr = List.of("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p");
+        Assertions.assertEquals(2, solution.maxLength(arr));
     }
 
 }

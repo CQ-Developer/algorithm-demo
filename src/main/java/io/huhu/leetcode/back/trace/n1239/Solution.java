@@ -16,7 +16,46 @@ class Solution {
      * arr[i]中只含有小写英文字母
      */
     public int maxLength(List<String> arr) {
-        return 0;
+        int max = 0;
+        for (int i = 0; i < arr.size(); i++) {
+            max = Math.max(max, dfs(arr, new boolean[arr.size()], new StringBuilder(), 0, i + 1));
+        }
+        return max;
+    }
+
+    private int dfs(List<String> arr, boolean[] used, StringBuilder path, int j, int n) {
+        if (j == n) {
+            return path.length();
+        }
+        int max = 0;
+        for (int i = 0; i < arr.size(); i++) {
+            String s = arr.get(i);
+            if (used[i] || check(s)) {
+                continue;
+            }
+            if (j > 0 && check(s + path.toString())) {
+                continue;
+            }
+            int f = path.length();
+            path.append(s);
+            used[i] = true;
+            max = Math.max(max, dfs(arr, used, path, j + 1, n));
+            path.delete(f, path.length());
+            used[i] = false;
+        }
+        return max;
+    }
+
+    private boolean check(String s) {
+        if (s.length() == 1) {
+            return false;
+        }
+        for (int i = 0; i < s.length(); i++) {
+            if (-1 != s.indexOf(s.codePointAt(i), i + 1)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

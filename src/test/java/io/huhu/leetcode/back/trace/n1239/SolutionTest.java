@@ -50,7 +50,7 @@ class SolutionTest {
     @Test
     void maxLength6() {
         List<String> arr = List.of("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p");
-        Assertions.assertEquals(2, solution.maxLength(arr));
+        Assertions.assertEquals(16, solution.maxLength(arr));
     }
 
 }

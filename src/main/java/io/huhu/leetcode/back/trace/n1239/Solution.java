@@ -1,5 +1,6 @@
 package io.huhu.leetcode.back.trace.n1239;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,45 +18,48 @@ class Solution {
      */
     public int maxLength(List<String> arr) {
         int max = 0;
+        boolean[] letters = new boolean[26];
         for (int i = 0; i < arr.size(); i++) {
-            max = Math.max(max, dfs(arr, new boolean[arr.size()], new StringBuilder(), 0, i + 1));
+            max = Math.max(max, dfs(arr, 0, letters, "", 0, i + 1));
         }
         return max;
     }
 
-    private int dfs(List<String> arr, boolean[] used, StringBuilder path, int j, int n) {
-        if (j == n) {
+    /**
+     * 回溯算法
+     */
+    private int dfs(List<String> arr, int j, boolean[] letters, String path, int d, int n) {
+        if (d == n) {
             return path.length();
         }
         int max = 0;
-        for (int i = 0; i < arr.size(); i++) {
+        for (int i = j; i < arr.size() + d - n + 1; i++) {
             String s = arr.get(i);
-            if (used[i] || check(s)) {
-                continue;
+            List<Integer> rcd = record(s, letters);
+            if (rcd.size() == s.length()) {
+                max = Math.max(max, dfs(arr, j + 1, letters, path + s, d + 1, n));
             }
-            if (j > 0 && check(s + path.toString())) {
-                continue;
+            for (int r : rcd) {
+                letters[r] = false;
             }
-            int f = path.length();
-            path.append(s);
-            used[i] = true;
-            max = Math.max(max, dfs(arr, used, path, j + 1, n));
-            path.delete(f, path.length());
-            used[i] = false;
         }
         return max;
     }
 
-    private boolean check(String s) {
-        if (s.length() == 1) {
-            return false;
-        }
+    /**
+     * 记录哪些字母被使用了
+     */
+    private List<Integer> record(String s, boolean[] letters) {
+        List<Integer> list = new ArrayList<>();
         for (int i = 0; i < s.length(); i++) {
-            if (-1 != s.indexOf(s.codePointAt(i), i + 1)) {
-                return true;
+            int j = s.charAt(i) - 'a';
+            if (letters[j]) {
+                continue;
             }
+            list.add(j);
+            letters[j] = true;
         }
-        return false;
+        return list;
     }
 
 }

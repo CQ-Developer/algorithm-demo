@@ -30,7 +30,7 @@ class Solution {
             System.arraycopy(path, 0, result, 0, path.length);
             return;
         }
-        for (int i = 0; i < path.length && n > 0; i++) {
+        for (int i = 0; i < path.length; i++) {
             if (path[i] != 0) {
                 continue;
             }
@@ -40,12 +40,11 @@ class Solution {
                 path[i] = 0;
                 break;
             }
-            int j = i + n < path.length ? i + n : -1;
-            if (j != -1 && path[j] == 0) {
+            if (i + n < path.length && path[i + n] == 0) {
                 path[i] = n;
-                path[j] = n;
+                path[i + n] = n;
                 dfs(n - 1, path, result);
-                path[j] = 0;
+                path[i + n] = 0;
                 path[i] = 0;
             }
         }

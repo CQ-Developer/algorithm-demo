@@ -1,8 +1,5 @@
 package io.huhu.leetcode.back.trace.n1415;
 
-import java.util.Deque;
-import java.util.LinkedList;
-
 /**
  * <p><a href="https://leetcode.cn/problems/the-k-th-lexicographical-string-of-all-happy-strings-of-length-n/description/">1415.长度为n的开心字符串中字典顺序第k小的字符串</a>
  * <p>一个开心字符串定义为:
@@ -16,29 +13,35 @@ import java.util.LinkedList;
  */
 class Solution {
 
-    private final char[] chars = {'a', 'b', 'c'};
+    private static final char[] CHARS = {'a', 'b', 'c'};
+
+    private int k;
 
     /**
      * 1 <= n <= 10
      * 1 <= k <= 100
      */
     public String getHappyString(int n, int k) {
-        Deque<String> result = new LinkedList<>();
-        dfs(n, k, new StringBuilder(), result);
-        return result.size() == k ? result.getLast() : "";
+        this.k = k;
+        StringBuilder sb = new StringBuilder();
+        dfs(n, sb);
+        return sb.toString();
     }
 
-    private void dfs(int n, int k, StringBuilder sb, Deque<String> result) {
+    private void dfs(int n, StringBuilder sb) {
         if (n == 0) {
-            result.add(sb.toString());
+            k--;
             return;
         }
-        for (int i = 0; i < 3 && result.size() < k; i++) {
-            if (!sb.isEmpty() && sb.charAt(sb.length() - 1) == chars[i]) {
+        for (int i = 0; i < 3 && k > 0; i++) {
+            if (!sb.isEmpty() && sb.charAt(sb.length() - 1) == CHARS[i]) {
                 continue;
             }
-            sb.append(chars[i]);
-            dfs(n - 1, k, sb, result);
+            sb.append(CHARS[i]);
+            dfs(n - 1, sb);
+            if (k == 0) {
+                break;
+            }
             sb.deleteCharAt(sb.length() - 1);
         }
     }

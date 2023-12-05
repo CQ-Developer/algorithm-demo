@@ -30,6 +30,10 @@ class Solution {
         return result;
     }
 
+    /**
+     * 深度优先遍历 + 回溯算法
+     * 核心: 优先在高位上放能放的最大数字, 而不是优先选最大数字放在能放的最高位上
+     */
     private boolean dfs(int p) {
         if (p >= result.length) {
             return true;

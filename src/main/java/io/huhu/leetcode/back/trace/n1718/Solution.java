@@ -16,17 +16,12 @@ package io.huhu.leetcode.back.trace.n1718;
  */
 class Solution {
 
-    private int[] result;
-
-    private boolean[] used;
-
     /**
      * 1 <= n <= 20
      */
     public int[] constructDistancedSequence(int n) {
-        this.result = new int[2 * n - 1];
-        this.used = new boolean[n + 1];
-        dfs(0);
+        int[] result = new int[2 * n - 1];
+        dfs(0, new boolean[n + 1], result.clone(), result);
         return result;
     }
 
@@ -34,45 +29,50 @@ class Solution {
      * 深度优先遍历 + 回溯算法
      * 核心: 优先在高位上放能放的最大数字, 而不是优先选最大数字放在能放的最高位上
      */
-    private boolean dfs(int p) {
-        if (p >= result.length) {
-            return true;
+    private void dfs(int i, boolean[] used, int[] path, int[] result) {
+        if (i == result.length) {
+            System.arraycopy(path, 0, result, 0, path.length);
+            return;
         }
-        if (result[p] != 0) {
-            return dfs(p + 1);
-        }
-        for (int i = used.length - 1; i >= 1; i--) {
-            if (used[i]) {
+        // result[0] == 0 表示还没有找到结果
+        for (int n = used.length - 1; n > 0 && result[0] == 0; n--) {
+            if (used[n]) {
                 continue;
             }
-            if (i == 1) {
+            if (n == 1) {
                 used[1] = true;
-                result[p] = 1;
-                if (dfs(p + 1)) {
-                    return true;
-                }
+                path[i] = 1;
+                dfs(findNextPosition(path), used, path, result);
                 used[1] = false;
-                result[p] = 0;
-                return false;
-            } else {
-                if (p + i >= result.length) {
-                    continue;
-                }
-                if (result[p + i] != 0) {
-                    continue;
-                }
-                result[p] = i;
-                result[p + i] = i;
-                used[i] = true;
-                if (dfs(p + 1)) {
-                    return true;
-                }
-                result[p] = 0;
-                result[p + i] = 0;
-                used[i] = false;
+                path[i] = 0;
+                break;
             }
+            int k = i + n;
+            if (k >= path.length || path[k] != 0) {
+                continue;
+            }
+            used[n] = true;
+            path[i] = n;
+            path[k] = n;
+            dfs(findNextPosition(path), used, path, result);
+            used[n] = false;
+            path[i] = 0;
+            path[k] = 0;
         }
-        return false;
+    }
+
+    /**
+     * 找到下一个可以放置数字的最高位置
+     */
+    private int findNextPosition(int[] path) {
+        int i = 0;
+        while (i < path.length) {
+            if (path[i] == 0) {
+                break;
+            }
+            i++;
+        }
+        return i;
     }
 
 }

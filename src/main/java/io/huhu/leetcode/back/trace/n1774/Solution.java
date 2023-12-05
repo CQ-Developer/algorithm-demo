@@ -30,6 +30,27 @@ class Solution {
      * </ul>
      */
     public int closestCost(int[] baseCosts, int[] toppingCosts, int target) {
+        int closestCost = Integer.MAX_VALUE;
+        for (int baseCost : baseCosts) {
+            // 不选配料的情况
+            if (baseCost == target) {
+                return target;
+            }
+            int x = Math.abs(closestCost - target);
+            int y = Math.abs(baseCost - target);
+            if (y < x) {
+                closestCost = baseCost;
+            } else if (x == y) {
+                closestCost = Math.min(closestCost, baseCost);
+            }
+        }
+        return closestCost;
+    }
+
+    private int backTrace(int[] toppingCosts, int j, int target) {
+        if (j == toppingCosts.length) {
+            return target;
+        }
         return 0;
     }
 

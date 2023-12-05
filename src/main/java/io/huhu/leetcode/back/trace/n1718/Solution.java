@@ -16,47 +16,56 @@ package io.huhu.leetcode.back.trace.n1718;
  */
 class Solution {
 
+    private int[] result;
+
+    private boolean[] used;
+
     /**
      * 1 <= n <= 20
      */
     public int[] constructDistancedSequence(int n) {
-        int[] result = new int[2 * n - 1];
-        dfs(n, result.clone(), result);
+        this.result = new int[2 * n - 1];
+        this.used = new boolean[n + 1];
+        dfs(0);
         return result;
     }
 
-    private void dfs(int n, int[] path, int[] result) {
-        if (n == 0 && isGreater(path, result)) {
-            System.arraycopy(path, 0, result, 0, path.length);
-            return;
+    private boolean dfs(int p) {
+        if (p >= result.length) {
+            return true;
         }
-        for (int i = 0; i < path.length; i++) {
-            if (path[i] != 0) {
+        if (result[p] != 0) {
+            return dfs(p + 1);
+        }
+        for (int i = used.length - 1; i >= 1; i--) {
+            if (used[i]) {
                 continue;
             }
-            if (n == 1) {
-                path[i] = n;
-                dfs(0, path, result);
-                path[i] = 0;
-                break;
-            }
-            if (i + n < path.length && path[i + n] == 0) {
-                path[i] = n;
-                path[i + n] = n;
-                dfs(n - 1, path, result);
-                path[i + n] = 0;
-                path[i] = 0;
-            }
-        }
-    }
-
-    private boolean isGreater(int[] path, int[] result) {
-        for (int i = 0; i < result.length; i++) {
-            if (path[i] > result[i]) {
-                return true;
-            }
-            if (path[i] < result[i]) {
-                break;
+            if (i == 1) {
+                used[1] = true;
+                result[p] = 1;
+                if (dfs(p + 1)) {
+                    return true;
+                }
+                used[1] = false;
+                result[p] = 0;
+                return false;
+            } else {
+                if (p + i >= result.length) {
+                    continue;
+                }
+                if (result[p + i] != 0) {
+                    continue;
+                }
+                result[p] = i;
+                result[p + i] = i;
+                used[i] = true;
+                if (dfs(p + 1)) {
+                    return true;
+                }
+                result[p] = 0;
+                result[p + i] = 0;
+                used[i] = false;
             }
         }
         return false;

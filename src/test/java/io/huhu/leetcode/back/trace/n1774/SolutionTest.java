@@ -45,4 +45,12 @@ class SolutionTest {
         Assertions.assertEquals(10, solution.closestCost(baseCosts, toppingCosts, target));
     }
 
+    @Test
+    void case_5() {
+        int[] baseCosts = {3, 10};
+        int[] toppingCosts = {2, 5};
+        int target = 10;
+        Assertions.assertEquals(10, solution.closestCost(baseCosts, toppingCosts, target));
+    }
+
 }

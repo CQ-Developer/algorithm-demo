@@ -30,28 +30,34 @@ class Solution {
      * </ul>
      */
     public int closestCost(int[] baseCosts, int[] toppingCosts, int target) {
-        int closestCost = Integer.MAX_VALUE;
+        int closest = Integer.MAX_VALUE;
         for (int baseCost : baseCosts) {
-            // 不选配料的情况
             if (baseCost == target) {
                 return target;
             }
-            int x = Math.abs(closestCost - target);
-            int y = Math.abs(baseCost - target);
-            if (y < x) {
-                closestCost = baseCost;
-            } else if (x == y) {
-                closestCost = Math.min(closestCost, baseCost);
+            if (baseCost > target) {
+                closest = Math.abs(closest - target) < Math.abs(baseCost - target) ? closest : baseCost;
+                continue;
             }
+            int cost = baseCost + dfs(toppingCosts, 0, target - baseCost, 0);
+            if (cost == target) {
+                return target;
+            }
+            closest = Math.abs(closest - target) < Math.abs(baseCost - target) ? closest : baseCost;
         }
-        return closestCost;
+        return closest;
     }
 
-    private int backTrace(int[] toppingCosts, int j, int target) {
-        if (j == toppingCosts.length) {
-            return target;
+    private int dfs(int[] toppingCosts, int j, int target, int cost) {
+        if (target <= cost) {
+            return cost;
         }
-        return 0;
+        int result = Integer.MAX_VALUE;
+        for (int i = j; i < toppingCosts.length * 2; i++) {
+            int n = dfs(toppingCosts, i + 1, target, cost + toppingCosts[i % toppingCosts.length]);
+            result = Math.abs(target - result) < Math.abs(target - n) ? target : n;
+        }
+        return result;
     }
 
 }

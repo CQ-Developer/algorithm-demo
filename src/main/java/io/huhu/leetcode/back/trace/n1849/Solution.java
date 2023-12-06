@@ -1,5 +1,8 @@
 package io.huhu.leetcode.back.trace.n1849;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /**
  * <a href="https://leetcode.cn/problems/splitting-a-string-into-descending-consecutive-values/description/">将字符串拆分为递减的连续值</a>
  * <p>给你一个仅由数字组成的字符串s.
@@ -20,8 +23,46 @@ class Solution {
      * s仅由数字组成
      */
     public boolean splitString(String s) {
-        // todo
+        return dfs(s, 0, new ArrayDeque<>());
+    }
+
+    /**
+     * 深度优先遍历 + 回溯
+     */
+    private boolean dfs(String s, int j, Deque<Long> path) {
+        if (j == s.length() && path.size() > 1) {
+            return true;
+        }
+        for (int i = j; i < s.length(); i++) {
+            long c = from(s.substring(j, i + 1));
+            if (!path.isEmpty()) {
+                long p = path.getLast();
+                if (p <= c) {
+                    return false;
+                }
+                if (p - 1 != c) {
+                    continue;
+                }
+            }
+            path.addLast(c);
+            if (dfs(s, i + 1, path)) {
+                return true;
+            }
+            path.removeLast();
+        }
         return false;
+    }
+
+    /**
+     * 将字符串转换为数字
+     */
+    private long from(String s) {
+        long f = 1, r = 0;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            r += f * (s.charAt(i) - '0');
+            f *= 10;
+        }
+        return r;
     }
 
 }

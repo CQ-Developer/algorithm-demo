@@ -20,6 +20,8 @@ package io.huhu.leetcode.back.trace.n1774;
  */
 class Solution {
 
+    private int result = Integer.MAX_VALUE;
+
     /**
      * <ul>
      * <li>n == baseCosts.length
@@ -30,34 +32,34 @@ class Solution {
      * </ul>
      */
     public int closestCost(int[] baseCosts, int[] toppingCosts, int target) {
-        int closest = Integer.MAX_VALUE;
         for (int baseCost : baseCosts) {
-            if (baseCost == target) {
-                return target;
-            }
-            if (baseCost > target) {
-                closest = Math.abs(closest - target) < Math.abs(baseCost - target) ? closest : baseCost;
-                continue;
-            }
-            int cost = baseCost + dfs(toppingCosts, 0, target - baseCost, 0);
-            if (cost == target) {
-                return target;
-            }
-            closest = Math.abs(closest - target) < Math.abs(baseCost - target) ? closest : baseCost;
-        }
-        return closest;
-    }
-
-    private int dfs(int[] toppingCosts, int j, int target, int cost) {
-        if (target <= cost) {
-            return cost;
-        }
-        int result = Integer.MAX_VALUE;
-        for (int i = j; i < toppingCosts.length * 2; i++) {
-            int n = dfs(toppingCosts, i + 1, target, cost + toppingCosts[i % toppingCosts.length]);
-            result = Math.abs(target - result) < Math.abs(target - n) ? target : n;
+            dfs(toppingCosts, 0, target, baseCost);
         }
         return result;
+    }
+
+    /**
+     * 深度优先遍历 + 回溯算法
+     */
+    private void dfs(int[] toppingCosts, int j, int target, int cost) {
+        int a = Math.abs(target - result);
+        int b = Math.abs(target - cost);
+        // 更接近target
+        if (b < a) {
+            result = cost;
+        }
+        // 相同取最小
+        if (b == a && cost < result) {
+            result = cost;
+        }
+        // 如果已经大于target再加配料则会离target越来越远
+        if (cost > target) {
+            return;
+        }
+        for (int i = j; i < toppingCosts.length; i++) {
+            dfs(toppingCosts, i + 1, target, cost + toppingCosts[i]);
+            dfs(toppingCosts, i + 1, target, cost + toppingCosts[i] * 2);
+        }
     }
 
 }

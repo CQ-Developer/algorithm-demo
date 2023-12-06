@@ -20,7 +20,6 @@ class SolutionTest {
 
     @Test
     void case_2() {
-        // 05 004 3
         Assertions.assertTrue(solution.splitString("050043"));
     }
 
@@ -31,7 +30,6 @@ class SolutionTest {
 
     @Test
     void case_4() {
-        // 100 099 98
         Assertions.assertTrue(solution.splitString("10009998"));
     }
 

@@ -20,17 +20,18 @@ class Solution {
      * s仅由数字组成
      */
     public boolean splitString(String s) {
-        return dfs(s, 0, -1, 0);
+        return dfs(s, 0, -1);
     }
 
     /**
      * 深度优先遍历 + 回溯
      */
-    private boolean dfs(String s, int j, long pre, int cnt) {
-        if (j == s.length() && cnt > 1) {
+    private boolean dfs(String s, int j, long pre) {
+        if (j == s.length()) {
             return true;
         }
-        for (int i = j; i < s.length(); i++) {
+        int len = j == 0 ? s.length() - 1 : s.length();
+        for (int i = j; i < len; i++) {
             long cur = from(s.substring(j, i + 1));
             if (pre != -1) {
                 if (pre <= cur) {
@@ -40,7 +41,7 @@ class Solution {
                     continue;
                 }
             }
-            if (dfs(s, i + 1, cur, cnt + 1)) {
+            if (dfs(s, i + 1, cur)) {
                 return true;
             }
         }

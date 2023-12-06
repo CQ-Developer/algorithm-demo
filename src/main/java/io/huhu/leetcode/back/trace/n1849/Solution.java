@@ -20,19 +20,20 @@ class Solution {
      * s仅由数字组成
      */
     public boolean splitString(String s) {
-        return dfs(s, 0, -1);
+        return dfs(s.toCharArray(), 0, -1);
     }
 
     /**
      * 深度优先遍历 + 回溯
      */
-    private boolean dfs(String s, int j, long pre) {
-        if (j == s.length()) {
+    private boolean dfs(char[] s, int j, long pre) {
+        if (j == s.length) {
             return true;
         }
-        int len = j == 0 ? s.length() - 1 : s.length();
+        long cur = 0;
+        int len = j == 0 ? s.length - 1 : s.length;
         for (int i = j; i < len; i++) {
-            long cur = from(s.substring(j, i + 1));
+            cur = cur * 10 + (s[i] - '0');
             if (pre != -1) {
                 if (pre <= cur) {
                     return false;
@@ -46,17 +47,6 @@ class Solution {
             }
         }
         return false;
-    }
-
-    /**
-     * 将字符串转换为数字
-     */
-    private long from(String s) {
-        long r = 0;
-        for (int i = 0; i < s.length(); i++) {
-            r = r * 10 + (s.charAt(i) - '0');
-        }
-        return r;
     }
 
 }

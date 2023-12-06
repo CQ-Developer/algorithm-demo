@@ -51,10 +51,9 @@ class Solution {
      * 将字符串转换为数字
      */
     private long from(String s) {
-        long f = 1, r = 0;
-        for (int i = s.length() - 1; i >= 0; i--) {
-            r += f * (s.charAt(i) - '0');
-            f *= 10;
+        long r = 0;
+        for (int i = 0; i < s.length(); i++) {
+            r = r * 10 + (s.charAt(i) - '0');
         }
         return r;
     }

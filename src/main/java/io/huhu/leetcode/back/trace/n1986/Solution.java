@@ -40,18 +40,14 @@ class Solution {
             return;
         }
         if (i == tasks.length) {
-            int cnt = count(path);
-            if (cnt < result) {
-                result = cnt;
-            }
+            result = count(path);
             return;
         }
         for (int j = 0; j < path.length; j++) {
-            if (path[j] + tasks[i] > sessionTime) {
-                continue;
-            }
             path[j] += tasks[i];
-            dfs(tasks, i + 1, sessionTime, path);
+            if (path[j] <= sessionTime) {
+                dfs(tasks, i + 1, sessionTime, path);
+            }
             path[j] -= tasks[i];
         }
     }

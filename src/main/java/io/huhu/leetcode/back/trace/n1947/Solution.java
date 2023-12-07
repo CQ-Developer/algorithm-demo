@@ -29,6 +29,9 @@ class Solution {
         return dfs(students, new boolean[students.length], mentors, new boolean[mentors.length], 0, 0);
     }
 
+    /**
+     * 深度优先遍历 + 回溯
+     */
     private int dfs(int[][] students, boolean[] s, int[][] mentors, boolean[] m, int total, int n) {
         if (n == students.length) {
             return total;
@@ -38,23 +41,36 @@ class Solution {
             if (s[i]) {
                 continue;
             }
-            for (int j = 0; j < mentors.length; j++) {
-                if (m[j]) {
+            int j = -1;
+            int score = 0;
+            for (int k = 0; k < mentors.length; k++) {
+                if (m[k]) {
                     continue;
                 }
-                m[j] = true;
-                s[i] = true;
-                int score = dfs(students, s, mentors, m, total + calculateMatch(students[i], mentors[j]), n + 1);
-                if (score > max) {
-                    max = score;
+                int most = calculateMatch(students[i], mentors[k]);
+                if (most > score) {
+                    score = most;
+                    j = k;
                 }
-                m[j] = false;
-                s[i] = false;
             }
+            if (j == -1) {
+                break;
+            }
+            s[i] = true;
+            m[j] = true;
+            int most = dfs(students, s, mentors, m, total + score, n + 1);
+            if (most > max) {
+                max = most;
+            }
+            s[i] = false;
+            m[j] = false;
         }
         return max;
     }
 
+    /**
+     * 计算学生和导致的匹配分数
+     */
     private int calculateMatch(int[] student, int[] mentor) {
         int score = 0;
         for (int i = 0; i < student.length; i++) {

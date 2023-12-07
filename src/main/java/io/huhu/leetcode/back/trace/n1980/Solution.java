@@ -1,7 +1,8 @@
 package io.huhu.leetcode.back.trace.n1980;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * <a href="https://leetcode.cn/problems/find-unique-binary-string/description/">找出不同的二进制字符串</a>
@@ -20,26 +21,29 @@ class Solution {
      * </ul>
      */
     public String findDifferentBinaryString(String[] nums) {
-        StringBuilder sb = new StringBuilder("0".repeat(nums.length));
-        dfs(Arrays.asList(nums), sb, 0);
+        int n = nums.length;
+        StringBuilder sb = new StringBuilder("0".repeat(n));
+        Set<String> set = new HashSet<>(n);
+        Collections.addAll(set, nums);
+        dfs(set, sb, 0);
         return sb.toString();
     }
 
     /**
      * 深度优先遍历 + 回溯算法
      */
-    private boolean dfs(List<String> nums, StringBuilder sb, int j) {
-        if (!nums.contains(sb.toString())) {
+    private boolean dfs(Set<String> nums, StringBuilder sb, int j) {
+        if (nums.add(sb.toString())) {
             return true;
         }
         for (int i = j; i < sb.length(); i++) {
             sb.setCharAt(i, '1');
             if (dfs(nums, sb, i + 1)) {
-                return false;
+                return true;
             }
             sb.setCharAt(i, '0');
         }
-        return true;
+        return false;
     }
 
 }

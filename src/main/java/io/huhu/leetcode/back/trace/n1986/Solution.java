@@ -15,6 +15,8 @@ package io.huhu.leetcode.back.trace.n1986;
  */
 class Solution {
 
+    private int result;
+
     /**
      * <p>提示:
      * <ul>
@@ -25,7 +27,44 @@ class Solution {
      * </ul>
      */
     public int minSessions(int[] tasks, int sessionTime) {
-        return 0;
+        result = tasks.length;
+        dfs(tasks, 0, sessionTime, new int[tasks.length]);
+        return result;
+    }
+
+    /**
+     * 回溯
+     */
+    private void dfs(int[] tasks, int i, int sessionTime, int[] path) {
+        if (count(path) >= result) {
+            return;
+        }
+        if (i == tasks.length) {
+            int cnt = count(path);
+            if (cnt < result) {
+                result = cnt;
+            }
+            return;
+        }
+        for (int j = 0; j < path.length; j++) {
+            if (path[j] + tasks[i] > sessionTime) {
+                continue;
+            }
+            path[j] += tasks[i];
+            dfs(tasks, i + 1, sessionTime, path);
+            path[j] -= tasks[i];
+        }
+    }
+
+    private int count(int[] path) {
+        int count = 0;
+        for (int i : path) {
+            if (i == 0) {
+                continue;
+            }
+            count++;
+        }
+        return count;
     }
 
 }

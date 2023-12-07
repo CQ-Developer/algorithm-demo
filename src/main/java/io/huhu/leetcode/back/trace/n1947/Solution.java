@@ -41,6 +41,7 @@ class Solution {
             if (s[i]) {
                 continue;
             }
+            // 找到最匹配的导师
             int j = -1;
             int score = 0;
             for (int k = 0; k < mentors.length; k++) {
@@ -56,6 +57,7 @@ class Solution {
             if (j == -1) {
                 break;
             }
+            // 回溯
             s[i] = true;
             m[j] = true;
             int most = dfs(students, s, mentors, m, total + score, n + 1);

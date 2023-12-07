@@ -62,4 +62,17 @@ class SolutionTest {
         Assertions.assertEquals(49, solution.maxCompatibilitySum(students, mentors));
     }
 
+    @Test
+    void case_4() {
+        int[][] students = {
+                {0, 1, 0, 1, 1, 1},
+                {1, 0, 0, 1, 0, 1},
+                {1, 0, 1, 1, 0, 0}};
+        int[][] mentors = {
+                {1, 0, 0, 0, 0, 1},
+                {0, 1, 0, 0, 1, 1},
+                {0, 1, 0, 0, 1, 1}};
+        Assertions.assertEquals(10, solution.maxCompatibilitySum(students, mentors));
+    }
+
 }

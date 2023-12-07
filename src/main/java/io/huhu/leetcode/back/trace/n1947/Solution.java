@@ -26,7 +26,43 @@ class Solution {
      * </ul>
      */
     public int maxCompatibilitySum(int[][] students, int[][] mentors) {
-        return 0;
+        return dfs(students, new boolean[students.length], mentors, new boolean[mentors.length], 0, 0);
+    }
+
+    private int dfs(int[][] students, boolean[] s, int[][] mentors, boolean[] m, int total, int n) {
+        if (n == students.length) {
+            return total;
+        }
+        int max = 0;
+        for (int i = 0; i < students.length; i++) {
+            if (s[i]) {
+                continue;
+            }
+            for (int j = 0; j < mentors.length; j++) {
+                if (m[j]) {
+                    continue;
+                }
+                m[j] = true;
+                s[i] = true;
+                int score = dfs(students, s, mentors, m, total + calculateMatch(students[i], mentors[j]), n + 1);
+                if (score > max) {
+                    max = score;
+                }
+                m[j] = false;
+                s[i] = false;
+            }
+        }
+        return max;
+    }
+
+    private int calculateMatch(int[] student, int[] mentor) {
+        int score = 0;
+        for (int i = 0; i < student.length; i++) {
+            if (student[i] == mentor[i]) {
+                score++;
+            }
+        }
+        return score;
     }
 
 }

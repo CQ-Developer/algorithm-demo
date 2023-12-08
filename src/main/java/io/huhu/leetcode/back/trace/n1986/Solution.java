@@ -34,11 +34,10 @@ class Solution {
         int[] seg = new int[tasks.length];
         int j = 0, i = tasks.length - 1;
         for (; i >= 0; i--) {
-            if (tasks[i] == sessionTime) {
-                seg[j++] = sessionTime;
-            } else {
+            if (tasks[i] < sessionTime) {
                 break;
             }
+            seg[j++] = sessionTime;
         }
         if (i >= 0) {
             dfs(tasks, i, sessionTime, seg, j, 0);

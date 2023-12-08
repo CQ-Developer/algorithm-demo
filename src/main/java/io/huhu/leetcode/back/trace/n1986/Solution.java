@@ -36,7 +36,7 @@ class Solution {
      * 回溯
      */
     private void dfs(int[] tasks, int i, int sessionTime, int[] path, int p) {
-        if (p >= result) {
+        if (p + 1 >= result) {
             return;
         }
         if (i == tasks.length) {

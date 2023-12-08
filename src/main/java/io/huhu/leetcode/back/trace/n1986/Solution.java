@@ -1,5 +1,7 @@
 package io.huhu.leetcode.back.trace.n1986;
 
+import java.util.Arrays;
+
 /**
  * <a href="https://leetcode.cn/problems/minimum-number-of-work-sessions-to-finish-the-tasks/description/">完成任务的最少工作时间段</a>
  * <p>你被安排了n个任务. 任务需要花费的时间用长度为n的整数数组tasks表示, 第i个任务需要花费tasks[i]小时完成.
@@ -27,26 +29,27 @@ class Solution {
      * </ul>
      */
     public int minSessions(int[] tasks, int sessionTime) {
+        Arrays.sort(tasks);
         result = tasks.length;
-        dfs(tasks, 0, sessionTime, new int[tasks.length], 0);
+        dfs(tasks, tasks.length - 1, sessionTime, new int[tasks.length], 0);
         return result;
     }
 
     /**
-     * 回溯
+     * 回溯算法
      */
     private void dfs(int[] tasks, int i, int sessionTime, int[] seg, int p) {
         if (p + 1 >= result) {
             return;
         }
-        if (i == tasks.length) {
+        if (i == -1) {
             result = p + 1;
             return;
         }
         for (int j = 0; j < seg.length; j++) {
             seg[j] += tasks[i];
             if (seg[j] <= sessionTime) {
-                dfs(tasks, i + 1, sessionTime, seg, Math.max(p, j));
+                dfs(tasks, i - 1, sessionTime, seg, p > j ? p : j);
             }
             seg[j] -= tasks[i];
         }

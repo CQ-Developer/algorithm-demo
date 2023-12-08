@@ -76,4 +76,11 @@ class SolutionTest {
         Assertions.assertEquals(11, solution.minSessions(tasks, sessionTime));
     }
 
+    @Test
+    void case_10() {
+        int[] tasks = {6, 4, 6, 6, 3, 5, 3, 6, 6, 6, 6, 6, 3, 4};
+        int sessionTime = 6;
+        Assertions.assertEquals(13, solution.minSessions(tasks, sessionTime));
+    }
+
 }

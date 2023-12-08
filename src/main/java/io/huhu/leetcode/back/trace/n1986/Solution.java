@@ -35,7 +35,7 @@ class Solution {
     /**
      * 回溯
      */
-    private void dfs(int[] tasks, int i, int sessionTime, int[] path, int p) {
+    private void dfs(int[] tasks, int i, int sessionTime, int[] seg, int p) {
         if (p + 1 >= result) {
             return;
         }
@@ -43,12 +43,12 @@ class Solution {
             result = p + 1;
             return;
         }
-        for (int j = 0; j < path.length; j++) {
-            path[j] += tasks[i];
-            if (path[j] <= sessionTime) {
-                dfs(tasks, i + 1, sessionTime, path, Math.max(p, j));
+        for (int j = 0; j < seg.length; j++) {
+            seg[j] += tasks[i];
+            if (seg[j] <= sessionTime) {
+                dfs(tasks, i + 1, sessionTime, seg, Math.max(p, j));
             }
-            path[j] -= tasks[i];
+            seg[j] -= tasks[i];
         }
     }
 

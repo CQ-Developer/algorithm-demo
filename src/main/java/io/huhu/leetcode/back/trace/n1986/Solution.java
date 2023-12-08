@@ -1,6 +1,8 @@
 package io.huhu.leetcode.back.trace.n1986;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * <a href="https://leetcode.cn/problems/minimum-number-of-work-sessions-to-finish-the-tasks/description/">完成任务的最少工作时间段</a>
@@ -29,39 +31,36 @@ class Solution {
      * </ul>
      */
     public int minSessions(int[] tasks, int sessionTime) {
-        Arrays.sort(tasks);
         result = tasks.length;
-        int[] seg = new int[tasks.length];
-        int j = 0, i = tasks.length - 1;
-        for (; i >= 0; i--) {
-            if (tasks[i] < sessionTime) {
-                break;
-            }
-            seg[j++] = sessionTime;
-        }
-        if (i >= 0) {
-            dfs(tasks, i, sessionTime, seg, j, 0);
-        }
+        Arrays.sort(tasks);
+        dfs(tasks, tasks.length - 1, new int[tasks.length], sessionTime, 0);
         return result;
     }
 
     /**
      * 回溯算法
      */
-    private void dfs(int[] tasks, int i, int sessionTime, int[] seg, int s, int p) {
-        if (p + 1 >= result) {
+    private void dfs(int[] tasks, int j, int[] bucket, int sessionTime, int count) {
+        if (count >= result) {
             return;
         }
-        if (i < 0) {
-            result = p + 1;
+        if (j < 0) {
+            result = count;
             return;
         }
-        for (int j = s; j < seg.length; j++) {
-            seg[j] += tasks[i];
-            if (seg[j] <= sessionTime) {
-                dfs(tasks, i - 1, sessionTime, seg, s, p > j ? p : j);
+        // 保证task放置在不同的桶达到去重的效果
+        Set<Integer> used = new HashSet<>();
+        for (int i = 0; i < bucket.length; i++) {
+            if (tasks[j] + bucket[i] > sessionTime) {
+                continue;
             }
-            seg[j] -= tasks[i];
+            if (!used.add(bucket[i])) {
+                continue;
+            }
+            boolean useNewOne = bucket[i] == 0;
+            bucket[i] += tasks[j];
+            dfs(tasks, j - 1, bucket, sessionTime, useNewOne ? count + 1 : count);
+            bucket[i] -= tasks[j];
         }
     }
 

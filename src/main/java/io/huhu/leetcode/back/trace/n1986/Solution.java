@@ -28,39 +28,28 @@ class Solution {
      */
     public int minSessions(int[] tasks, int sessionTime) {
         result = tasks.length;
-        dfs(tasks, 0, sessionTime, new int[tasks.length]);
+        dfs(tasks, 0, sessionTime, new int[tasks.length], 0);
         return result;
     }
 
     /**
      * 回溯
      */
-    private void dfs(int[] tasks, int i, int sessionTime, int[] path) {
-        if (count(path) >= result) {
+    private void dfs(int[] tasks, int i, int sessionTime, int[] path, int p) {
+        if (p >= result) {
             return;
         }
         if (i == tasks.length) {
-            result = count(path);
+            result = p + 1;
             return;
         }
         for (int j = 0; j < path.length; j++) {
             path[j] += tasks[i];
             if (path[j] <= sessionTime) {
-                dfs(tasks, i + 1, sessionTime, path);
+                dfs(tasks, i + 1, sessionTime, path, Math.max(p, j));
             }
             path[j] -= tasks[i];
         }
-    }
-
-    private int count(int[] path) {
-        int count = 0;
-        for (int i : path) {
-            if (i == 0) {
-                continue;
-            }
-            count++;
-        }
-        return count;
     }
 
 }

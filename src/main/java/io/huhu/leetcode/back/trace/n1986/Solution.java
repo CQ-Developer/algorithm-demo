@@ -31,25 +31,36 @@ class Solution {
     public int minSessions(int[] tasks, int sessionTime) {
         Arrays.sort(tasks);
         result = tasks.length;
-        dfs(tasks, tasks.length - 1, sessionTime, new int[tasks.length], 0);
+        int[] seg = new int[tasks.length];
+        int j = 0, i = tasks.length - 1;
+        for (; i >= 0; i--) {
+            if (tasks[i] == sessionTime) {
+                seg[j++] = sessionTime;
+            } else {
+                break;
+            }
+        }
+        if (i >= 0) {
+            dfs(tasks, i, sessionTime, seg, j, 0);
+        }
         return result;
     }
 
     /**
      * 回溯算法
      */
-    private void dfs(int[] tasks, int i, int sessionTime, int[] seg, int p) {
+    private void dfs(int[] tasks, int i, int sessionTime, int[] seg, int s, int p) {
         if (p + 1 >= result) {
             return;
         }
-        if (i == -1) {
+        if (i < 0) {
             result = p + 1;
             return;
         }
-        for (int j = 0; j < seg.length; j++) {
+        for (int j = s; j < seg.length; j++) {
             seg[j] += tasks[i];
             if (seg[j] <= sessionTime) {
-                dfs(tasks, i - 1, sessionTime, seg, p > j ? p : j);
+                dfs(tasks, i - 1, sessionTime, seg, s, p > j ? p : j);
             }
             seg[j] -= tasks[i];
         }

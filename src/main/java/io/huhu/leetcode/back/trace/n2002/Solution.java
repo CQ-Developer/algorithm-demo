@@ -24,6 +24,10 @@ class Solution {
         return result;
     }
 
+    /**
+     * 深度优先遍历 + 回溯
+     * 核心思想，两个子串都可以选或不选当前字符
+     */
     private void dfs(char[] s, String s1, String s2, int i) {
         if (check(s1) && check(s2)) {
             result = Math.max(result, s1.length() * s2.length());

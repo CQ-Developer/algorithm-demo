@@ -28,14 +28,16 @@ class Solution {
     }
 
     /**
-     * 深度优先遍历 + 回溯
-     * 核心思考: 当前数字存在2中情况, 即选或不选
+     * <p>深度优先遍历 + 回溯
+     * <p>核心思考: 既然已经命中max, 那么只需要加上后续的所有可能即可.
+     * <p>注意: 命中max的情况下, 后续或任何数都等于max.
      */
     private void dfs(int[] nums, int i, int max, int path) {
+        if (path == max) {
+            result += 1 << (nums.length - i);
+            return;
+        }
         if (i == nums.length) {
-            if (path == max) {
-                result++;
-            }
             return;
         }
         dfs(nums, i + 1, max, path | nums[i]);

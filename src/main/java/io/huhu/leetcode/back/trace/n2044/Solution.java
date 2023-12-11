@@ -1,9 +1,5 @@
 package io.huhu.leetcode.back.trace.n2044;
 
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.TreeMap;
-
 /**
  * <a href="https://leetcode.cn/problems/count-number-of-maximum-bitwise-or-subsets/description/">统计按位或能得到最大值的子集数目</a>
  * <p>给你一个整数数组nums, 请你找出nums子集按位或可能得到的最大值, 并返回按位或能得到最大值的不同非空子集的数目.
@@ -13,6 +9,8 @@ import java.util.TreeMap;
  */
 class Solution {
 
+    private int result;
+
     /**
      * 提示:
      * <ul>
@@ -21,21 +19,27 @@ class Solution {
      * </ul>
      */
     public int countMaxOrSubsets(int[] nums) {
-        NavigableMap<Integer, Integer> map = new TreeMap<>();
-        for (int i = 1; i <= nums.length; i++) {
-            dfs(nums, 0, i, 0, 0, map);
+        int max = 0;
+        for (int num : nums) {
+            max |= num;
         }
-        return map.lastEntry().getValue();
+        dfs(nums, 0, max, 0);
+        return result;
     }
 
-    private void dfs(int[] nums, int i, int len, int cnt, int path, Map<Integer, Integer> result) {
-        if (cnt == len) {
-            result.compute(path, (k, v) -> v == null ? 1 : v + 1);
+    /**
+     * 深度优先遍历 + 回溯
+     * 核心思考: 当前数字存在2中情况, 即选或不选
+     */
+    private void dfs(int[] nums, int i, int max, int path) {
+        if (i == nums.length) {
+            if (path == max) {
+                result++;
+            }
             return;
         }
-        for (int j = i; j < nums.length && j <= nums.length - len + cnt + 1; j++) {
-            dfs(nums, j + 1, len, cnt + 1, path | nums[j], result);
-        }
+        dfs(nums, i + 1, max, path | nums[i]);
+        dfs(nums, i + 1, max, path);
     }
 
 }

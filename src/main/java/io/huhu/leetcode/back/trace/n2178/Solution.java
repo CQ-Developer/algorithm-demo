@@ -1,5 +1,8 @@
 package io.huhu.leetcode.back.trace.n2178;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 /**
@@ -17,7 +20,24 @@ class Solution {
      * 1 <= finalSum <= 10<sup>10</sup>
      */
     public List<Long> maximumEvenSplit(long finalSum) {
-        return null;
+        List<Long> res = new ArrayList<>();
+        if (finalSum % 2 > 0) {
+            return res;
+        }
+        dfs(2, finalSum, 0, new ArrayDeque<>(), res);
+        return res;
+    }
+
+    private void dfs(long j, long finalSum, long sum, Deque<Long> path, List<Long> res) {
+        if (sum == finalSum) {
+            res.addAll(new ArrayList<>(path));
+            return;
+        }
+        for (long i = j; i + sum <= finalSum && res.isEmpty(); i += 2) {
+            path.addLast(i);
+            dfs(i + 2, finalSum, sum + i, path, res);
+            path.removeLast();
+        }
     }
 
 }

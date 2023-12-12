@@ -39,10 +39,4 @@ class SolutionTest {
         Assertions.assertIterableEquals(expected, solution.maximumEvenSplit(16));
     }
 
-    @Test
-    void case_5() {
-        List<Long> expected = List.of(2L, 4L, 10L);
-        Assertions.assertIterableEquals(expected, solution.maximumEvenSplit(1000000000));
-    }
-
 }

@@ -1,5 +1,7 @@
 package io.huhu.leetcode.back.trace.n2305;
 
+import java.util.Arrays;
+
 /**
  * <a href="https://leetcode.cn/problems/fair-distribution-of-cookies/description/">公平分发饼干</a>
  * <p>给你一个整数数组cookies, 其中cookies[i]表示在第i个零食包中的饼干数量.
@@ -10,6 +12,8 @@ package io.huhu.leetcode.back.trace.n2305;
  */
 class Solution {
 
+    private int res = Integer.MAX_VALUE;
+
     /**
      * 提示:
      * <ul>
@@ -19,7 +23,60 @@ class Solution {
      * </ul>
      */
     public int distributeCookies(int[] cookies, int k) {
-        return 0;
+        sort(cookies);
+        dfs(cookies, 0, new boolean[cookies.length], new int[k], k);
+        return res;
+    }
+
+    private void dfs(int[] cookies, int cnt, boolean[] used, int[] path, int k) {
+        if (cnt == cookies.length) {
+            int max = findMax(path, k);
+            res = Integer.min(max, res);
+            return;
+        }
+        for (int i = 0; i < cookies.length; i++) {
+            if (used[i]) {
+                continue;
+            }
+            int p = findMin(path, k);
+            used[i] = true;
+            path[p] += cookies[i];
+            if (path[p] < res) {
+                dfs(cookies, cnt + 1, used, path, k);
+            }
+            used[i] = false;
+            path[p] -= cookies[i];
+        }
+    }
+
+    private int findMin(int[] path, int k) {
+        int i = 0;
+        for (int j = 1; j < k; j++) {
+            if (path[i] > path[j]) {
+                i = j;
+            }
+        }
+        return i;
+    }
+
+    private int findMax(int[] path, int k) {
+        int max = 0;
+        for (int i = 0; i < k; i++) {
+            if (path[i] > max) {
+                max = path[i];
+            }
+        }
+        return max;
+    }
+
+    private void sort(int[] cookies) {
+        Arrays.sort(cookies);
+        int l = 0, r = cookies.length - 1;
+        while (l < r) {
+            int t = cookies[l];
+            cookies[l++] = cookies[r];
+            cookies[r--] = t;
+        }
     }
 
 }

@@ -37,7 +37,41 @@ class Solution {
      * </ul>
      */
     public int[] maximumBobPoints(int numArrows, int[] aliceArrows) {
-        return null;
+        int[] bobArrows = new int[12];
+        dfs(numArrows, aliceArrows, 11, new int[12], 0, bobArrows);
+        return bobArrows;
+    }
+
+    /**
+     * 深度优先遍历 + 回溯算法
+     */
+    private void dfs(int numArrows, int[] aliceArrows, int i, int[] path, int score, int[] bobArrows) {
+        if (numArrows == 0 && score > countTotal(bobArrows)) {
+            System.arraycopy(path, 0, bobArrows, 0, 12);
+            return;
+        }
+        for (int j = i; j >= 0; j--) {
+            boolean isLast = j == 0;
+            if (!isLast && numArrows - (aliceArrows[j] + 1) < 0) {
+                continue;
+            }
+            path[j] = isLast ? numArrows : aliceArrows[j] + 1;
+            dfs(numArrows - path[j], aliceArrows, j - 1, path, score + j, bobArrows);
+            path[j] = 0;
+        }
+    }
+
+    /**
+     * 统计Bob的射箭总分
+     */
+    private int countTotal(int[] bobArrows) {
+        int total = 0;
+        for (int i = 0; i < bobArrows.length; i++) {
+            if (bobArrows[i] > 0) {
+                total += i;
+            }
+        }
+        return total;
     }
 
 }

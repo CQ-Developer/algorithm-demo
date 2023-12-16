@@ -62,6 +62,20 @@ class Solution {
 
     /**
      * 深度优先遍历 + 回溯算法
+     * <pre>{@code
+     * private void dfs(int n, int j, int numSelect, Deque<Integer> path, List<Set<Integer>> res) {
+     *     if (j == n) {
+     *         if (path.size() == numSelect) {
+     *             res.add(new HashSet<>(path));
+     *         }
+     *         return;
+     *     }
+     *     dfs(n, j + 1, numSelect, path, res);
+     *     path.addLast(j);
+     *     dfs(n, j + 1, numSelect, path, res);
+     *     path.removeLast();
+     * }
+     * }</pre>
      */
     private void dfs(int n, int j, int numSelect, Deque<Integer> path, List<Set<Integer>> res) {
         if (path.size() == numSelect) {

@@ -1,11 +1,7 @@
 package io.huhu.leetcode.back.trace.n2397;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * <a href="https://leetcode.cn/problems/maximum-rows-covered-by-columns/description/">被列覆盖的最多行数</a>
@@ -37,21 +33,21 @@ class Solution {
     public int maximumRows(int[][] matrix, int numSelect) {
         // 找出所有可能的列的组合
         int n = matrix[0].length;
-        List<Set<Integer>> columns = new ArrayList<>();
-        dfs(n, 0, numSelect, new ArrayDeque<>(), columns);
+        List<boolean[]> columns = new ArrayList<>();
+        dfs(n, 0, numSelect, 0, new boolean[n], columns);
         // 计算每种组合的覆盖情况
         int m = matrix.length, res = 0;
-        for (Set<Integer> column : columns) {
+        for (boolean[] column : columns) {
             int row = 0;
             for (int i = 0; i < m; i++) {
-                boolean hit = true;
+                boolean covered = true;
                 for (int j = 0; j < n; j++) {
-                    if (matrix[i][j] == 1 && !column.contains(j)) {
-                        hit = false;
+                    if (matrix[i][j] == 1 && !column[j]) {
+                        covered = false;
                         break;
                     }
                 }
-                if (hit) {
+                if (covered) {
                     row++;
                 }
                 res = Math.max(res, row);
@@ -63,30 +59,31 @@ class Solution {
     /**
      * 深度优先遍历 + 回溯算法
      * <pre>{@code
-     * private void dfs(int n, int j, int numSelect, Deque<Integer> path, List<Set<Integer>> res) {
+     * private void dfs(int n, int j, int numSelect, int cnt,
+     *         boolean[] path, List<boolean[]> res) {
      *     if (j == n) {
-     *         if (path.size() == numSelect) {
-     *             res.add(new HashSet<>(path));
+     *         if (cnt == numSelect) {
+     *             res.add(path.clone());
      *         }
      *         return;
      *     }
-     *     dfs(n, j + 1, numSelect, path, res);
-     *     path.addLast(j);
-     *     dfs(n, j + 1, numSelect, path, res);
-     *     path.removeLast();
+     *     dfs(n, j + 1, numSelect, cnt, path, res);
+     *     path[j] = true;
+     *     dfs(n, j + 1, numSelect, cnt + 1, path, res);
+     *     path[j] = false;
      * }
      * }</pre>
      */
-    private void dfs(int n, int j, int numSelect, Deque<Integer> path, List<Set<Integer>> res) {
-        if (path.size() == numSelect) {
-            res.add(new HashSet<>(path));
+    private void dfs(int n, int j, int numSelect, int cnt, boolean[] path, List<boolean[]> res) {
+        if (cnt == numSelect) {
+            res.add(path.clone());
             return;
         }
         // 剪枝: 剩余数字不够组合出numSelect
-        for (int i = j; i < n && i <= n + path.size() - numSelect; i++) {
-            path.addLast(i);
-            dfs(n, i + 1, numSelect, path, res);
-            path.removeLast();
+        for (int i = j; i < n && i <= n + cnt - numSelect; i++) {
+            path[i] = true;
+            dfs(n, i + 1, numSelect, cnt + 1, path, res);
+            path[i] = false;
         }
     }
 

@@ -34,4 +34,11 @@ class SolutionTest {
         Assertions.assertEquals(63, solution.beautifulSubsets(nums, k));
     }
 
+    @Test
+    void case_4() {
+        int[] nums = {1, 1, 2, 3};
+        int k = 1;
+        Assertions.assertEquals(8, solution.beautifulSubsets(nums, k));
+    }
+
 }

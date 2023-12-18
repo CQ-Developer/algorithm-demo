@@ -1,7 +1,9 @@
 package io.huhu.leetcode.back.trace.n2597;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * <a href="https://leetcode.cn/problems/the-number-of-beautiful-subsets/description/">美丽子集的数目</a>
@@ -23,9 +25,10 @@ class Solution {
      * </ul>
      */
     public int beautifulSubsets(int[] nums, int k) {
+        Arrays.sort(nums);
         res = nums.length;
         for (int i = 2; i <= nums.length; i++) {
-            dfs(nums, 0, i, new ArrayDeque<>(), k);
+            dfs(nums, 0, i, new ArrayList<>(), k);
         }
         return res;
     }
@@ -33,28 +36,26 @@ class Solution {
     /**
      * 深度优先遍历 + 回溯算法
      */
-    private void dfs(int[] nums, int j, int len, Deque<Integer> path, int k) {
+    private void dfs(int[] nums, int s, int len, List<Integer> path, int k) {
         if (path.size() == len) {
             res++;
             return;
         }
-        for (int i = j; i < nums.length && i <= nums.length + path.size() - len; i++) {
-            if (check(path, nums[i], k)) {
-                continue;
+        for (int i = s; i < nums.length && i <= nums.length + path.size() - len; i++) {
+            if (!path.isEmpty()) {
+                int j = Collections.binarySearch(path, nums[i] - k);
+                if (j >= 0 && j < nums.length) {
+                    continue;
+                }
+                j = Collections.binarySearch(path, nums[i] + k);
+                if (j >= 0 && j < nums.length) {
+                    continue;
+                }
             }
-            path.addLast(nums[i]);
+            path.add(nums[i]);
             dfs(nums, i + 1, len, path, k);
-            path.removeLast();
+            path.remove(path.size() - 1);
         }
-    }
-
-    private boolean check(Deque<Integer> path, int num, int k) {
-        for (int i : path) {
-            if (Math.abs(i - num) == k) {
-                return true;
-            }
-        }
-        return false;
     }
 
 }

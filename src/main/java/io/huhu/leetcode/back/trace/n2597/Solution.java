@@ -1,10 +1,5 @@
 package io.huhu.leetcode.back.trace.n2597;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 /**
  * <a href="https://leetcode.cn/problems/the-number-of-beautiful-subsets/description/">美丽子集的数目</a>
  * <p>给你一个由正整数组成的数组nums和一个正整数k
@@ -15,7 +10,7 @@ import java.util.List;
  */
 class Solution {
 
-    private int res;
+    private int res = -1;
 
     /**
      * 提示:
@@ -25,36 +20,27 @@ class Solution {
      * </ul>
      */
     public int beautifulSubsets(int[] nums, int k) {
-        Arrays.sort(nums);
-        res = nums.length;
-        for (int i = 2; i <= nums.length; i++) {
-            dfs(nums, 0, i, new ArrayList<>(), k);
-        }
+        dfs(nums, 0, new int[2 * k + 1001], k);
         return res;
     }
 
     /**
      * 深度优先遍历 + 回溯算法
      */
-    private void dfs(int[] nums, int s, int len, List<Integer> path, int k) {
-        if (path.size() == len) {
+    private void dfs(int[] nums, int s, int[] path, int k) {
+        if (s <= nums.length) {
             res++;
-            return;
-        }
-        for (int i = s; i < nums.length && i <= nums.length + path.size() - len; i++) {
-            if (!path.isEmpty()) {
-                int j = Collections.binarySearch(path, nums[i] - k);
-                if (j >= 0 && j < nums.length) {
-                    continue;
-                }
-                j = Collections.binarySearch(path, nums[i] + k);
-                if (j >= 0 && j < nums.length) {
-                    continue;
-                }
+            if (s == nums.length) {
+                return;
             }
-            path.add(nums[i]);
-            dfs(nums, i + 1, len, path, k);
-            path.remove(path.size() - 1);
+        }
+        for (int i = s; i < nums.length; i++) {
+            int x = nums[i] + k;
+            if (path[x - k] == 0 && path[x + k] == 0) {
+                path[x]++;
+                dfs(nums, i + 1, path, k);
+                path[x]--;
+            }
         }
     }
 

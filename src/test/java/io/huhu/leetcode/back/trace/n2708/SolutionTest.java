@@ -25,4 +25,10 @@ class SolutionTest {
         Assertions.assertEquals(20, solution.maxStrength(nums));
     }
 
+    @Test
+    void case_3() {
+        int[] nums = {0, -4, -7};
+        Assertions.assertEquals(28, solution.maxStrength(nums));
+    }
+
 }

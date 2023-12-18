@@ -24,20 +24,22 @@ class Solution {
      */
     public int beautifulSubsets(int[] nums, int k) {
         res = nums.length;
-        for (int i = 2; i < nums.length; i++) {
+        for (int i = 2; i <= nums.length; i++) {
             dfs(nums, 0, i, new ArrayDeque<>(), k);
         }
         return res;
     }
 
+    /**
+     * 深度优先遍历 + 回溯算法
+     */
     private void dfs(int[] nums, int j, int len, Deque<Integer> path, int k) {
         if (path.size() == len) {
-            System.out.println(path);
             res++;
             return;
         }
-        for (int i = j; i < nums.length; i++) {
-            if (!path.isEmpty() && check(path, nums[i], k)) {
+        for (int i = j; i < nums.length && i <= nums.length + path.size() - len; i++) {
+            if (check(path, nums[i], k)) {
                 continue;
             }
             path.addLast(nums[i]);

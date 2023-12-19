@@ -28,4 +28,9 @@ class SolutionTest {
         Assertions.assertEquals(-1, solution.minimumBeautifulSubstrings("0"));
     }
 
+    @Test
+    void case_4() {
+        Assertions.assertEquals(4, solution.minimumBeautifulSubstrings("100111000110111"));
+    }
+
 }

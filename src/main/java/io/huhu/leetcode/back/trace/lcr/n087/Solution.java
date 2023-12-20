@@ -1,8 +1,6 @@
 package io.huhu.leetcode.back.trace.lcr.n087;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
 /**
@@ -18,30 +16,29 @@ class Solution {
 
     public List<String> restoreIpAddresses(String s) {
         List<String> res = new ArrayList<>();
-        backTracing(s.toCharArray(), 0, new ArrayDeque<>(), res);
+        backTracing(s.toCharArray(), 0, new int[4], 0, res);
         return res;
     }
 
-    private void backTracing(char[] s, int j, Deque<Integer> path, List<String> res) {
-        if (path.size() == 4 && j == s.length) {
-            StringBuilder sb = new StringBuilder();
-            int i = 0;
-            for (int part : path) {
-                sb.append(part);
-                if (i++ != path.size() - 1) {
-                    sb.append('.');
+    private void backTracing(char[] s, int j, int[] path, int k, List<String> res) {
+        if (k == 4) {
+            if (j == s.length) {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < k; i++) {
+                    sb.append(path[i]);
+                    if (i != k - 1) {
+                        sb.append('.');
+                    }
                 }
+                res.add(sb.toString());
             }
-            res.add(sb.toString());
             return;
         }
-        if (path.size() > 4 || j == s.length) {
+        if (k > 4 || j == s.length) {
             return;
         }
         if (s[j] == '0') {
-            path.addLast(0);
-            backTracing(s, j + 1, path, res);
-            path.removeLast();
+            backTracing(s, j + 1, path, k + 1, res);
             return;
         }
         int part = 0;
@@ -50,9 +47,9 @@ class Solution {
             if (part > 255) {
                 break;
             }
-            path.addLast(part);
-            backTracing(s, i + 1, path, res);
-            path.removeLast();
+            path[k] = part;
+            backTracing(s, i + 1, path, k + 1, res);
+            path[k] = 0;
         }
     }
 

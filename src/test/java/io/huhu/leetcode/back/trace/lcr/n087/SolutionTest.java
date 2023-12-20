@@ -46,7 +46,7 @@ class SolutionTest {
     @Test
     void case_5() {
         List<String> actual = solution.restoreIpAddresses("10203040");
-        List<String> expected = List.of("10.20.30.40", "102.0.30.40", "10.203.0.40");
+        List<String> expected = List.of("10.20.30.40", "10.203.0.40", "102.0.30.40");
         Assertions.assertIterableEquals(expected, actual);
     }
 

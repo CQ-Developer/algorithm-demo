@@ -19,31 +19,36 @@ class Solution {
     public List<String> restoreIpAddresses(String s) {
         List<String> res = new ArrayList<>();
         backTracing(s.toCharArray(), 0, new ArrayDeque<>(), res);
-        res.forEach(System.out::println);
         return res;
     }
 
     private void backTracing(char[] s, int j, Deque<String> path, List<String> res) {
-        if (path.size() == 4) {
-            if (j == s.length) {
-                res.add(String.join(".", path));
+        if (path.size() == 4 && j == s.length) {
+            StringBuilder sb = new StringBuilder();
+            int i = 0;
+            for (String part : path) {
+                sb.append(part);
+                if (i++ != path.size() - 1) {
+                    sb.append('.');
+                }
             }
+            res.add(sb.toString());
+            return;
+        }
+        if (path.size() > 4 || j == s.length) {
+            return;
+        }
+        if (s[j] == '0') {
+            path.addLast("0");
+            backTracing(s, j + 1, path, res);
+            path.removeLast();
             return;
         }
         int part = 0;
         for (int i = j; i < s.length; i++) {
-            if (i == j && s[i] == '0') {
-                path.addLast("0");
-                backTracing(s, i + 1, path, res);
-                path.removeLast();
-                break;
-            }
             part = 10 * part + s[i] - '0';
             if (part > 255) {
                 break;
-            }
-            if (path.size() == 3 && i != s.length - 1) {
-                continue;
             }
             path.addLast(String.valueOf(part));
             backTracing(s, i + 1, path, res);

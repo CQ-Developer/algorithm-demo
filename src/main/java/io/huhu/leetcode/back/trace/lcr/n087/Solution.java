@@ -22,11 +22,11 @@ class Solution {
         return res;
     }
 
-    private void backTracing(char[] s, int j, Deque<String> path, List<String> res) {
+    private void backTracing(char[] s, int j, Deque<Integer> path, List<String> res) {
         if (path.size() == 4 && j == s.length) {
             StringBuilder sb = new StringBuilder();
             int i = 0;
-            for (String part : path) {
+            for (int part : path) {
                 sb.append(part);
                 if (i++ != path.size() - 1) {
                     sb.append('.');
@@ -39,7 +39,7 @@ class Solution {
             return;
         }
         if (s[j] == '0') {
-            path.addLast("0");
+            path.addLast(0);
             backTracing(s, j + 1, path, res);
             path.removeLast();
             return;
@@ -50,7 +50,7 @@ class Solution {
             if (part > 255) {
                 break;
             }
-            path.addLast(String.valueOf(part));
+            path.addLast(part);
             backTracing(s, i + 1, path, res);
             path.removeLast();
         }

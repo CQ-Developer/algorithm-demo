@@ -19,7 +19,10 @@ class SolutionTest {
     void case_1() {
         int[] nums = {1, 2, 3};
         List<List<Integer>> actual = solution.permute(nums);
-        List<List<Integer>> expected = List.of(List.of(1, 2, 3), List.of(1, 3, 2), List.of(2, 1, 3), List.of(2, 3, 1), List.of(3, 1, 2), List.of(3, 2, 1));
+        List<List<Integer>> expected = List.of(
+                List.of(1, 2, 3), List.of(1, 3, 2),
+                List.of(2, 1, 3), List.of(2, 3, 1),
+                List.of(3, 1, 2), List.of(3, 2, 1));
         Assertions.assertIterableEquals(expected, actual);
     }
 

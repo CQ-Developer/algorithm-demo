@@ -21,23 +21,22 @@ class Solution {
 
     public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
         List<List<Integer>> res = new ArrayList<>();
-        backTracing(graph, 0, new ArrayDeque<>(), res);
-        res.forEach(System.out::println);
+        Deque<Integer> path = new ArrayDeque<>();
+        path.addLast(0);
+        backTracing(graph, 0, path, res);
         return res;
     }
 
     private void backTracing(int[][] graph, int j, Deque<Integer> path, List<List<Integer>> res) {
         if (j == graph.length - 1) {
-            List<Integer> tmp = new ArrayList<>(path);
-            tmp.add(j);
-            res.add(tmp);
+            res.add(new ArrayList<>(path));
             return;
         }
-        path.addLast(j);
         for (int i = 0; i < graph[j].length; i++) {
+            path.addLast(graph[j][i]);
             backTracing(graph, graph[j][i], path, res);
+            path.removeLast();
         }
-        path.removeLast();
     }
 
 }

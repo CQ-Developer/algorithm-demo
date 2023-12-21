@@ -18,28 +18,20 @@ class Solution {
 
     public List<List<Integer>> pathWithObstacles(int[][] obstacleGrid) {
         List<List<Integer>> res = new ArrayList<>();
-        int r = obstacleGrid.length;
-        if (r == 0) {
-            return res;
-        }
-        int c = obstacleGrid[0].length;
-        if (obstacleGrid[r - 1][c - 1] == 1) {
-            return res;
-        }
-        backTracing(obstacleGrid, r, c, 0, 0, new boolean[r][c], res);
+        backTracing(obstacleGrid, obstacleGrid.length, 0, obstacleGrid[0].length, 0, res);
         return res;
     }
 
-    private boolean backTracing(int[][] obstacleGrid, int r, int c, int i, int j, boolean[][] used, List<List<Integer>> res) {
-        if (i >= r || j >= c || obstacleGrid[i][j] == 1 || used[i][j]) {
+    private boolean backTracing(int[][] obstacleGrid, int r, int i, int c, int j, List<List<Integer>> res) {
+        if (i >= r || j >= c || obstacleGrid[i][j] == 1) {
             return false;
         }
+        obstacleGrid[i][j] = 1;
         res.add(List.of(i, j));
-        used[i][j] = true;
         if (i == r - 1 && j == c - 1) {
             return true;
         }
-        if (backTracing(obstacleGrid, r, c, i, j + 1, used, res) || backTracing(obstacleGrid, r, c, i + 1, j, used, res)) {
+        if (backTracing(obstacleGrid, r, i, c, j + 1, res) || backTracing(obstacleGrid, r, i + 1, c, j, res)) {
             return true;
         }
         res.remove(res.size() - 1);

@@ -14,16 +14,16 @@ import java.util.List;
 class Solution {
 
     public String[] goodsOrder(String goods) {
-        List<String> res = new ArrayList<>();
         char[] chars = goods.toCharArray();
         Arrays.sort(chars);
-        backTracing(chars, new boolean[goods.length()], new StringBuilder(), res);
+        List<String> res = new ArrayList<>();
+        backTracing(chars, new boolean[chars.length], new char[chars.length], 0, res);
         return res.toArray(new String[0]);
     }
 
-    private void backTracing(char[] goods, boolean[] used, StringBuilder sb, List<String> res) {
-        if (sb.length() == goods.length) {
-            res.add(sb.toString());
+    private void backTracing(char[] goods, boolean[] used, char[] path, int j, List<String> res) {
+        if (j == path.length) {
+            res.add(String.valueOf(path));
             return;
         }
         for (int i = 0; i < goods.length; i++) {
@@ -34,10 +34,9 @@ class Solution {
                 continue;
             }
             used[i] = true;
-            sb.append(goods[i]);
-            backTracing(goods, used, sb, res);
+            path[j] = goods[i];
+            backTracing(goods, used, path, j + 1, res);
             used[i] = false;
-            sb.deleteCharAt(sb.length() - 1);
         }
     }
 

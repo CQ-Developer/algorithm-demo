@@ -1,8 +1,5 @@
 package io.huhu.leetcode.back.trace.interview.questions.n08.n07;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * <a href="https://leetcode.cn/problems/permutation-i-lcci/description/">无重复字符串的排列组合</a>
  * <p>无重复字符串的排列组合. 编写一种方法, 计算某字符串的所有排列组合, 字符串每个字符均不相同.
@@ -12,27 +9,42 @@ import java.util.List;
  */
 class Solution {
 
+    private int k;
+    private String[] res;
+
     public String[] permutation(String S) {
-        List<String> res = new ArrayList<>();
-        int n = S.length();
-        backTracing(S, new boolean[n], n, new char[n], 0, res);
-        return res.toArray(new String[0]);
+        setup(S.length());
+        backTracing(S.toCharArray(), 0);
+        return res;
     }
 
-    private void backTracing(String S, boolean[] used, int n, char[] path, int j, List<String> res) {
-        if (j == n) {
-            res.add(String.valueOf(path));
+    private void backTracing(char[] s, int i) {
+        if (i == s.length) {
+            res[k++] = String.valueOf(s);
             return;
         }
-        for (int i = 0; i < n; i++) {
-            if (used[i]) {
-                continue;
-            }
-            used[i] = true;
-            path[j] = S.charAt(i);
-            backTracing(S, used, n, path, j + 1, res);
-            used[i] = false;
+        for (int j = i; j < s.length; j++) {
+            swap(s, i, j);
+            backTracing(s, i + 1);
+            swap(s, j, i);
         }
+    }
+
+    private void swap(char[] s, int i, int j) {
+        if (i == j) {
+            return;
+        }
+        char c = s[i];
+        s[i] = s[j];
+        s[j] = c;
+    }
+
+    private void setup(int n) {
+        int len = 1;
+        while (n > 1) {
+            len *= n--;
+        }
+        res = new String[len];
     }
 
 }

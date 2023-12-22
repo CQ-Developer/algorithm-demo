@@ -43,4 +43,10 @@ class SolutionTest {
         Assertions.assertTrue(actual);
     }
 
+    @Test
+    void case_6() {
+        boolean actual = solution.patternMatching("abbaa", "dogdogdogdogdog");
+        Assertions.assertFalse(actual);
+    }
+
 }

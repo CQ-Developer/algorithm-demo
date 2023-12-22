@@ -1,10 +1,5 @@
 package io.huhu.leetcode.back.trace.interview.questions.n16.n18;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 /**
  * <a href="https://leetcode.cn/problems/pattern-matching-lcci/description/">模式匹配</a>
  * <p>你有两个字符串, 即pattern和value. pattern字符串由字母"a"和"b"组成, 用于描述字符串中的模式.
@@ -18,33 +13,23 @@ import java.util.Set;
 class Solution {
 
     public boolean patternMatching(String pattern, String value) {
-        return backTracing(pattern, new HashSet<>(), value, new HashMap<>());
+        return backTracing(pattern.toCharArray(), 0, value, 0, new String[2]);
     }
 
-    private boolean backTracing(String pattern, Set<String> used, String value, Map<Character, String> map) {
-        if (pattern.isEmpty()) {
-            return value.isEmpty();
+    private boolean backTracing(char[] pattern, int i, String value, int j, String[] path) {
+        if (i == pattern.length) {
+            return j == value.length();
         }
-        char p = pattern.charAt(0);
-        if (map.containsKey(p)) {
-            String w = map.get(p);
-            if (!value.startsWith(w)) {
-                return false;
-            }
-            return backTracing(pattern.substring(1), used, value.substring(w.length()), map);
+        int x = pattern[i] - 'a';
+        if (path[x] != null) {
+            return value.startsWith(path[x], j) && backTracing(pattern, i + 1, value, j + path[x].length(), path);
         }
-        for (int i = 0; i <= value.length(); i++) {
-            String w = value.substring(0, i);
-            if (used.contains(w)) {
-                continue;
-            }
-            used.add(w);
-            map.put(p, w);
-            if (backTracing(pattern.substring(1), used, value.substring(w.length()), map)) {
+        for (int k = j; k <= value.length(); k++) {
+            path[x] = value.substring(j, k);
+            if (!path[x].equals(path[x ^ 1]) && backTracing(pattern, i + 1, value, k, path)) {
                 return true;
             }
-            used.remove(w);
-            map.remove(p);
+            path[x] = null;
         }
         return false;
     }

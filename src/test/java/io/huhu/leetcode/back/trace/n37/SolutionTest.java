@@ -5,19 +5,15 @@ import org.junit.jupiter.api.Test;
 
 class SolutionTest {
 
-    final Solution solution = new Solution();
+    Solution solution;
 
-    /**
-     * 输入:
-     * <br/>
-     * <img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2021/04/12/250px-sudoku-by-l2g-20050714svg.png"/>
-     * <br/>
-     * 输出:
-     * <br/>
-     * <img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2021/04/12/250px-sudoku-by-l2g-20050714_solutionsvg.png"/>
-     */
     @Test
-    void solveSudoku() {
+    void setup() {
+        solution = new Solution();
+    }
+
+    @Test
+    void case_1() {
         char[][] board = {
                 {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
                 {'6', '.', '.', '1', '9', '5', '.', '.', '.'},

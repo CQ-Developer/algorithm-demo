@@ -1,13 +1,14 @@
 package io.huhu.leetcode.back.trace.n37;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class SolutionTest {
 
     Solution solution;
 
-    @Test
+    @BeforeEach
     void setup() {
         solution = new Solution();
     }

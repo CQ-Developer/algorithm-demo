@@ -22,23 +22,22 @@ class Solution {
         return res;
     }
 
-    private boolean backTracing(List<String> wordList, boolean[] used, String beginWord, String endWord, List<String> res) {
-        if (beginWord.equals(endWord)) {
+    private boolean backTracing(List<String> all, boolean[] use, String pre, String tar, List<String> res) {
+        if (pre.equals(tar)) {
             return true;
         }
-        for (int i = 0; i < wordList.size(); i++) {
-            if (used[i]) {
+        for (int i = 0; i < all.size(); i++) {
+            if (use[i]) {
                 continue;
             }
-            if (!check(beginWord, wordList.get(i))) {
+            if (!check(pre, all.get(i))) {
                 continue;
             }
-            used[i] = true;
-            res.add(wordList.get(i));
-            if (backTracing(wordList, used, wordList.get(i), endWord, res)) {
+            use[i] = true;
+            res.add(all.get(i));
+            if (backTracing(all, use, all.get(i), tar, res)) {
                 return true;
             }
-            used[i] = false;
             res.remove(res.size() - 1);
         }
         return false;

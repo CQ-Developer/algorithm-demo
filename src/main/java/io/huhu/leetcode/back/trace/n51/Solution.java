@@ -1,6 +1,10 @@
 package io.huhu.leetcode.back.trace.n51;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <a href="https://leetcode.cn/problems/n-queens/description/">N皇后</a>
@@ -16,7 +20,48 @@ import java.util.List;
 class Solution {
 
     public List<List<String>> solveNQueens(int n) {
-        return null;
+        List<List<String>> res = new ArrayList<>();
+        backTracing(n, new boolean[n], new HashSet<>(), new HashSet<>(), new int[n], 0, res);
+        return res;
+    }
+
+    private void backTracing(int n, boolean[] col, Set<Integer> dls, Set<Integer> drs, int[] queue, int i, List<List<String>> res) {
+        if (i == n) {
+            res.add(draw(n, queue));
+            return;
+        }
+        for (int j = 0; j < n; j++) {
+            if (col[j]) {
+                continue;
+            }
+            int dl = i - j;
+            if (dls.contains(dl)) {
+                continue;
+            }
+            int dr = i + j;
+            if (drs.contains(dr)) {
+                continue;
+            }
+            col[j] = true;
+            dls.add(dl);
+            drs.add(dr);
+            queue[i] = j;
+            backTracing(n, col, dls, drs, queue, i + 1, res);
+            col[j] = false;
+            dls.remove(dl);
+            drs.remove(dr);
+        }
+    }
+
+    public List<String> draw(int n, int[] queue) {
+        List<String> res = new ArrayList<>(n);
+        for (int q : queue) {
+            char[] chars = new char[n];
+            Arrays.fill(chars, '.');
+            chars[q] = 'Q';
+            res.add(String.valueOf(chars));
+        }
+        return res;
     }
 
 }

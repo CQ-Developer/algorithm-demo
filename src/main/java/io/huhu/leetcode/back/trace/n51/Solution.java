@@ -2,9 +2,7 @@ package io.huhu.leetcode.back.trace.n51;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * <a href="https://leetcode.cn/problems/n-queens/description/">N皇后</a>
@@ -21,11 +19,11 @@ class Solution {
 
     public List<List<String>> solveNQueens(int n) {
         List<List<String>> res = new ArrayList<>();
-        backTracing(n, new boolean[n], new HashSet<>(), new HashSet<>(), new int[n], 0, res);
+        backTracing(n, new boolean[n], new boolean[2 * n - 1], new boolean[2 * n - 1], new int[n], 0, res);
         return res;
     }
 
-    private void backTracing(int n, boolean[] col, Set<Integer> dls, Set<Integer> drs, int[] queue, int i, List<List<String>> res) {
+    private void backTracing(int n, boolean[] col, boolean[] dls, boolean[] drs, int[] queue, int i, List<List<String>> res) {
         if (i == n) {
             res.add(draw(n, queue));
             return;
@@ -34,22 +32,22 @@ class Solution {
             if (col[j]) {
                 continue;
             }
-            int dl = i - j;
-            if (dls.contains(dl)) {
+            int dl = i - j >= 0 ? i - j : dls.length + (i - j);
+            if (dls[dl]) {
                 continue;
             }
             int dr = i + j;
-            if (drs.contains(dr)) {
+            if (drs[dr]) {
                 continue;
             }
             col[j] = true;
-            dls.add(dl);
-            drs.add(dr);
+            dls[dl] = true;
+            drs[dr] = true;
             queue[i] = j;
             backTracing(n, col, dls, drs, queue, i + 1, res);
             col[j] = false;
-            dls.remove(dl);
-            drs.remove(dr);
+            dls[dl] = false;
+            drs[dr] = false;
         }
     }
 

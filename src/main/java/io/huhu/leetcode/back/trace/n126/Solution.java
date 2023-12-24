@@ -4,10 +4,8 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * <a href="https://leetcode.cn/problems/word-ladder-ii/description/">单词接龙II</a>
@@ -32,7 +30,7 @@ import java.util.Set;
  * <li>wordList[i].length == beginWord.length
  * <li>beginWord、endWord和wordList[i]由小写英文字母组成
  * <li>beginWord != endWord
- * <li>wordList中所有单词互补相同
+ * <li>wordList中所有单词互不相同
  * </ul>
  */
 class Solution {
@@ -40,50 +38,56 @@ class Solution {
     private int min = Integer.MAX_VALUE;
 
     public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
-        if (!wordList.contains(endWord)) {
-            return new ArrayList<>();
-        }
+        // 将字符串列表抓换成图
         wordList.add(0, beginWord);
-        Map<String, Set<String>> map = new HashMap<>();
-        int n = wordList.size();
-        for (int i = 0; i < n; i++) {
-            Set<String> set = new HashSet<>();
-            for (int j = 0; j < n; j++) {
+        Map<String, List<String>> map = new HashMap<>();
+        Map<String, Boolean> index = new HashMap<>();
+        for (int i = 0; i < wordList.size(); i++) {
+            index.put(wordList.get(i), false);
+            if (endWord.equals(wordList.get(i))) {
+                continue;
+            }
+            List<String> list = new ArrayList<>();
+            for (int j = 0; j < wordList.size(); j++) {
                 if (i == j) {
                     continue;
                 }
                 if (!check(wordList.get(i), wordList.get(j))) {
                     continue;
                 }
-                set.add(wordList.get(j));
+                list.add(wordList.get(j));
             }
-            map.put(wordList.get(i), set);
+            map.put(wordList.get(i), list);
         }
-        List<List<String>> res = new ArrayList<>();
+        index.put(beginWord, true);
+        // 回溯
         Deque<String> path = new ArrayDeque<>();
         path.addLast(beginWord);
-        backTracing(map, beginWord, endWord, path, res);
+        List<List<String>> res = new ArrayList<>();
+        backTracing(map, index, beginWord, endWord, path, res);
         return res;
     }
 
-    private void backTracing(Map<String, Set<String>> map, String beginWord, String endWord, Deque<String> path, List<List<String>> res) {
+    private void backTracing(Map<String, List<String>> map, Map<String, Boolean> used, String beginWord, String endWord, Deque<String> path, List<List<String>> res) {
+        if (path.size() > min) {
+            return;
+        }
         if (beginWord.equals(endWord)) {
-            if (path.size() == min) {
-                res.add(new ArrayList<>(path));
-            }
             if (path.size() < min) {
                 min = path.size();
                 res.clear();
-                res.add(new ArrayList<>(path));
             }
+            res.add(new ArrayList<>(path));
             return;
         }
-        for (String next : map.get(beginWord)) {
-            if (path.contains(next)) {
+        for (String nextWord : map.get(beginWord)) {
+            if (used.get(nextWord)) {
                 continue;
             }
-            path.addLast(next);
-            backTracing(map, next, endWord, path, res);
+            used.put(nextWord, true);
+            path.addLast(nextWord);
+            backTracing(map, used, nextWord, endWord, path, res);
+            used.put(nextWord, false);
             path.removeLast();
         }
     }

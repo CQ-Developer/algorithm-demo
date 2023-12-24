@@ -1,7 +1,6 @@
 package io.huhu.leetcode.back.trace.n51;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,7 +31,7 @@ class Solution {
             if (col[j]) {
                 continue;
             }
-            int dl = i - j >= 0 ? i - j : dls.length + (i - j);
+            int dl = i - j < 0 ? dls.length + i - j : i - j;
             if (dls[dl]) {
                 continue;
             }
@@ -55,8 +54,9 @@ class Solution {
         List<String> res = new ArrayList<>(n);
         for (int q : queue) {
             char[] chars = new char[n];
-            Arrays.fill(chars, '.');
-            chars[q] = 'Q';
+            for (int i = 0; i < n; i++) {
+                chars[i] = i == q ? 'Q' : '.';
+            }
             res.add(String.valueOf(chars));
         }
         return res;

@@ -1,7 +1,9 @@
 package io.huhu.leetcode.back.trace.n212;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <a href="https://leetcode.cn/problems/word-search-ii/description/">单词搜索II</a>
@@ -23,36 +25,46 @@ import java.util.List;
 class Solution {
 
     public List<String> findWords(char[][] board, String[] words) {
-        List<String> res = new ArrayList<>();
+        int max = 0;
+        Set<String> dict = new HashSet<>();
+        Set<Character> startChar = new HashSet<>();
         for (String word : words) {
-            char[] chars = word.toCharArray();
-            boolean found = false;
-            for (int i = 0; i < board.length && !found; i++) {
-                for (int j = 0; j < board[i].length && !found; j++) {
-                    if (chars[0] == board[i][j] && dfs(board, i, j, chars, 0)) {
-                        res.add(word);
-                        found = true;
-                    }
+            dict.add(word);
+            startChar.add(word.charAt(0));
+            max = Math.max(max, word.length());
+        }
+        List<String> res = new ArrayList<>();
+        for (int i = 0; i < board.length && !dict.isEmpty(); i++) {
+            for (int j = 0; j < board[i].length && !dict.isEmpty(); j++) {
+                if (startChar.contains(board[i][j])) {
+                    dfs(board, i, j, dict, new StringBuilder(), max, res);
                 }
             }
         }
         return res;
     }
 
-    private boolean dfs(char[][] board, int i, int j, char[] word, int c) {
-        if (i < 0 || i >= board.length || j < 0 || j >= board[i].length || word[c] != board[i][j]) {
-            return false;
+    private void dfs(char[][] board, int i, int j, Set<String> words, StringBuilder sb, int max, List<String> res) {
+        String word = sb.toString();
+        if (words.contains(word)) {
+            words.remove(word);
+            res.add(word);
         }
-        if (c == word.length - 1) {
-            return true;
+        if (i < 0 || i >= board.length || j < 0 || j >= board[i].length || board[i][j] == '.') {
+            return;
         }
+        if (words.isEmpty() || sb.length() > max) {
+            return;
+        }
+        char c = board[i][j];
         board[i][j] = '.';
-        boolean res = dfs(board, i - 1, j, word, c + 1)
-                   || dfs(board, i + 1, j, word, c + 1)
-                   || dfs(board, i, j - 1, word, c + 1)
-                   || dfs(board, i, j + 1, word, c + 1);
-        board[i][j] = word[c];
-        return res;
+        sb.append(c);
+        dfs(board, i + 1, j, words, sb, max, res);
+        dfs(board, i - 1, j, words, sb, max, res);
+        dfs(board, i, j - 1, words, sb, max, res);
+        dfs(board, i, j + 1, words, sb, max, res);
+        board[i][j] = c;
+        sb.deleteCharAt(sb.length() - 1);
     }
 
 }

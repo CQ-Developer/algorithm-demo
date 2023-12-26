@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 class SolutionTest {
@@ -20,34 +19,29 @@ class SolutionTest {
     void case_1() {
         String beginWord = "hit", endWord = "cog";
         List<String> wordList = List.of("hot", "dot", "dog", "lot", "log", "cog");
-        List<List<String>> actual = solution.findLadders(beginWord, endWord, new ArrayList<>(wordList));
+        List<List<String>> actual = solution.findLadders(beginWord, endWord, wordList);
         List<List<String>> expected = List.of(
-                List.of("hit", "hot", "dot", "dog", "cog"),
-                List.of("hit", "hot", "lot", "log", "cog"));
-        Assertions.assertEquals(expected.size(), actual.size());
-        for (List<String> item : expected) {
-            Assertions.assertTrue(actual.contains(item));
-        }
+                List.of("hit", "hot", "lot", "log", "cog"),
+                List.of("hit", "hot", "dot", "dog", "cog"));
+        Assertions.assertIterableEquals(expected, actual);
     }
 
     @Test
     void case_2() {
         String beginWord = "hit", endWord = "cog";
         List<String> wordList = List.of("hot", "dot", "dog", "lot", "log");
-        List<List<String>> actual = solution.findLadders(beginWord, endWord, new ArrayList<>(wordList));
-        Assertions.assertEquals(0, actual.size());
+        List<List<String>> actual = solution.findLadders(beginWord, endWord, wordList);
+        List<List<String>> expected = List.of();
+        Assertions.assertIterableEquals(expected, actual);
     }
 
     @Test
     void case_3() {
         String beginWord = "hot", endWord = "dog";
         List<String> wordList = List.of("hot", "dog", "dot");
-        List<List<String>> actual = solution.findLadders(beginWord, endWord, new ArrayList<>(wordList));
+        List<List<String>> actual = solution.findLadders(beginWord, endWord, wordList);
         List<List<String>> expected = List.of(List.of("hot", "dot", "dog"));
-        Assertions.assertEquals(expected.size(), actual.size());
-        for (List<String> item : expected) {
-            Assertions.assertTrue(actual.contains(item));
-        }
+        Assertions.assertIterableEquals(expected, actual);
     }
 
     @Test
@@ -64,63 +58,60 @@ class SolutionTest {
                 "me", "mo", "na", "la", "st", "er", "sc", "ne", "mn", "mi",
                 "am", "ex", "pt", "io", "be", "fm", "ta", "tb", "ni", "mr",
                 "pa", "he", "lr", "sq", "ye");
-        List<List<String>> actual = solution.findLadders(beginWord, endWord, new ArrayList<>(wordList));
+        List<List<String>> actual = solution.findLadders(beginWord, endWord, wordList);
         List<List<String>> expected = List.of(
-                List.of("qa", "ca", "cm", "sm", "sq"),
-                List.of("qa", "ca", "ci", "si", "sq"),
-                List.of("qa", "ca", "cr", "sr", "sq"),
-                List.of("qa", "ca", "co", "so", "sq"),
-                List.of("qa", "ba", "br", "sr", "sq"),
-                List.of("qa", "ba", "bi", "si", "sq"),
+                List.of("qa", "ta", "tc", "sc", "sq"),
+                List.of("qa", "pa", "pt", "st", "sq"),
+                List.of("qa", "ma", "mt", "st", "sq"),
+                List.of("qa", "la", "lt", "st", "sq"),
                 List.of("qa", "ba", "be", "se", "sq"),
                 List.of("qa", "ra", "re", "se", "sq"),
-                List.of("qa", "ra", "rn", "sn", "sq"),
-                List.of("qa", "ra", "rh", "sh", "sq"),
-                List.of("qa", "ra", "rb", "sb", "sq"),
-                List.of("qa", "fa", "fe", "se", "sq"),
-                List.of("qa", "fa", "fr", "sr", "sq"),
-                List.of("qa", "fa", "fm", "sm", "sq"),
-                List.of("qa", "ya", "yo", "so", "sq"),
-                List.of("qa", "ya", "yb", "sb", "sq"),
-                List.of("qa", "ya", "ye", "se", "sq"),
-                List.of("qa", "ma", "mt", "st", "sq"),
-                List.of("qa", "ma", "mb", "sb", "sq"),
-                List.of("qa", "ma", "me", "se", "sq"),
-                List.of("qa", "ma", "mo", "so", "sq"),
-                List.of("qa", "ma", "mn", "sn", "sq"),
-                List.of("qa", "ma", "mi", "si", "sq"),
-                List.of("qa", "ma", "mr", "sr", "sq"),
-                List.of("qa", "ga", "go", "so", "sq"),
-                List.of("qa", "ga", "ge", "se", "sq"),
-                List.of("qa", "ha", "ho", "so", "sq"),
-                List.of("qa", "ha", "hi", "si", "sq"),
-                List.of("qa", "ha", "he", "se", "sq"),
-                List.of("qa", "na", "nb", "sb", "sq"),
-                List.of("qa", "na", "no", "so", "sq"),
                 List.of("qa", "na", "ne", "se", "sq"),
-                List.of("qa", "na", "ni", "si", "sq"),
-                List.of("qa", "la", "ln", "sn", "sq"),
+                List.of("qa", "ma", "me", "se", "sq"),
                 List.of("qa", "la", "le", "se", "sq"),
-                List.of("qa", "la", "lt", "st", "sq"),
-                List.of("qa", "la", "lo", "so", "sq"),
-                List.of("qa", "la", "li", "si", "sq"),
-                List.of("qa", "la", "lr", "sr", "sq"),
-                List.of("qa", "ta", "tm", "sm", "sq"),
-                List.of("qa", "ta", "ti", "si", "sq"),
-                List.of("qa", "ta", "to", "so", "sq"),
-                List.of("qa", "ta", "tc", "sc", "sq"),
+                List.of("qa", "ya", "ye", "se", "sq"),
+                List.of("qa", "ha", "he", "se", "sq"),
+                List.of("qa", "ga", "ge", "se", "sq"),
+                List.of("qa", "fa", "fe", "se", "sq"),
                 List.of("qa", "ta", "th", "sh", "sq"),
-                List.of("qa", "ta", "tb", "sb", "sq"),
+                List.of("qa", "ra", "rh", "sh", "sq"),
                 List.of("qa", "pa", "ph", "sh", "sq"),
-                List.of("qa", "pa", "po", "so", "sq"),
-                List.of("qa", "pa", "pb", "sb", "sq"),
-                List.of("qa", "pa", "pm", "sm", "sq"),
+                List.of("qa", "ha", "hi", "si", "sq"),
+                List.of("qa", "ta", "ti", "si", "sq"),
+                List.of("qa", "ca", "ci", "si", "sq"),
+                List.of("qa", "ba", "bi", "si", "sq"),
                 List.of("qa", "pa", "pi", "si", "sq"),
-                List.of("qa", "pa", "pt", "st", "sq"));
-        Assertions.assertEquals(expected.size(), actual.size());
-        for (List<String> item : expected) {
-            Assertions.assertTrue(actual.contains(item));
-        }
+                List.of("qa", "na", "ni", "si", "sq"),
+                List.of("qa", "ma", "mi", "si", "sq"),
+                List.of("qa", "la", "li", "si", "sq"),
+                List.of("qa", "fa", "fm", "sm", "sq"),
+                List.of("qa", "ta", "tm", "sm", "sq"),
+                List.of("qa", "ca", "cm", "sm", "sq"),
+                List.of("qa", "pa", "pm", "sm", "sq"),
+                List.of("qa", "ma", "mn", "sn", "sq"),
+                List.of("qa", "la", "ln", "sn", "sq"),
+                List.of("qa", "ra", "rn", "sn", "sq"),
+                List.of("qa", "na", "no", "so", "sq"),
+                List.of("qa", "ma", "mo", "so", "sq"),
+                List.of("qa", "la", "lo", "so", "sq"),
+                List.of("qa", "ya", "yo", "so", "sq"),
+                List.of("qa", "ha", "ho", "so", "sq"),
+                List.of("qa", "ga", "go", "so", "sq"),
+                List.of("qa", "ta", "to", "so", "sq"),
+                List.of("qa", "ca", "co", "so", "sq"),
+                List.of("qa", "pa", "po", "so", "sq"),
+                List.of("qa", "ba", "br", "sr", "sq"),
+                List.of("qa", "ma", "mr", "sr", "sq"),
+                List.of("qa", "la", "lr", "sr", "sq"),
+                List.of("qa", "fa", "fr", "sr", "sq"),
+                List.of("qa", "ca", "cr", "sr", "sq"),
+                List.of("qa", "ra", "rb", "sb", "sq"),
+                List.of("qa", "pa", "pb", "sb", "sq"),
+                List.of("qa", "na", "nb", "sb", "sq"),
+                List.of("qa", "ma", "mb", "sb", "sq"),
+                List.of("qa", "ya", "yb", "sb", "sq"),
+                List.of("qa", "ta", "tb", "sb", "sq"));
+        Assertions.assertIterableEquals(expected, actual);
     }
 
     @Test
@@ -177,14 +168,11 @@ class SolutionTest {
                 "cad", "nap", "gun", "fop", "tot", "sow", "sal", "sic", "ted", "wot",
                 "del", "imp", "cob", "way", "ann", "tan", "mci", "job", "wet", "ism",
                 "err", "him", "all", "pad", "hah", "hie", "aim");
-        List<List<String>> actual = solution.findLadders(beginWord, endWord, new ArrayList<>(wordList));
+        List<List<String>> actual = solution.findLadders(beginWord, endWord, wordList);
         List<List<String>> expected = List.of(
                 List.of("cet", "cat", "can", "ian", "inn", "ins", "its", "ito", "ibo", "ibm", "ism"),
                 List.of("cet", "cot", "con", "ion", "inn", "ins", "its", "ito", "ibo", "ibm", "ism"));
-        Assertions.assertEquals(expected.size(), actual.size());
-        for (List<String> item : expected) {
-            Assertions.assertTrue(actual.contains(item));
-        }
+        Assertions.assertIterableEquals(expected, actual);
     }
 
     @Test
@@ -241,10 +229,7 @@ class SolutionTest {
                 "xxxxx", "xxxxy", "xxxyy", "xxyyy", "xyyyy", "yyyyy", "yyyyw", "yyyww", "yywww", "ywwww",
                 "wwwww", "wwvww", "wvvww", "vvvww", "vvvwz", "avvwz", "aavwz", "aaawz", "aaaaz");
         List<List<String>> actual = solution.findLadders(beginWord, endWord, wordList);
-        List<List<String>> expected = List.of(
-                List.of("aaaaa", "aaaaz", "aaawz", "aavwz", "avvwz", "vvvwz", "vvvww", "wvvww", "wwvww", "wwwww",
-                        "ywwww", "yywww", "yyyww", "yyyyw", "yyyyy", "xyyyy", "xxyyy", "xxxyy", "xxxxy", "xxxxx",
-                        "gxxxx", "ggxxx", "gggxx", "ggggx", "ggggg"));
+        List<List<String>> expected = List.of(List.of("aaaaa", "aaaaz", "aaawz", "aavwz", "avvwz", "vvvwz", "vvvww", "wvvww", "wwvww", "wwwww", "ywwww", "yywww", "yyyww", "yyyyw", "yyyyy", "xyyyy", "xxyyy", "xxxyy", "xxxxy", "xxxxx", "gxxxx", "ggxxx", "gggxx", "ggggx", "ggggg"));
         Assertions.assertIterableEquals(expected, actual);
     }
 

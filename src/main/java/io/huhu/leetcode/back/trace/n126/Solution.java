@@ -45,70 +45,73 @@ class Solution {
             return res;
         }
         dict.remove(beginWord);
-        Map<String, List<String>> graph = new HashMap<>();
-        Map<String, Integer> steps = new HashMap<>();
-        steps.put(beginWord, 0);
-        boolean found = bfs(beginWord, endWord, steps, graph, dict);
+        Map<String, Set<String>> graph = new HashMap<>();
+        boolean found = bfs(beginWord, endWord, dict, graph);
         if (found) {
             Deque<String> path = new ArrayDeque<>();
-            path.add(endWord);
-            backtrack(graph, path, beginWord, endWord, res);
+            path.addLast(endWord);
+            dfs(graph, beginWord, endWord, path, res);
         }
         return res;
     }
 
-    private boolean bfs(String beginWord, String endWord, Map<String, Integer> steps, Map<String, List<String>> graph, Set<String> dict) {
-        int step = 1;
+    /**
+     * 通过广度优先遍历构建图
+     */
+    private boolean bfs(String begin, String end, Set<String> dict, Map<String, Set<String>> graph) {
         boolean found = false;
+        int step = 1;
+        Map<String, Integer> steps = new HashMap<>();
+        steps.put(begin, 0);
         Queue<String> queue = new ArrayDeque<>();
-        queue.add(beginWord);
+        queue.add(begin);
         while (!queue.isEmpty()) {
-            int size = queue.size();
-            for (int q = 0; q < size; q++) {
-                String currentWord = queue.remove();
-                char[] chars = currentWord.toCharArray();
+            int n = queue.size();
+            for (int q = 0; q < n; q++) {
+                String previous = queue.remove();
+                char[] chars = previous.toCharArray();
                 for (int i = 0; i < chars.length; i++) {
                     char origin = chars[i];
                     for (char c = 'a'; c <= 'z'; c++) {
                         chars[i] = c;
-                        String nextWord = String.valueOf(chars);
-                        if (steps.containsKey(nextWord) && step == steps.get(nextWord)) {
-                            graph.get(nextWord).add(currentWord);
+                        String current = String.valueOf(chars);
+                        if (steps.containsKey(current) && step == steps.get(current)) {
+                            graph.get(current).add(previous);
                         }
-                        if (queue.isEmpty() && dict.isEmpty()) {
-                            break;
-                        }
-                        if (!dict.contains(nextWord)) {
+                        if (!dict.contains(current)) {
                             continue;
                         }
-                        dict.remove(nextWord);
-                        queue.add(nextWord);
-                        graph.putIfAbsent(nextWord, new ArrayList<>());
-                        graph.get(nextWord).add(currentWord);
-                        steps.put(nextWord, step);
-                        if (nextWord.equals(endWord)) {
+                        dict.remove(current);
+                        queue.add(current);
+                        steps.put(current, step);
+                        graph.putIfAbsent(current, new HashSet<>());
+                        graph.get(current).add(previous);
+                        if (end.equals(current)) {
                             found = true;
                         }
                     }
                     chars[i] = origin;
                 }
             }
-            step++;
             if (found) {
                 break;
             }
+            step++;
         }
         return found;
     }
 
-    public void backtrack(Map<String, List<String>> from, Deque<String> path, String beginWord, String currentWord, List<List<String>> res) {
-        if (currentWord.equals(beginWord)) {
+    /**
+     * 深度优先遍历 + 回溯
+     */
+    private void dfs(Map<String, Set<String>> graph, String target, String previous, Deque<String> path, List<List<String>> res) {
+        if (previous.equals(target)) {
             res.add(new ArrayList<>(path));
             return;
         }
-        for (String precursor : from.get(currentWord)) {
-            path.addFirst(precursor);
-            backtrack(from, path, beginWord, precursor, res);
+        for (String current : graph.get(previous)) {
+            path.addFirst(current);
+            dfs(graph, target, current, path, res);
             path.removeFirst();
         }
     }

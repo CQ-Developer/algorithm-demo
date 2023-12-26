@@ -3,9 +3,7 @@ package io.huhu.leetcode.back.trace.n140;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * <a href="https://leetcode.cn/problems/word-break-ii/description/">单词拆分II</a>
@@ -25,19 +23,19 @@ class Solution {
 
     public List<String> wordBreak(String s, List<String> wordDict) {
         List<String> res = new ArrayList<>();
-        dfs(s, new HashSet<>(wordDict), new ArrayDeque<>(), res);
+        dfs(s, 0, wordDict, new ArrayDeque<>(), res);
         return res;
     }
 
-    private void dfs(String s, Set<String> dict, Deque<String> path, List<String> res) {
-        if (s.isEmpty()) {
+    private void dfs(String s, int i, List<String> dict, Deque<String> path, List<String> res) {
+        if (i == s.length()) {
             res.add(String.join(" ", path));
             return;
         }
-        for (String a : dict) {
-            if (s.startsWith(a)) {
-                path.addLast(a);
-                dfs(s.substring(a.length()), dict, path, res);
+        for (String word : dict) {
+            if (s.startsWith(word, i)) {
+                path.addLast(word);
+                dfs(s, i + word.length(), dict, path, res);
                 path.removeLast();
             }
         }

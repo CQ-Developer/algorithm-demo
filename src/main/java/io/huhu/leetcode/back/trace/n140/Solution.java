@@ -25,23 +25,21 @@ class Solution {
 
     public List<String> wordBreak(String s, List<String> wordDict) {
         List<String> res = new ArrayList<>();
-        dfs(s, 0, new HashSet<>(wordDict), new ArrayDeque<>(), res);
+        dfs(s, new HashSet<>(wordDict), new ArrayDeque<>(), res);
         return res;
     }
 
-    private void dfs(String s, int i, Set<String> dict, Deque<String> path, List<String> res) {
-        if (i == s.length()) {
+    private void dfs(String s, Set<String> dict, Deque<String> path, List<String> res) {
+        if (s.isEmpty()) {
             res.add(String.join(" ", path));
             return;
         }
-        for (int j = i; j < s.length(); j++) {
-            String a = s.substring(i, j + 1);
-            if (!dict.contains(a)) {
-                continue;
+        for (String a : dict) {
+            if (s.startsWith(a)) {
+                path.addLast(a);
+                dfs(s.substring(a.length()), dict, path, res);
+                path.removeLast();
             }
-            path.addLast(a);
-            dfs(s, j + 1, dict, path, res);
-            path.removeLast();
         }
     }
 

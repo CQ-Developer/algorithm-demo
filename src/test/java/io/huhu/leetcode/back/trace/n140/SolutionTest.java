@@ -20,7 +20,7 @@ class SolutionTest {
         String s = "catsanddog";
         List<String> wordDict = List.of("cat", "cats", "and", "sand", "dog");
         List<String> actual = solution.wordBreak(s, wordDict);
-        List<String> expected = List.of("cats and dog", "cat sand dog");
+        List<String> expected = List.of("cat sand dog", "cats and dog");
         Assertions.assertIterableEquals(expected, actual);
     }
 
@@ -29,7 +29,7 @@ class SolutionTest {
         String s = "pineapplepenapple";
         List<String> wordDict = List.of("apple", "pen", "applepen", "pine", "pineapple");
         List<String> actual = solution.wordBreak(s, wordDict);
-        List<String> expected = List.of("pine apple pen apple", "pineapple pen apple", "pine applepen apple");
+        List<String> expected = List.of("pine apple pen apple", "pine applepen apple", "pineapple pen apple");
         Assertions.assertIterableEquals(expected, actual);
     }
 

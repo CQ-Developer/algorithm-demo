@@ -67,15 +67,15 @@ class Solution {
     }
 
     private void dfs(Map<String, Set<String>> graph, String beginWord, String endWord, Set<String> used, Deque<String> path, List<List<String>> res) {
-        if (path.size() > min) {
-            return;
-        }
         if (endWord.equals(beginWord)) {
             if (path.size() < min) {
                 res.clear();
                 min = path.size();
             }
             res.add(new ArrayList<>(path));
+            return;
+        }
+        if (path.size() >= min) {
             return;
         }
         for (String word : graph.get(endWord)) {

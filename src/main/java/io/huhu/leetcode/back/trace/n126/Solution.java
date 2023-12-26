@@ -4,8 +4,10 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * <a href="https://leetcode.cn/problems/word-ladder-ii/description/">单词接龙II</a>
@@ -38,68 +40,62 @@ class Solution {
     private int min = Integer.MAX_VALUE;
 
     public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
-        // 将字符串列表抓换成图
-        wordList.add(0, beginWord);
-        Map<String, List<String>> map = new HashMap<>();
-        Map<String, Boolean> index = new HashMap<>();
-        for (int i = 0; i < wordList.size(); i++) {
-            index.put(wordList.get(i), false);
-            if (endWord.equals(wordList.get(i))) {
-                continue;
-            }
-            List<String> list = new ArrayList<>();
-            for (int j = 0; j < wordList.size(); j++) {
-                if (i == j) {
-                    continue;
-                }
-                if (!check(wordList.get(i), wordList.get(j))) {
-                    continue;
-                }
-                list.add(wordList.get(j));
-            }
-            map.put(wordList.get(i), list);
-        }
-        index.put(beginWord, true);
-        // 回溯
-        Deque<String> path = new ArrayDeque<>();
-        path.addLast(beginWord);
         List<List<String>> res = new ArrayList<>();
-        backTracing(map, index, beginWord, endWord, path, res);
+        Set<String> dict = new HashSet<>(wordList);
+        if (!dict.contains(endWord)) {
+            return res;
+        }
+        dict.add(beginWord);
+        Map<String, Set<String>> graph = new HashMap<>();
+        for (String a : dict) {
+            Set<String> path = new HashSet<>();
+            for (String b : dict) {
+                if (a.equals(b)) {
+                    continue;
+                }
+                if (!check(a, b)) {
+                    continue;
+                }
+                path.add(b);
+            }
+            graph.put(a, path);
+        }
+        Deque<String> path = new ArrayDeque<>();
+        path.add(endWord);
+        dfs(graph, beginWord, endWord, new HashSet<>(), path, res);
         return res;
     }
 
-    private void backTracing(Map<String, List<String>> map, Map<String, Boolean> used, String beginWord, String endWord, Deque<String> path, List<List<String>> res) {
+    private void dfs(Map<String, Set<String>> graph, String beginWord, String endWord, Set<String> used, Deque<String> path, List<List<String>> res) {
         if (path.size() > min) {
             return;
         }
-        if (beginWord.equals(endWord)) {
+        if (endWord.equals(beginWord)) {
             if (path.size() < min) {
-                min = path.size();
                 res.clear();
+                min = path.size();
             }
             res.add(new ArrayList<>(path));
             return;
         }
-        for (String nextWord : map.get(beginWord)) {
-            if (used.get(nextWord)) {
-                continue;
+        for (String word : graph.get(endWord)) {
+            if (used.add(word)) {
+                path.offerFirst(word);
+                dfs(graph, beginWord, word, used, path, res);
+                path.pollFirst();
+                used.remove(word);
             }
-            used.put(nextWord, true);
-            path.addLast(nextWord);
-            backTracing(map, used, nextWord, endWord, path, res);
-            used.put(nextWord, false);
-            path.removeLast();
         }
     }
 
     private boolean check(String a, String b) {
-        int n = a.length(), d = 0;
-        for (int i = 0; i < n; i++) {
+        int sum = 0;
+        for (int i = 0; i < a.length(); i++) {
             if (a.charAt(i) != b.charAt(i)) {
-                d++;
+                sum++;
             }
         }
-        return d == 1;
+        return sum == 1;
     }
 
 }

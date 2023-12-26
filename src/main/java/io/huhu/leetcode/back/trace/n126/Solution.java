@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 /**
@@ -37,65 +38,79 @@ import java.util.Set;
  */
 class Solution {
 
-    private int min = Integer.MAX_VALUE;
-
     public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
         List<List<String>> res = new ArrayList<>();
         Set<String> dict = new HashSet<>(wordList);
         if (!dict.contains(endWord)) {
             return res;
         }
-        dict.add(beginWord);
-        Map<String, Set<String>> graph = new HashMap<>();
-        for (String a : dict) {
-            Set<String> path = new HashSet<>();
-            for (String b : dict) {
-                if (a.equals(b)) {
-                    continue;
-                }
-                if (!check(a, b)) {
-                    continue;
-                }
-                path.add(b);
-            }
-            graph.put(a, path);
+        dict.remove(beginWord);
+        Map<String, List<String>> graph = new HashMap<>();
+        Map<String, Integer> steps = new HashMap<>();
+        steps.put(beginWord, 0);
+        boolean found = bfs(beginWord, endWord, steps, graph, dict);
+        if (found) {
+            Deque<String> path = new ArrayDeque<>();
+            path.add(endWord);
+            backtrack(graph, path, beginWord, endWord, res);
         }
-        Deque<String> path = new ArrayDeque<>();
-        path.add(endWord);
-        dfs(graph, beginWord, endWord, new HashSet<>(), path, res);
         return res;
     }
 
-    private void dfs(Map<String, Set<String>> graph, String beginWord, String endWord, Set<String> used, Deque<String> path, List<List<String>> res) {
-        if (endWord.equals(beginWord)) {
-            if (path.size() < min) {
-                res.clear();
-                min = path.size();
+    private boolean bfs(String beginWord, String endWord, Map<String, Integer> steps, Map<String, List<String>> graph, Set<String> dict) {
+        int step = 1;
+        boolean found = false;
+        Queue<String> queue = new ArrayDeque<>();
+        queue.add(beginWord);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int q = 0; q < size; q++) {
+                String currentWord = queue.remove();
+                char[] chars = currentWord.toCharArray();
+                for (int i = 0; i < chars.length; i++) {
+                    char origin = chars[i];
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        chars[i] = c;
+                        String nextWord = String.valueOf(chars);
+                        if (steps.containsKey(nextWord) && step == steps.get(nextWord)) {
+                            graph.get(nextWord).add(currentWord);
+                        }
+                        if (queue.isEmpty() && dict.isEmpty()) {
+                            break;
+                        }
+                        if (!dict.contains(nextWord)) {
+                            continue;
+                        }
+                        dict.remove(nextWord);
+                        queue.add(nextWord);
+                        graph.putIfAbsent(nextWord, new ArrayList<>());
+                        graph.get(nextWord).add(currentWord);
+                        steps.put(nextWord, step);
+                        if (nextWord.equals(endWord)) {
+                            found = true;
+                        }
+                    }
+                    chars[i] = origin;
+                }
             }
+            step++;
+            if (found) {
+                break;
+            }
+        }
+        return found;
+    }
+
+    public void backtrack(Map<String, List<String>> from, Deque<String> path, String beginWord, String currentWord, List<List<String>> res) {
+        if (currentWord.equals(beginWord)) {
             res.add(new ArrayList<>(path));
             return;
         }
-        if (path.size() >= min) {
-            return;
+        for (String precursor : from.get(currentWord)) {
+            path.addFirst(precursor);
+            backtrack(from, path, beginWord, precursor, res);
+            path.removeFirst();
         }
-        for (String word : graph.get(endWord)) {
-            if (used.add(word)) {
-                path.offerFirst(word);
-                dfs(graph, beginWord, word, used, path, res);
-                path.pollFirst();
-                used.remove(word);
-            }
-        }
-    }
-
-    private boolean check(String a, String b) {
-        int sum = 0;
-        for (int i = 0; i < a.length(); i++) {
-            if (a.charAt(i) != b.charAt(i)) {
-                sum++;
-            }
-        }
-        return sum == 1;
     }
 
 }

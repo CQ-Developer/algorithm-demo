@@ -1,9 +1,10 @@
 package io.huhu.leetcode.back.trace.n212;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -26,46 +27,68 @@ import java.util.Set;
 class Solution {
 
     public List<String> findWords(char[][] board, String[] words) {
-        Arrays.sort(words);
-        Set<Character> startChar = new HashSet<>();
+        TrieNode root = new TrieNode();
+        for (String word : words) {
+            root.addWord(word);
+        }
+        Set<String> res = new HashSet<>();
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                startChar.add(board[i][j]);
+                dfs(board, i, j, root, res);
             }
         }
-        List<String> res = new ArrayList<>();
-        for (String word : words) {
-            char[] chars = word.toCharArray();
-            if (!startChar.contains(chars[0])) {
-                continue;
-            }
-            boolean found = false;
-            for (int i = 0; i < board.length && !found; i++) {
-                for (int j = 0; j < board[i].length && !found; j++) {
-                    if (chars[0] == board[i][j] && dfs(board, i, j, chars, 0)) {
-                        res.add(word);
-                        found = true;
-                    }
-                }
-            }
-        }
-        return res;
+        return new ArrayList<>(res);
     }
 
-    private boolean dfs(char[][] board, int i, int j, char[] word, int c) {
-        if (i < 0 || i >= board.length || j < 0 || j >= board[i].length || word[c] != board[i][j]) {
-            return false;
+    private void dfs(char[][] board, int i, int j, TrieNode cur, Set<String> res) {
+        if (!cur.children.containsKey(board[i][j])) {
+            return;
         }
-        if (c == word.length - 1) {
-            return true;
+        char c = board[i][j];
+        cur = cur.children.get(c);
+        if (cur.word != null) {
+            res.add(cur.word);
         }
         board[i][j] = '.';
-        boolean res = dfs(board, i - 1, j, word, c + 1)
-                   || dfs(board, i + 1, j, word, c + 1)
-                   || dfs(board, i, j - 1, word, c + 1)
-                   || dfs(board, i, j + 1, word, c + 1);
-        board[i][j] = word[c];
-        return res;
+        if (i > 0) {
+            dfs(board, i - 1, j, cur, res);
+        }
+        if (i < board.length - 1) {
+            dfs(board, i + 1, j, cur, res);
+        }
+        if (j > 0) {
+            dfs(board, i, j - 1, cur, res);
+        }
+        if (j < board[i].length - 1) {
+            dfs(board, i, j + 1, cur, res);
+        }
+        board[i][j] = c;
+    }
+
+    /**
+     * 前缀树/字典树
+     */
+    static class TrieNode {
+
+        String word;
+        Map<Character, TrieNode> children;
+
+        TrieNode() {
+            children = new HashMap<>();
+        }
+
+        void addWord(String word) {
+            TrieNode cur = this;
+            for (int i = 0; i < word.length(); i++) {
+                char c = word.charAt(i);
+                if (!cur.children.containsKey(c)) {
+                    cur.children.put(c, new TrieNode());
+                }
+                cur = cur.children.get(c);
+            }
+            cur.word = word;
+        }
+
     }
 
 }

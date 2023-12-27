@@ -1,9 +1,7 @@
 package io.huhu.leetcode.back.trace.n212;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <a href="https://leetcode.cn/problems/word-search-ii/description/">单词搜索II</a>
@@ -24,68 +22,88 @@ import java.util.Map;
  */
 class Solution {
 
+    private final Trie root = new Trie();
+
     public List<String> findWords(char[][] board, String[] words) {
-        TrieNode root = new TrieNode();
-        for (String word : words) {
-            root.addWord(word);
+        for (int i = 0; i < words.length; i++) {
+            root.add(words[i], i);
         }
         List<String> res = new ArrayList<>();
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                dfs(board, i, j, root, res);
+                dfs(board, i, j, words, root, res);
             }
         }
         return res;
     }
 
-    private void dfs(char[][] board, int i, int j, TrieNode cur, List<String> res) {
-        if (!cur.children.containsKey(board[i][j])) {
+    private void dfs(char[][] board, int i, int j, String[] words, Trie cur, List<String> res) {
+        if (i < 0 || i >= board.length || j < 0 || j >= board[i].length || board[i][j] < 'a') {
             return;
         }
-        char c = board[i][j];
-        cur = cur.children.get(c);
-        if (cur.word != null) {
-            res.add(cur.word);
-            cur.word = null;
+        cur = cur.node[board[i][j] - 'a'];
+        if (cur == null) {
+            return;
         }
-        board[i][j] = '.';
-        if (i > 0) {
-            dfs(board, i - 1, j, cur, res);
+        if (cur.wordIndex != -1) {
+            res.add(words[cur.wordIndex]);
+            root.remove(words[cur.wordIndex], cur);
         }
-        if (i < board.length - 1) {
-            dfs(board, i + 1, j, cur, res);
+        if (cur.wordNum == 0) {
+            return;
         }
-        if (j > 0) {
-            dfs(board, i, j - 1, cur, res);
-        }
-        if (j < board[i].length - 1) {
-            dfs(board, i, j + 1, cur, res);
-        }
-        board[i][j] = c;
+        board[i][j] -= 'a';
+        dfs(board, i - 1, j, words, cur, res);
+        dfs(board, i + 1, j, words, cur, res);
+        dfs(board, i, j - 1, words, cur, res);
+        dfs(board, i, j + 1, words, cur, res);
+        board[i][j] += 'a';
     }
 
     /**
-     * 前缀树/字典树
+     * 前缀树 / 字典树
      */
-    static class TrieNode {
+    static class Trie {
 
-        String word;
-        Map<Character, TrieNode> children;
+        /** 子节点 */
+        final Trie[] node = new Trie[26];
 
-        TrieNode() {
-            children = new HashMap<>();
+        /** 单词数量 */
+        int wordNum;
+
+        /** 指向单词列表的单词 */
+        int wordIndex = -1;
+
+        /**
+         * 将的单词加入树
+         */
+        void add(String word, int index) {
+            Trie cur = this;
+            for (char c : word.toCharArray()) {
+                int i = c - 'a';
+                if (cur.node[i] == null) {
+                    cur.node[i] = new Trie();
+                }
+                cur.wordNum++;
+                cur = cur.node[i];
+            }
+            cur.wordIndex = index;
         }
 
-        void addWord(String word) {
-            TrieNode cur = this;
-            for (int i = 0; i < word.length(); i++) {
-                char c = word.charAt(i);
-                if (!cur.children.containsKey(c)) {
-                    cur.children.put(c, new TrieNode());
+        /**
+         * 从树中删除单词
+         */
+        void remove(String word, Trie cur) {
+            cur.wordIndex = -1;
+            cur = this;
+            for (char c : word.toCharArray()) {
+                int i = c - 'a';
+                if (--cur.wordNum == 0) {
+                    cur.node[i] = null;
+                    break;
                 }
-                cur = cur.children.get(c);
+                cur = cur.node[i];
             }
-            cur.word = word;
         }
 
     }

@@ -23,7 +23,7 @@ class SolutionTest {
                           {'i', 'f', 'l', 'v'}};
         String[] words = {"oath", "pea", "eat", "rain"};
         List<String> actual = solution.findWords(board, words);
-        List<String> expected = List.of("eat", "oath");
+        List<String> expected = List.of("oath", "eat");
         Assertions.assertIterableEquals(expected, actual);
     }
 
@@ -66,7 +66,7 @@ class SolutionTest {
                           {'i', 'f', 'l', 'v'}};
         String[] words = {"oath", "pea", "eat", "rain", "oathi", "oathk", "oathf", "oate", "oathii", "oathfi", "oathfii"};
         List<String> actual = solution.findWords(board, words);
-        List<String> expected = List.of("eat", "oate", "oath", "oathf", "oathfi", "oathfii", "oathi", "oathii", "oathk");
+        List<String> expected = List.of("oath", "oathf", "oathfi", "oathfii", "oathi", "oathii", "oathk", "oate", "eat");
         Assertions.assertIterableEquals(expected, actual);
     }
 

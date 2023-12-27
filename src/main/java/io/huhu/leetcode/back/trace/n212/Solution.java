@@ -2,10 +2,8 @@ package io.huhu.leetcode.back.trace.n212;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * <a href="https://leetcode.cn/problems/word-search-ii/description/">单词搜索II</a>
@@ -31,16 +29,16 @@ class Solution {
         for (String word : words) {
             root.addWord(word);
         }
-        Set<String> res = new HashSet<>();
+        List<String> res = new ArrayList<>();
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 dfs(board, i, j, root, res);
             }
         }
-        return new ArrayList<>(res);
+        return res;
     }
 
-    private void dfs(char[][] board, int i, int j, TrieNode cur, Set<String> res) {
+    private void dfs(char[][] board, int i, int j, TrieNode cur, List<String> res) {
         if (!cur.children.containsKey(board[i][j])) {
             return;
         }
@@ -48,6 +46,7 @@ class Solution {
         cur = cur.children.get(c);
         if (cur.word != null) {
             res.add(cur.word);
+            cur.word = null;
         }
         board[i][j] = '.';
         if (i > 0) {

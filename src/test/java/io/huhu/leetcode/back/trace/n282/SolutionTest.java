@@ -25,13 +25,20 @@ class SolutionTest {
     @Test
     void addOperators_2() {
         List<String> actual = solution.addOperators("232", 8);
-        List<String> expected = List.of("2*3+2", "2+3*2");
+        List<String> expected = List.of("2+3*2", "2*3+2");
         Assertions.assertIterableEquals(expected, actual);
     }
 
     @Test
     void addOperators_3() {
         List<String> actual = solution.addOperators("3456237490", 9191);
+        List<String> expected = List.of();
+        Assertions.assertIterableEquals(expected, actual);
+    }
+
+    @Test
+    void addOperators_4() {
+        List<String> actual = solution.addOperators("2147483648", -2147483648);
         List<String> expected = List.of();
         Assertions.assertIterableEquals(expected, actual);
     }

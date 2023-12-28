@@ -60,12 +60,7 @@ class Solution {
                     continue;
                 }
                 // 拷贝不参与计算的剩余数字
-                List<Fraction> list = new ArrayList<>();
-                for (int k = 0; k < cards.size(); k++) {
-                    if (k != i && k != j) {
-                        list.add(cards.get(k));
-                    }
-                }
+                List<Fraction> list = copyCards(cards, i, j);
                 // 当前参与计算的2个数字
                 Fraction f1 = cards.get(i);
                 Fraction f2 = cards.get(j);
@@ -92,6 +87,16 @@ class Solution {
             }
         }
         return false;
+    }
+
+    private List<Fraction> copyCards(List<Fraction> cards, int i, int j) {
+        List<Fraction> list = new ArrayList<>();
+        for (int k = 0; k < cards.size(); k++) {
+            if (k != i && k != j) {
+                list.add(cards.get(k));
+            }
+        }
+        return list;
     }
 
     /**

@@ -33,7 +33,6 @@ class SolutionTest {
 
     @Test
     void judgePoint24_4() {
-        // 6 / (1 - 3 / 4)
         int[] cards = {1, 3, 4, 6};
         Assertions.assertTrue(solution.judgePoint24(cards));
     }

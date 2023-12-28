@@ -66,7 +66,7 @@ class Solution {
                 Fraction f2 = cards.get(j);
                 // 进行加法运算
                 list.add(0, f1.plus(f2));
-                if (dfs(list)) {
+                if (i < j && dfs(list)) {
                     return true;
                 }
                 // 进行减法运算
@@ -76,7 +76,7 @@ class Solution {
                 }
                 // 进行乘法运算
                 list.set(0, f1.multi(f2));
-                if (dfs(list)) {
+                if (i < j && dfs(list)) {
                     return true;
                 }
                 // 进行除法运算

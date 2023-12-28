@@ -43,4 +43,11 @@ class SolutionTest {
         Assertions.assertIterableEquals(expected, actual);
     }
 
+    @Test
+    void addOperators_5() {
+        List<String> actual = solution.addOperators("105", 5);
+        List<String> expected = List.of("1*0+5", "10-5");
+        Assertions.assertIterableEquals(expected, actual);
+    }
+
 }

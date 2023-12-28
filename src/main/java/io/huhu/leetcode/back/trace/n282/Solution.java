@@ -19,42 +19,33 @@ class Solution {
 
     public List<String> addOperators(String num, int target) {
         List<String> res = new ArrayList<>();
-        backTracing(num.toCharArray(), 0, 0, 0, new StringBuilder(), target, res);
+        backTracing(num.toCharArray(), 0, 0, 0, "", target, res);
         return res;
     }
 
-    private void backTracing(char[] nums, int j, long cur, long pre, StringBuilder expr, int target, List<String> res) {
+    private void backTracing(char[] nums, int j, long cur, long pre, String expr, int target, List<String> res) {
         if (j == nums.length) {
             if (cur == target) {
-                res.add(expr.toString());
+                res.add(expr);
             }
             return;
-        }
-        int marker = expr.length();
-        if (j > 0) {
-            expr.append(0);
         }
         long num = 0;
         for (int i = j; i < nums.length && (i == j || nums[j] != '0'); i++) {
             num = 10 * num + (nums[i] - '0');
-            expr.append(nums[i]);
             if (j == 0) {
-                backTracing(nums, i + 1, num, num, expr, target, res);
+                backTracing(nums, i + 1, num, num, expr + num, target, res);
             } else {
                 // 加法
-                expr.setCharAt(marker, '+');
-                backTracing(nums, i + 1, cur + num, num, expr, target, res);
+                backTracing(nums, i + 1, cur + num, num, expr + "+" + num, target, res);
                 // 减法: a - b 相当于 a + -b
-                expr.setCharAt(marker, '-');
-                backTracing(nums, i + 1, cur - num, -num, expr, target, res);
+                backTracing(nums, i + 1, cur - num, -num, expr + "-" + num, target, res);
                 // 乘法: 这个算法很秀 cur - pre + pre * num
                 // 把上一个数从结果中剪掉, 和当前数相乘, 再加回结果中
                 // 以此达到优先计算乘法的目的
-                expr.setCharAt(marker, '*');
-                backTracing(nums, i + 1, cur - pre + pre * num, num * pre, expr, target, res);
+                backTracing(nums, i + 1, cur - pre + pre * num, num * pre, expr + "*" + num, target, res);
             }
         }
-        expr.setLength(marker);
     }
 
 }

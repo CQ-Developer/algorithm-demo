@@ -41,13 +41,15 @@ class Solution {
             if (j == 0) {
                 backTracing(nums, i + 1, num, num, expr, target, res);
             } else {
-                // 计算加法
+                // 加法
                 expr.setCharAt(marker, '+');
                 backTracing(nums, i + 1, cur + num, num, expr, target, res);
-                // 计算减法, a - b 相当于 a + -b
+                // 减法: a - b 相当于 a + -b
                 expr.setCharAt(marker, '-');
                 backTracing(nums, i + 1, cur - num, -num, expr, target, res);
-                // 乘法, 这个算法很秀 cur - pre + pre * num
+                // 乘法: 这个算法很秀 cur - pre + pre * num
+                // 把上一个数从结果中剪掉, 和当前数相乘, 再加回结果中
+                // 以此达到优先计算乘法的目的
                 expr.setCharAt(marker, '*');
                 backTracing(nums, i + 1, cur - pre + pre * num, num * pre, expr, target, res);
             }

@@ -25,4 +25,17 @@ class SolutionTest {
         Assertions.assertFalse(solution.judgePoint24(cards));
     }
 
+    @Test
+    void judgePoint24_3() {
+        int[] cards = {3, 3, 8, 8};
+        Assertions.assertTrue(solution.judgePoint24(cards));
+    }
+
+    @Test
+    void judgePoint24_4() {
+        // 6 / (1 - 3 / 4)
+        int[] cards = {1, 3, 4, 6};
+        Assertions.assertTrue(solution.judgePoint24(cards));
+    }
+
 }

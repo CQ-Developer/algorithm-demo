@@ -80,9 +80,11 @@ class Solution {
                     return true;
                 }
                 // 进行除法运算
-                list.set(0, f1.divide(f2));
-                if (dfs(list)) {
-                    return true;
+                if (f2.value() != 0) {
+                    list.set(0, f1.divide(f2));
+                    if (dfs(list)) {
+                        return true;
+                    }
                 }
             }
         }

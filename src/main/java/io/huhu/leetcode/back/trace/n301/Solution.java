@@ -1,10 +1,7 @@
 package io.huhu.leetcode.back.trace.n301;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * <a href="https://leetcode.cn/problems/remove-invalid-parentheses/description/">删除无效的括号</a>
@@ -19,55 +16,87 @@ import java.util.Set;
  */
 class Solution {
 
-    private int max = 0;
-
+    /**
+     * 入口
+     */
     public List<String> removeInvalidParentheses(String s) {
-        char[] chars = s.toCharArray();
-        int l = 0;
-        while (l < chars.length && chars[l] == ')') {
-            l++;
-        }
-        int r = chars.length - 1;
-        while (r > -1 && chars[r] == '(') {
-            r--;
-        }
-        Set<String> res = new HashSet<>();
-        backTracing(Arrays.copyOfRange(chars, l, r + 1), 0, 0, 0, new StringBuilder(), res);
-        if (res.isEmpty()) {
-            res.add("");
-        }
-        return new ArrayList<>(res);
-    }
-
-    private void backTracing(char[] s, int j, int left, int right, StringBuilder sb, Set<String> res) {
-        if (j == s.length) {
-            if (left == right) {
-                max = Math.max(max, sb.length());
-                if (sb.length() == max) {
-                    res.add(sb.toString());
+        // 计算出需要删除的左括号和右括号的数量
+        int l = 0, r = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '(') {
+                l++;
+            } else if (c == ')') {
+                if (l > 0) {
+                    l--;
+                } else {
+                    r++;
                 }
             }
+        }
+        // 回溯
+        List<String> res = new ArrayList<>();
+        dfs(new StringBuilder(s), 0, l, r, res);
+        return res;
+    }
+
+    /**
+     * 深度优先遍历 + 回溯
+     *
+     * @param s   字符串
+     * @param j   遍历的起始位置
+     * @param l   左括号剩余数量
+     * @param r   右括号剩余数量
+     * @param res 结果
+     */
+    private void dfs(StringBuilder s, int j, int l, int r, List<String> res) {
+        if (l == 0 && r == 0) {
+            if (check(s)) {
+                res.add(s.toString());
+            }
             return;
         }
-        if (s[j] == ')' && left == right) {
-            backTracing(s, j + 1, left, right, sb, res);
-            return;
-        }
-        for (int i = j; i < s.length; i++) {
-            int l = left, r = right;
-            if (s[i] == '(') {
-                l++;
-            }
-            if (s[i] == ')') {
-                r++;
-            }
-            if (r > l) {
+        for (int i = j; i < s.length(); i++) {
+            // 重复的字符访问以此即可
+            if (i > j && s.charAt(i) == s.charAt(i - 1)) {
                 continue;
             }
-            sb.append(s[i]);
-            backTracing(s, i + 1, l, r, sb, res);
-            sb.deleteCharAt(sb.length() - 1);
+            // 剩余字符不够
+            if (l + r > s.length() - i) {
+                return;
+            }
+            // 尝试删除左括号
+            if (l > 0 && s.charAt(i) == '(') {
+                s.deleteCharAt(i);
+                dfs(s, i, l - 1, r, res);
+                s.insert(i, '(');
+            }
+            // 删除右括号
+            if (r > 0 && s.charAt(i) == ')') {
+                s.deleteCharAt(i);
+                dfs(s, i, l, r - 1, res);
+                s.insert(i, ')');
+            }
         }
+    }
+
+    /**
+     * 检查字符串是否合法
+     */
+    private boolean check(CharSequence s) {
+        int cnt = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '(') {
+                cnt++;
+            } else if (c == ')') {
+                cnt--;
+                if (cnt < 0) {
+                    return false;
+                }
+            }
+        }
+        return cnt == 0;
     }
 
 }

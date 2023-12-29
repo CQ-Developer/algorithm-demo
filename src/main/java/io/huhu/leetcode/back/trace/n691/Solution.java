@@ -41,8 +41,35 @@ package io.huhu.leetcode.back.trace.n691;
  */
 class Solution {
 
+    private int res = -1;
+
     public int minStickers(String[] stickers, String target) {
-        return 0;
+        int[] letters = new int[26];
+        int i = 0;
+        for (; i < target.length(); i++) {
+            letters[target.charAt(i) - 'a']++;
+        }
+        dfs(stickers, 0, 0, letters, i);
+        return res;
+    }
+
+    private void dfs(String[] stickers, int i, int cnt, int[] letters, int total) {
+        if (total == 0) {
+            res = res == -1 ? cnt : Math.min(res, cnt);
+            return;
+        }
+        for (int j = i; j < stickers.length; j++) {
+            int found = 0;
+            int[] clone = letters.clone();
+            char[] sticker = stickers[j].toCharArray();
+            for (char c : sticker) {
+                if (clone[c - 'a'] > 0) {
+                    clone[c - 'a']--;
+                    found++;
+                }
+            }
+            dfs(stickers, found == 0 ? i + 1 : i, found == 0 ? cnt : cnt + 1, clone, total - found);
+        }
     }
 
 }

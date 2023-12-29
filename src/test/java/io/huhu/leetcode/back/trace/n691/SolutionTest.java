@@ -27,4 +27,18 @@ class SolutionTest {
         Assertions.assertEquals(-1, solution.minStickers(stickers, target));
     }
 
+    @Test
+    void minStickers3() {
+        String[] stickers = {"travel", "quotient", "nose", "wrote", "any"};
+        String target = "lastwest";
+        Assertions.assertEquals(4, solution.minStickers(stickers, target));
+    }
+
+    @Test
+    void minStickers4() {
+        String[] stickers = {"hour", "supply", "plain", "fruit", "pretty", "touch", "property"};
+        String target = "sharpcenter";
+        Assertions.assertEquals(5, solution.minStickers(stickers, target));
+    }
+
 }

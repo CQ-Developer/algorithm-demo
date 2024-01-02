@@ -6,8 +6,8 @@ package io.huhu.leetcode.bit.manipulation.easy.n67;
 class Solution {
 
     public String addBinary(String a, String b) {
-        StringBuilder sb = new StringBuilder();
-        int i = a.length() - 1, j = b.length() - 1, tmp = 0;
+        char[] res = new char[Math.max(a.length(), b.length()) + 1];
+        int k = res.length - 1, i = a.length() - 1, j = b.length() - 1, tmp = 0;
         while (i >= 0 || j >= 0) {
             char ac = i >= 0 ? a.charAt(i--) : '0', bc = j >= 0 ? b.charAt(j--) : '0';
             char tc;
@@ -20,12 +20,13 @@ class Solution {
             } else {
                 tc = tmp == 1 ? '0' : '1';
             }
-            sb.append(tc);
+            res[k--] = tc;
         }
         if (tmp == 1) {
-            sb.append(1);
+            res[k] = '1';
+            return String.valueOf(res);
         }
-        return sb.reverse().toString();
+        return String.valueOf(res, 1, res.length - 1);
     }
 
 }

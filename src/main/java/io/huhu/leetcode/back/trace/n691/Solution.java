@@ -1,5 +1,7 @@
 package io.huhu.leetcode.back.trace.n691;
 
+import java.util.Arrays;
+
 /**
  * <a href="https://leetcode.cn/problems/stickers-to-spell-word/description/">
  * 贴纸拼词
@@ -41,35 +43,37 @@ package io.huhu.leetcode.back.trace.n691;
  */
 class Solution {
 
-    private int res = -1;
-
     public int minStickers(String[] stickers, String target) {
-        int[] letters = new int[26];
-        int i = 0;
-        for (; i < target.length(); i++) {
-            letters[target.charAt(i) - 'a']++;
-        }
-        dfs(stickers, 0, 0, letters, i);
-        return res;
+        int[] f = new int[1 << 20];
+        Arrays.fill(f, -1);
+        int res = dfs(stickers, target.toCharArray(), target.length(), f, 0);
+        return res == 50 ? -1 : res;
     }
 
-    private void dfs(String[] stickers, int i, int cnt, int[] letters, int total) {
-        if (total == 0) {
-            res = res == -1 ? cnt : Math.min(res, cnt);
-            return;
+    private int dfs(String[] stickers, char[] target, int n, int[] cache, int state) {
+        if (state == ((1 << n) - 1)) {
+            return 0;
         }
-        for (int j = i; j < stickers.length; j++) {
-            int found = 0;
-            int[] clone = letters.clone();
-            char[] sticker = stickers[j].toCharArray();
-            for (char c : sticker) {
-                if (clone[c - 'a'] > 0) {
-                    clone[c - 'a']--;
-                    found++;
+        if (cache[state] != -1) {
+            return cache[state];
+        }
+        int ans = 50;
+        for (String sticker : stickers) {
+            int nstate = state;
+            out:
+            for (char c : sticker.toCharArray()) {
+                for (int i = 0; i < n; i++) {
+                    if (target[i] == c && ((nstate >> i) & 1) == 0) {
+                        nstate |= (1 << i);
+                        continue out;
+                    }
                 }
             }
-            dfs(stickers, found == 0 ? i + 1 : i, found == 0 ? cnt : cnt + 1, clone, total - found);
+            if (nstate != state) {
+                ans = Math.min(ans, dfs(stickers, target, n, cache, nstate) + 1);
+            }
         }
+        return cache[state] = ans;
     }
 
 }

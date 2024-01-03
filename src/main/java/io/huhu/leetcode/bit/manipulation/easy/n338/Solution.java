@@ -16,16 +16,7 @@ class Solution {
      *     return res;
      * }
      * }</pre>
-     */
-    public int[] countBits(int n) {
-        int[] res = new int[n + 1];
-        for (int i = 0; i <= n; i++) {
-            res[i] = count(i);
-        }
-        return res;
-    }
-
-    /**
+     * <p>方法二: 与运算</p>
      * <p>n & (n - 1) 可以将 n 的最后一位 1 变为 0</p>
      * <p>例如 15(1111) 进行如下计算:</p>
      * <pre>
@@ -46,14 +37,31 @@ class Solution {
      *         & 0111
      *         = 0000 = 0
      * </pre>
+     * <pre>{@code
+     * public int[] countBits(int n) {
+     *     int[] res = new int[n + 1];
+     *     for (int i = 0; i <= n; i++) {
+     *         res[i] = count(i);
+     *     }
+     *     return res;
+     * }
+     *
+     * private int count(int n) {
+     *     int cnt = 0;
+     *     while (n != 0) {
+     *         n &= (n - 1);
+     *         cnt++;
+     *     }
+     *     return cnt;
+     * }
+     * }</pre>
      */
-    private int count(int n) {
-        int cnt = 0;
-        while (n != 0) {
-            n &= (n - 1);
-            cnt++;
+    public int[] countBits(int n) {
+        int[] res = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            res[i] = res[i >> 1] + (i & 1);
         }
-        return cnt;
+        return res;
     }
 
 }

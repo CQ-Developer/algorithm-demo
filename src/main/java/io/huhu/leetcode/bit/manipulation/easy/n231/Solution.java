@@ -3,7 +3,7 @@ package io.huhu.leetcode.bit.manipulation.easy.n231;
 /**
  * <a href="https://leetcode.cn/problems/power-of-two/description/">2的幂</a>
  */
-public class Solution {
+class Solution {
 
     /**
      * 方法一: n & (n - 1) == 0

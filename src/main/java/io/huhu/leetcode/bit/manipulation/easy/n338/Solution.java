@@ -16,6 +16,7 @@ class Solution {
      *     return res;
      * }
      * }</pre>
+     * <br/>
      * <p>方法二: 与运算</p>
      * <p>n & (n - 1) 可以将 n 的最后一位 1 变为 0</p>
      * <p>例如 15(1111) 进行如下计算:</p>
@@ -36,8 +37,7 @@ class Solution {
      * 8 & 7 =   1000
      *         & 0111
      *         = 0000 = 0
-     * </pre>
-     * <pre>{@code
+     * {@code
      * public int[] countBits(int n) {
      *     int[] res = new int[n + 1];
      *     for (int i = 0; i <= n; i++) {

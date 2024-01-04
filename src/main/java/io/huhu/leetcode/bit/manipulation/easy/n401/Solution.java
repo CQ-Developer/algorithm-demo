@@ -28,11 +28,18 @@ class Solution {
      * 就能求得结果</p>
      */
     public List<String> readBinaryWatch(int turnedOn) {
+        StringBuilder sb = new StringBuilder();
         List<String> res = new ArrayList<>();
         for (int h = 0; h <= 11; h++) {
             for (int m = 0; m <= 59; m++) {
                 if (Integer.bitCount(h) + Integer.bitCount(m) == turnedOn) {
-                    res.add(h + ":" + (m < 10 ? "0" : "") + m);
+                    sb.append(h).append(':');
+                    if (m < 10) {
+                        sb.append('0');
+                    }
+                    sb.append(m);
+                    res.add(sb.toString());
+                    sb.setLength(0);
                 }
             }
         }

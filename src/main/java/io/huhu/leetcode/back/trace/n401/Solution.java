@@ -24,24 +24,9 @@ import java.util.List;
  */
 class Solution {
 
-    private final int[] times = {1, 2, 4, 8, 1, 2, 4, 8, 16, 32};
+    private final int[] hs = {1, 2, 4, 8, 0, 0, 0, 0, 0, 0};
+    private final int[] ms = {0, 0, 0, 0, 1, 2, 4, 8, 16, 32};
 
-    /**
-     * 补充穷举算法，时间复杂度O(1)，空间复杂度O(1)
-     * <pre>{@code
-     * public List<String> readBinaryWatch(int turnedOn) {
-     *     List<String> list = new ArrayList<>();
-     *     for (int h = 0; h < 12; h++) {
-     *         for (int m = 0; m < 60; m++) {
-     *             if (Integer.bitCount(h) + Integer.bitCount(m) == turnedOn) {
-     *                 list.add(h + ":" + (m > 10 ? m : "0" + m));
-     *             }
-     *         }
-     *     }
-     *     return list;
-     * }
-     * }</pre>
-     */
     public List<String> readBinaryWatch(int turnedOn) {
         List<String> result = new ArrayList<>();
         traceBack(turnedOn, 0, 0, 0, result);
@@ -49,16 +34,21 @@ class Solution {
     }
 
     private void traceBack(int turnedOn, int h, int m, int i, List<String> result) {
-        if (turnedOn == 0) {
-            result.add(h + ":" + (m > 9 ? m : "0" + m));
+        if (h > 11 || m > 59) {
+            return;
         }
-        for (int j = i; j < 10 && turnedOn > 0; j++) {
-            if (j < 4 && h + times[j] < 12) {
-                traceBack(turnedOn - 1, h + times[j], m, j + 1, result);
+        if (turnedOn == 0) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(h).append(':');
+            if (m < 10) {
+                sb.append('0');
             }
-            if (j >= 4 && m + times[j] < 60) {
-                traceBack(turnedOn - 1, h, m + times[j], j + 1, result);
-            }
+            sb.append(m);
+            result.add(sb.toString());
+            return;
+        }
+        for (int j = i; j < 10; j++) {
+            traceBack(turnedOn - 1, h + hs[j], m + ms[j], j + 1, result);
         }
     }
 

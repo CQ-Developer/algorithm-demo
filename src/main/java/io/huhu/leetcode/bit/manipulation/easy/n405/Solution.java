@@ -11,12 +11,13 @@ class Solution {
         if (num == 0) {
             return "0";
         }
-        StringBuilder sb = new StringBuilder();
+        int i = 7;
+        char[] s = new char[8];
         while (num != 0) {
-            sb.append(table[num & 15]);
+            s[i--] = table[num & 15];
             num >>>= 4;
         }
-        return sb.reverse().toString();
+        return String.valueOf(s, i + 1, 7 - i);
     }
 
 }

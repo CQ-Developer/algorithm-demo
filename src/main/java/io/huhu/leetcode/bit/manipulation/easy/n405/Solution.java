@@ -14,7 +14,7 @@ class Solution {
         int i = 7;
         char[] s = new char[8];
         while (num != 0) {
-            s[i--] = table[num & 15];
+            s[i--] = table[num & 0xf];
             num >>>= 4;
         }
         return String.valueOf(s, i + 1, 7 - i);

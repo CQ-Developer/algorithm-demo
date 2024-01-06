@@ -15,7 +15,7 @@ class SolutionTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {1, 5})
+    @ValueSource(ints = {1, 5, 1431655765})
     void hasAlternatingBits_true(int n) {
         Assertions.assertTrue(solution.hasAlternatingBits(n));
     }

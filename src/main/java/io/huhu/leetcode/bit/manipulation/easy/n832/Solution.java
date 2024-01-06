@@ -17,12 +17,15 @@ class Solution {
         for (int i = 0; i < image.length; i++) {
             int l = 0, r = image.length - 1;
             while (l < r) {
-                int t = image[i][l] ^ image[i][r];
-                image[i][l++] ^= t;
-                image[i][r--] ^= t;
+                if (image[i][l] == image[i][r]) {
+                    image[i][l] ^= 1;
+                    image[i][r] ^= 1;
+                }
+                l++;
+                r--;
             }
-            for (int j = 0; j < image[i].length; j++) {
-                image[i][j] ^= 1;
+            if (l == r) {
+                image[i][l] ^= 1;
             }
         }
         return image;

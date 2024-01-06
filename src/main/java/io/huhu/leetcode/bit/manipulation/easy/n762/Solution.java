@@ -8,8 +8,7 @@ class Solution {
     public int countPrimeSetBits(int left, int right) {
         int res = 0;
         for (int i = left; i <= right; i++) {
-            int bit = countBit(i);
-            res += (0xa28ac & (1 << bit)) != 0 ? 1 : 0;
+            res += (0xa28ac & (1 << countBit(i))) != 0 ? 1 : 0;
         }
         return res;
     }
@@ -20,8 +19,8 @@ class Solution {
     private int countBit(int n) {
         int cnt = 0;
         while (n != 0) {
-            cnt += n & 1;
-            n >>>= 1;
+            n &= n - 1;
+            cnt++;
         }
         return cnt;
     }

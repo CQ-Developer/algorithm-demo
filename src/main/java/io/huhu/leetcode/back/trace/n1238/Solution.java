@@ -1,8 +1,6 @@
 package io.huhu.leetcode.back.trace.n1238;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
 /**
@@ -18,58 +16,43 @@ import java.util.List;
 class Solution {
 
     /**
-     * 1 <= n <= 16
-     * 0 <= start < 2^n
+     * <ul>
+     * <li>1 <= n <= 16</li>
+     * <li>0 <= start < 2^n</li>
+     * </ul>
      */
     public List<Integer> circularPermutation(int n, int start) {
-        int len = 1 << n;
-        List<Integer> result = new ArrayList<>();
-        boolean[] used = new boolean[len];
+        int[] table = new int[1 << n];
+        for (int i = 0; i < n; i++) {
+            table[1 << i] = 1;
+        }
+        List<Integer> res = new ArrayList<>(1 << n);
+        int[] path = new int[1 << n];
+        path[0] = start;
+        boolean[] used = new boolean[1 << n];
         used[start] = true;
-        Deque<Integer> path = new ArrayDeque<>();
-        path.add(start);
-        dfs(used, path, result);
-        return result;
+        dfs(table, used, 1, path, res);
+        return res;
     }
 
-    /**
-     * 深度优先遍历 + 回溯
-     */
-    private void dfs(boolean[] used, Deque<Integer> path, List<Integer> result) {
-        if (path.size() == used.length) {
-            result.addAll(path);
+    private void dfs(int[] table, boolean[] used, int j, int[] path, List<Integer> res) {
+        if (j == path.length) {
+            if (table[path[0] ^ path[j - 1]] == 1) {
+                for (int n : path) {
+                    res.add(n);
+                }
+            }
             return;
         }
-        for (int i = 0; i < used.length && result.isEmpty(); i++) {
-            if (used[i]) {
-                continue;
-            }
-            if (check(i ^ path.getLast())) {
-                continue;
-            }
-            if (path.size() == used.length - 1 && check(i ^ path.getFirst())) {
+        for (int i = used.length - 1; i >= 0 && res.isEmpty(); i--) {
+            if (used[i] || table[i ^ path[j - 1]] == 0) {
                 continue;
             }
             used[i] = true;
-            path.addLast(i);
-            dfs(used, path, result);
+            path[j] = i;
+            dfs(table, used, j + 1, path, res);
             used[i] = false;
-            path.removeLast();
         }
-    }
-
-    /**
-     * 统计二进制位1的个数
-     */
-    private boolean check(int i) {
-        int cnt = 0;
-        while (i != 0) {
-            i &= (i - 1);
-            if (++cnt > 1) {
-                return true;
-            }
-        }
-        return false;
     }
 
 }

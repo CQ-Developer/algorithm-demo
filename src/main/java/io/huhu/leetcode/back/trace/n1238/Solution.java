@@ -22,37 +22,34 @@ class Solution {
      * </ul>
      */
     public List<Integer> circularPermutation(int n, int start) {
-        int[] table = new int[1 << n];
-        for (int i = 0; i < n; i++) {
-            table[1 << i] = 1;
-        }
         List<Integer> res = new ArrayList<>(1 << n);
-        int[] path = new int[1 << n];
-        path[0] = start;
+        res.add(start);
         boolean[] used = new boolean[1 << n];
         used[start] = true;
-        dfs(table, used, 1, path, res);
+        dfs(n, used, res);
         return res;
     }
 
-    private void dfs(int[] table, boolean[] used, int j, int[] path, List<Integer> res) {
-        if (j == path.length) {
-            if (table[path[0] ^ path[j - 1]] == 1) {
-                for (int n : path) {
-                    res.add(n);
-                }
-            }
-            return;
+    /**
+     * 核心思想：每次改变1位二进制位
+     * 深度优先遍历
+     */
+    private boolean dfs(int n, boolean[] used, List<Integer> res) {
+        if (res.size() == used.length) {
+            return true;
         }
-        for (int i = used.length - 1; i >= 0 && res.isEmpty(); i--) {
-            if (used[i] || table[i ^ path[j - 1]] == 0) {
+        for (int i = 0; i < n; i++) {
+            int num = res.get(res.size() - 1) ^ (1 << i);
+            if (used[num]) {
                 continue;
             }
-            used[i] = true;
-            path[j] = i;
-            dfs(table, used, j + 1, path, res);
-            used[i] = false;
+            res.add(num);
+            used[num] = true;
+            if (dfs(n, used, res)) {
+                return true;
+            }
         }
+        return false;
     }
 
 }

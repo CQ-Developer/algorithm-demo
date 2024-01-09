@@ -15,22 +15,13 @@ class Solution {
      */
     public int[] sortByBits(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
-            arr[i] += countBit(arr[i]) * 100000;
+            arr[i] += Integer.bitCount(arr[i]) * 100000;
         }
         Arrays.sort(arr);
         for (int i = 0; i < arr.length; i++) {
             arr[i] %= 100000;
         }
         return arr;
-    }
-
-    private int countBit(int n) {
-        int res = 0;
-        while (n != 0) {
-            n &= (n - 1);
-            res++;
-        }
-        return res;
     }
 
 }

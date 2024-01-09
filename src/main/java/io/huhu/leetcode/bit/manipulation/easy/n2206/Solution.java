@@ -1,7 +1,5 @@
 package io.huhu.leetcode.bit.manipulation.easy.n2206;
 
-import java.util.Arrays;
-
 /**
  * <a href="https://leetcode.cn/problems/divide-array-into-equal-pairs/description/">将数组划分成相等数对</a>
  */
@@ -15,9 +13,12 @@ class Solution {
      * </ul>
      */
     public boolean divideArray(int[] nums) {
-        Arrays.sort(nums);
-        for (int i = 1; i < nums.length; i += 2) {
-            if (nums[i] != nums[i - 1]) {
+        int[] table = new int[501];
+        for (int num : nums) {
+            table[num]++;
+        }
+        for (int num : table) {
+            if (num != 0 && (num & 1) == 1) {
                 return false;
             }
         }

@@ -10,6 +10,25 @@ class Solution {
      * <li>1 <= s.length <= 100</li>
      * <li>s只包含大写和小写英文字母</li>
      * </ul>
+     *
+     * <p>一种利用分治思想的更加优秀的解</p>
+     * <pre>{@code
+     * public String longestNiceSubstring(String s) {
+     *     if (s.length() < 2) {
+     *         return "";
+     *     }
+     *     for (int i = 0; i < s.length(); i++) {
+     *         char c = s.charAt(i);
+     *         if ((Character.isUpperCase(c) && !s.contains(String.valueOf(Character.toLowerCase(c))))
+     *          || (Character.isLowerCase(c) && !s.contains(String.valueOf(Character.toUpperCase(c))))) {
+     *             String s1 = longestNiceSubstring(s.substring(0, i));
+     *             String s2 = longestNiceSubstring(s.substring(i + 1));
+     *             return s1.length() >= s2.length() ? s1 : s2;
+     *         }
+     *     }
+     *     return s;
+     * }
+     * }</pre>
      */
     public String longestNiceSubstring(String s) {
         int pos = 0, len = 0, n = s.length();

@@ -9,7 +9,11 @@ class Solution {
      * 1 <= n <= 1000
      */
     public int[] evenOddBit(int n) {
-        return new int[]{Integer.bitCount(n & 0x155), Integer.bitCount(n & 0x2aa)};
+        int[] res = new int[2];
+        for (int i = 0; n != 0; i ^= 1, n >>>= 1) {
+            res[i] += n & 1;
+        }
+        return res;
     }
 
 }

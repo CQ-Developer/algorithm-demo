@@ -1,10 +1,6 @@
 package io.huhu.leetcode.bit.manipulation.easy.n1356;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <a href="https://leetcode.cn/problems/sort-integers-by-the-number-of-1-bits/description/">根据数字二进制下1的数目排序</a>
@@ -18,23 +14,12 @@ class Solution {
      * </ul>
      */
     public int[] sortByBits(int[] arr) {
-        Map<Integer, List<Integer>> table = new HashMap<>();
-        for (int n : arr) {
-            int cnt = countBit(n);
-            List<Integer> list = table.getOrDefault(cnt, new ArrayList<>());
-            list.add(n);
-            table.put(cnt, list);
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] += countBit(arr[i]) * 100000;
         }
         Arrays.sort(arr);
-        int i = 0;
-        for (int j = 0; j < 15; j++) {
-            List<Integer> list = table.get(j);
-            if (list == null) {
-                continue;
-            }
-            for (int n : list) {
-                arr[i++] = n;
-            }
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] %= 100000;
         }
         return arr;
     }

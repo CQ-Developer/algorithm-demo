@@ -11,13 +11,11 @@ class Solution {
      * </ul>
      */
     public int minBitFlips(int start, int goal) {
-        int i = 0, cnt = 0;
-        while (start != goal && i < 32) {
-            int mask = 1 << i++;
-            if ((goal & mask) != (start & mask)) {
-                start ^= mask;
-                cnt++;
-            }
+        start ^= goal;
+        int cnt = 0;
+        while (start != 0) {
+            start &= (start - 1);
+            cnt++;
         }
         return cnt;
     }

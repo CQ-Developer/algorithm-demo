@@ -51,7 +51,7 @@ class Solution {
             if (y < limit) {
                 continue;
             }
-            // 判断食材消耗是否超限
+            // 判断食材消耗是否超限, 注意这里直接continue到最外层循环寻找下一种组合
             for (int j = 0; j < m; j++) {
                 if (cost[j] > materials[j]) {
                     continue out;

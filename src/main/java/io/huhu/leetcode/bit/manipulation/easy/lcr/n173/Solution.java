@@ -6,15 +6,11 @@ package io.huhu.leetcode.bit.manipulation.easy.lcr.n173;
 class Solution {
 
     public int takeAttendance(int[] records) {
-        if (records.length == 1) {
-            return records[0] ^ 1;
-        }
+        int xor = 0;
         for (int i = 0; i < records.length; i++) {
-            if (i != records[i]) {
-                return i;
-            }
+            xor ^= records[i] ^ (i + 1);
         }
-        return records.length;
+        return xor;
     }
 
 }

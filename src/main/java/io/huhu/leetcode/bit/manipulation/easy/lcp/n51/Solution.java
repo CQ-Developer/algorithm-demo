@@ -38,6 +38,7 @@ class Solution {
             int x = 0, y = 0;
             int[] cost = new int[m];
             for (int i = 0; i < n; i++) {
+                // 第i位不是1则不做这种料理
                 if ((cook >> i & 1) == 0) {
                     continue;
                 }

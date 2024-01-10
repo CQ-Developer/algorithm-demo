@@ -30,7 +30,6 @@ class Solution {
      * 回溯算法
      */
     private int backTrace(int[][] cookbooks, boolean[] isCooked, int[] materials, int[][] attribute, int limit, int x, int y) {
-        // 料理饱腹感达标且美味度更高
         int max = y >= limit ? x : -1;
         for (int i = 0; i < cookbooks.length; i++) {
             // 料理已烹饪过

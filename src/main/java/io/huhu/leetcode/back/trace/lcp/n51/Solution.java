@@ -13,27 +13,25 @@ package io.huhu.leetcode.back.trace.lcp.n51;
 class Solution {
 
     /**
-     * materials.length == 5
-     * 1 <= cookbooks.length == attribute.length <= 8
-     * cookbooks[i].length == 5
-     * attribute[i].length == 2
-     * 0 <= materials[i], cookbook[i][j], attribute[i][j] <= 20
-     * 1 <= limit <= 100
+     * <ul>
+     * <li>materials.length == 5</li>
+     * <li>1 <= cookbooks.length == attribute.length <= 8</li>
+     * <li>cookbooks[i].length == 5</li>
+     * <li>attribute[i].length == 2</li>
+     * <li>0 <= materials[i], cookbook[i][j], attribute[i][j] <= 20</li>
+     * <li>1 <= limit <= 100</li>
+     * </ul>
      */
     public int perfectMenu(int[] materials, int[][] cookbooks, int[][] attribute, int limit) {
-        int[] result = {-1};
-        backTrace(cookbooks, new boolean[cookbooks.length], materials, attribute, limit, 0, 0, result);
-        return result[0];
+        return backTrace(cookbooks, new boolean[cookbooks.length], materials, attribute, limit, 0, 0);
     }
 
     /**
      * 回溯算法
      */
-    private void backTrace(int[][] cookbooks, boolean[] isCooked, int[] materials, int[][] attribute, int limit, int x, int y, int[] result) {
+    private int backTrace(int[][] cookbooks, boolean[] isCooked, int[] materials, int[][] attribute, int limit, int x, int y) {
         // 料理饱腹感达标且美味度更高
-        if (y >= limit && x > result[0]) {
-            result[0] = x;
-        }
+        int max = y >= limit ? x : -1;
         for (int i = 0; i < cookbooks.length; i++) {
             // 料理已烹饪过
             if (isCooked[i]) {
@@ -56,13 +54,14 @@ class Solution {
                 materials[j] -= cookbooks[i][j];
             }
             // 递归
-            backTrace(cookbooks, isCooked, materials, attribute, limit, x + attribute[i][0], y + attribute[i][1], result);
+            max = Math.max(max, backTrace(cookbooks, isCooked, materials, attribute, limit, x + attribute[i][0], y + attribute[i][1]));
             // 回溯状态: 回滚烹饪状态, 回滚材料状态
             for (int j = 0; j < cookbooks[i].length; j++) {
                 materials[j] += cookbooks[i][j];
             }
             isCooked[i] = false;
         }
+        return max;
     }
 
 }

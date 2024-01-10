@@ -15,8 +15,9 @@ class Solution {
         int max = 0;
         for (int a : nums) {
             for (int b : nums) {
-                if (Math.abs(a - b) <= Math.min(a, b)) {
-                    max = Math.max(max, a ^ b);
+                int xor = a ^ b;
+                if (xor > max && Math.abs(a - b) <= Math.min(a, b)) {
+                    max = xor;
                 }
             }
         }

@@ -17,23 +17,17 @@ class Solution {
      */
     public int minOperations(List<Integer> nums, int k) {
         long mask = 0;
-        while (k != 0) {
-            mask |= 1;
-            mask <<= 1;
-            k--;
-        }
-        int cnt = 0;
-        for (int i = nums.size() - 1; i >= 0; i--) {
-            long bit = 1L << nums.get(i);
-            if ((mask & bit) == bit) {
-                mask ^= bit;
+        int cnt = 0, ops = 0;
+        for (int i = nums.size() - 1; i >= 0 && cnt < k; i--) {
+            int num = nums.get(i);
+            long bit = 1L << num;
+            if (num <= k && ((mask & bit) == 0)) {
+                mask |= bit;
+                cnt++;
             }
-            cnt++;
-            if (mask == 0) {
-                break;
-            }
+            ops++;
         }
-        return cnt;
+        return ops;
     }
 
 }

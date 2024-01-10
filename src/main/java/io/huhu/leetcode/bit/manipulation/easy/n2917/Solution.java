@@ -13,7 +13,17 @@ class Solution {
      * </ul>
      */
     public int findKOr(int[] nums, int k) {
-        return 0;
+        int ans = 0;
+        for (int i = 0; i < 31; i++) {
+            int cnt = 0;
+            for (int num : nums) {
+                cnt += (num >> i) & 1;
+            }
+            if (cnt >= k) {
+                ans |= 1 << i;
+            }
+        }
+        return ans;
     }
 
 }

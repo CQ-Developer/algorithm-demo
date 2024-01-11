@@ -6,15 +6,13 @@ package io.huhu.leetcode.bit.manipulation.easy.interview.n01.n01;
 class Solution {
 
     public boolean isUnique(String astr) {
-        int[] a = new int[26];
+        int mask = 0;
         for (int i = 0; i < astr.length(); i++) {
-            int j = astr.charAt(i) - 'a';
-            a[j]++;
-        }
-        for (int cnt : a) {
-            if (cnt > 1) {
+            int bit = 1 << (astr.charAt(i) - 'a');
+            if ((mask & bit) == bit) {
                 return false;
             }
+            mask |= bit;
         }
         return true;
     }

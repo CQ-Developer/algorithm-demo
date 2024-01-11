@@ -6,16 +6,15 @@ package io.huhu.leetcode.bit.manipulation.easy.interview.n01.n04;
 class Solution {
 
     public boolean canPermutePalindrome(String s) {
-        int cnt = 0;
-        int[] table = new int[256];
+        long l = 0, r = 0;
         for (int i = 0; i < s.length(); i++) {
-            if ((table[s.charAt(i)]++ & 1) == 1) {
-                cnt--;
+            if (s.charAt(i) >= 64) {
+                r ^= 1L << s.charAt(i) - 64;
             } else {
-                cnt++;
+                l ^= 1L << s.charAt(i);
             }
         }
-        return cnt <= 1;
+        return Long.bitCount(l) + Long.bitCount(r) <= 1;
     }
 
 }

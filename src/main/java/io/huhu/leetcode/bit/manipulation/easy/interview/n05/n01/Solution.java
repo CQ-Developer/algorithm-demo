@@ -6,15 +6,8 @@ package io.huhu.leetcode.bit.manipulation.easy.interview.n05.n01;
 class Solution {
 
     public int insertBits(int N, int M, int i, int j) {
-        for (int p = i; p <= j; p++, M >>>= 1) {
-            int mask = 1 << p;
-            if ((M & 1) == 1) {
-                N |= mask;
-            } else {
-                N &= ~mask;
-            }
-        }
-        return N;
+        int mask = (-1 << j << 1) ^ ((1 << i) - 1);
+        return N & mask | (M << i);
     }
 
 }

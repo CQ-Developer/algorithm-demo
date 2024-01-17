@@ -1,6 +1,7 @@
 package io.huhu.leetcode.dynamic.programming.easy.n118;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -9,21 +10,17 @@ import java.util.List;
 class Solution {
 
     public List<List<Integer>> generate(int numRows) {
-        List<List<Integer>> res = new ArrayList<>();
-        res.add(List.of(1));
-        if (numRows < 2) {
-            return res;
-        }
-        res.add(List.of(1, 1));
-        for (int i = 2; i < numRows; i++) {
-            List<Integer> pre = res.get(i - 1);
-            List<Integer> cur = new ArrayList<>(i);
-            cur.add(1);
-            for (int j = 0; j < pre.size() - 1; j++) {
-                cur.add(pre.get(j) + pre.get(j + 1));
+        Integer[][] dp = new Integer[numRows][];
+        for (int i = 0; i < numRows; i++) {
+            dp[i] = new Integer[i + 1];
+            dp[i][0] = dp[i][i] = 1;
+            for (int j = 1; j < i; j++) {
+                dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
             }
-            cur.add(1);
-            res.add(cur);
+        }
+        List<List<Integer>> res = new ArrayList<>();
+        for (Integer[] a : dp) {
+            res.add(Arrays.asList(a));
         }
         return res;
     }

@@ -6,12 +6,13 @@ package io.huhu.leetcode.dynamic.programming.easy.n746;
 class Solution {
 
     public int minCostClimbingStairs(int[] cost) {
-        int n = cost.length;
-        int[] dp = new int[n + 1];
-        for (int i = 2; i <= n; i++) {
-            dp[i] = Math.min(dp[i - 2] + cost[i - 2], dp[i - 1] + cost[i - 1]);
+        int a = 0, b = 0;
+        for (int i = 2; i <= cost.length; i++) {
+            int c = Math.min(a + cost[i - 2], b + cost[i - 1]);
+            a = b;
+            b = c;
         }
-        return dp[n];
+        return b;
     }
 
 }

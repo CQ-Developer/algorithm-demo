@@ -6,6 +6,7 @@ package io.huhu.leetcode.bit.manipulation.medium.n29;
 class Solution {
 
     public int divide(int dividend, int divisor) {
+        // todo 暂时停止位运算
         return 0;
     }
 

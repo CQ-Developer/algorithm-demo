@@ -8,6 +8,9 @@ import java.util.List;
  */
 class Solution {
 
+    /**
+     * 动态规划
+     */
     public List<Integer> getRow(int rowIndex) {
         Integer[] res = {1};
         for (int i = 1; i <= rowIndex; i++) {

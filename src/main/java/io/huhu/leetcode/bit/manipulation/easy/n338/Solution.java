@@ -1,7 +1,7 @@
 package io.huhu.leetcode.bit.manipulation.easy.n338;
 
 /**
- * <a href="https://leetcode.cn/problems/counting-bits/description/">比特位计算</a>
+ * <a href="https://leetcode.cn/problems/counting-bits/description/">比特位计数</a>
  */
 class Solution {
 

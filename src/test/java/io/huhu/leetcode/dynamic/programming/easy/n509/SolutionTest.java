@@ -28,4 +28,24 @@ class SolutionTest {
         Assertions.assertEquals(3, solution.fib(4));
     }
 
+    @Test
+    void fib_4() {
+        Assertions.assertEquals(196418, solution.fib(27));
+    }
+
+    @Test
+    void fib_5() {
+        Assertions.assertEquals(0, solution.fib(0));
+    }
+
+    @Test
+    void fib_6() {
+        Assertions.assertEquals(34, solution.fib(9));
+    }
+
+    @Test
+    void fib_7() {
+        Assertions.assertEquals(1, solution.fib(1));
+    }
+
 }

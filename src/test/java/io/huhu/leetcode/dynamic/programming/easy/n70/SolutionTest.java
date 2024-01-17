@@ -28,4 +28,9 @@ class SolutionTest {
         Assertions.assertEquals(1836311903, solution.climbStairs(45));
     }
 
+    @Test
+    void climbStairs_4() {
+        Assertions.assertEquals(1, solution.climbStairs(1));
+    }
+
 }

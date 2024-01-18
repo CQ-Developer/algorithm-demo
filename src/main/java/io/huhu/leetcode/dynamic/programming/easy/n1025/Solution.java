@@ -6,7 +6,7 @@ package io.huhu.leetcode.dynamic.programming.easy.n1025;
 class Solution {
 
     public boolean divisorGame(int n) {
-        boolean[] f = new boolean[n + 1];
+        boolean[] f = new boolean[n + 2];
         f[1] = false;
         f[2] = true;
         for (int i = 3; i <= n; i++) {

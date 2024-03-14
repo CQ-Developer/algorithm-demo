@@ -6,21 +6,17 @@ package io.huhu.leetcode.dynamic.programming.easy.lcp07;
 class Solution {
 
     public int numWays(int n, int[][] relation, int k) {
-        return backTrace(0, n, relation, k);
-    }
-
-    private int backTrace(int i, int n, int[][] relations, int k) {
-        if (k == 0) {
-            return i == n - 1 ? 1 : 0;
-        }
-        int sum = 0;
-        for (int[] relation : relations) {
-            if (relation[0] != i) {
-                continue;
+        int[][] f = new int[k + 1][n];
+        // 第0轮传递到编号为0的小朋友的方案数量
+        f[0][0] = 1;
+        for (int i = 1; i <= k; i++) {
+            for (int[] r : relation) {
+                // 第i轮消息能传递到小朋友r[1]的方案数量 = 上一轮(第i-1轮)消息传递传递到小朋友r[0]的方案数 + 本轮(第i轮)消息传递到小朋友r[1]的方案数量
+                // 注意: 消息传递方式 r[0] -> r[1]
+                f[i][r[1]] += f[i - 1][r[0]];
             }
-            sum += backTrace(relation[1], n, relations, k - 1);
         }
-        return sum;
+        return f[k][n - 1];
     }
 
 }

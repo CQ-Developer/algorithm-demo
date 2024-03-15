@@ -6,16 +6,13 @@ package io.huhu.leetcode.dynamic.programming.easy.lcr127;
 class Solution {
 
     public int trainWays(int num) {
-        if (num < 2) {
-            return 1;
+        int a = 1, b = 1;
+        for (int i = 2; i < num + 1; i++) {
+            b = a + b;
+            a = b - a;
+            b %= 1000000007;
         }
-        int[] dp = new int[num + 1];
-        dp[0] = dp[1] = 1;
-        for (int i = 2; i < dp.length; i++) {
-            dp[i] = dp[i - 1] + dp[i - 2];
-            dp[i] %= 1000000007;
-        }
-        return dp[num];
+        return b;
     }
 
 }

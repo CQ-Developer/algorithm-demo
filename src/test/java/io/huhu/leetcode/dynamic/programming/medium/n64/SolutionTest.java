@@ -1,15 +1,21 @@
-package io.huhu.leetcode.n64;
+package io.huhu.leetcode.dynamic.programming.medium.n64;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SolutionTest {
 
-    final Solution solution = new Solution();
+    Solution solution;
+
+    @BeforeEach
+    void setup() {
+        solution = new Solution();
+    }
 
     @Test
-    void minPathSum_1() {
+    void test_1() {
         int[][] grid = {
                 {1, 3, 1},
                 {1, 5, 1},
@@ -18,7 +24,7 @@ class SolutionTest {
     }
 
     @Test
-    void minPathSum_2() {
+    void test_2() {
         int[][] grid = {
                 {1, 2, 3},
                 {4, 5, 6}};

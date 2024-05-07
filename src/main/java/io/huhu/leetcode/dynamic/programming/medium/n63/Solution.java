@@ -3,7 +3,7 @@ package io.huhu.leetcode.dynamic.programming.medium.n63;
 /**
  * <a href="https://leetcode.cn/problems/unique-paths-ii/description/">不同路径II</a>
  */
-public class Solution {
+class Solution {
 
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
         int m = obstacleGrid.length, n = obstacleGrid[0].length;

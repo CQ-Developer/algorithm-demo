@@ -8,10 +8,10 @@ class Solution {
     public boolean isInterleave(String s1, String s2, String s3) {
         int n = s1.length(), m = s2.length(), t = s3.length();
         // 长度必须相等，然后进行深搜
-        return n + m == t && dfs(0, 0, 0, n, m, t, s1, s2, s3, new boolean[n + 1][m + 1]);
+        return n + m == t && dfs(0, 0, 0, n, m, t, s1.toCharArray(), s2.toCharArray(), s3.toCharArray(), new boolean[n + 1][m + 1]);
     }
 
-    private boolean dfs(int i, int j, int k, int n, int m, int t, String s1, String s2, String s3, boolean[][] visited) {
+    private boolean dfs(int i, int j, int k, int n, int m, int t, char[] s1, char[] s2, char[] s3, boolean[][] visited) {
         // s3字符串已经被遍历完成
         if (k == t) {
             return true;
@@ -26,14 +26,14 @@ class Solution {
         // 1. i没有越界
         // 2. s1[i] == s3[k]
         // 3. 判断下一个字符，即 i+1 和 k+1
-        if (i < n && s1.charAt(i) == s3.charAt(k) && dfs(i + 1, j, k + 1, n, m, t, s1, s2, s3, visited)) {
+        if (i < n && s1[i] == s3[k] && dfs(i + 1, j, k + 1, n, m, t, s1, s2, s3, visited)) {
             return true;
         }
         // 判断s2[j]是否能交错
         // 1. j没有越界
         // 2. s2[j] == s3[k]
         // 3. 判断下一个字符，即 j+1 和 k+1
-        if (j < m && s2.charAt(j) == s3.charAt(k) && dfs(i, j + 1, k + 1, n, m, t, s1, s2, s3, visited)) {
+        if (j < m && s2[j] == s3[k] && dfs(i, j + 1, k + 1, n, m, t, s1, s2, s3, visited)) {
             return true;
         }
         // 都不能进行交错返回错误

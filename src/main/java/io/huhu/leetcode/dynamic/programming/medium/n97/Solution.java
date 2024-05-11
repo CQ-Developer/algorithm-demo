@@ -7,10 +7,7 @@ class Solution {
 
     public boolean isInterleave(String s1, String s2, String s3) {
         int n = s1.length(), m = s2.length(), t = s3.length();
-        if (n + m != t) {
-            return false;
-        }
-        return dfs(0, 0, 0, n, m, t, s1, s2, s3, new boolean[n + 1][m + 1]);
+        return n + m == t && dfs(0, 0, 0, n, m, t, s1, s2, s3, new boolean[n + 1][m + 1]);
     }
 
     private boolean dfs(int i, int j, int k, int n, int m, int t, String s1, String s2, String s3, boolean[][] cache) {

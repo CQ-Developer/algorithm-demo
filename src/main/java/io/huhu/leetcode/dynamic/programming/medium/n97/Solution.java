@@ -10,20 +10,24 @@ class Solution {
         if (n + m != t) {
             return false;
         }
-        boolean[][] f = new boolean[n + 1][m + 1];
-        f[0][0] = true;
-        for (int i = 0; i <= n; i++) {
-            for (int j = 0; j <= m; j++) {
-                int p = i + j - 1;
-                if (i > 0) {
-                    f[i][j] |= (f[i - 1][j] && s1.charAt(i - 1) == s3.charAt(p));
-                }
-                if (j > 0) {
-                    f[i][j] |= (f[i][j - 1] && s2.charAt(j - 1) == s3.charAt(p));
-                }
-            }
+        return dfs(0, 0, 0, n, m, t, s1, s2, s3, new boolean[n + 1][m + 1]);
+    }
+
+    private boolean dfs(int i, int j, int k, int n, int m, int t, String s1, String s2, String s3, boolean[][] cache) {
+        if (k == t) {
+            return true;
         }
-        return f[n][m];
+        if (cache[i][j]) {
+            return false;
+        }
+        cache[i][j] = true;
+        if (i < n && s1.charAt(i) == s3.charAt(k) && dfs(i + 1, j, k + 1, n, m, t, s1, s2, s3, cache)) {
+            return true;
+        }
+        if (j < m && s2.charAt(j) == s3.charAt(k) && dfs(i, j + 1, k + 1, n, m, t, s1, s2, s3, cache)) {
+            return true;
+        }
+        return false;
     }
 
 }

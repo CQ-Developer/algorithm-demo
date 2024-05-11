@@ -7,6 +7,7 @@ class Solution {
 
     public boolean isInterleave(String s1, String s2, String s3) {
         int n = s1.length(), m = s2.length(), t = s3.length();
+        // 长度必须相等，然后进行深搜
         return n + m == t && dfs(0, 0, 0, n, m, t, s1, s2, s3, new boolean[n + 1][m + 1]);
     }
 

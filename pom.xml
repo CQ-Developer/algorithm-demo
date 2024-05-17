@@ -8,6 +8,13 @@
     <artifactId>algorithm-demo</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <developers>
+        <developer>
+            <name>Jack</name>
+            <email>18551681083@163.com</email>
+        </developer>
+    </developers>
+
     <dependencyManagement>
         <dependencies>
             <dependency>

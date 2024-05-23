@@ -8,32 +8,30 @@ import java.util.List;
  */
 class Solution {
 
-    /**
-     * <ul>
-     * <li>1 &lt;= expression.length &lt;= 20</li>
-     * <li>expression由数字和算符'+', '-'和'*'组成</li>
-     * <li>输入表达式中的所有整数值在范围[0,99]</li>
-     * </ul>
-     */
     public List<Integer> diffWaysToCompute(String expression) {
-        if (isDigit(expression)) {
-            return List.of(Integer.valueOf(expression));
+        char[] chars = expression.toCharArray();
+        return diffWaysToCompute(chars, 0, chars.length);
+    }
+
+    private List<Integer> diffWaysToCompute(char[] expr, int s, int e) {
+        if (isDigit(expr, s, e)) {
+            return List.of(toDigit(expr, s, e));
         }
         List<Integer> res = new ArrayList<>();
-        for (int i = 0; i < expression.length(); i++) {
-            char c = expression.charAt(i);
+        for (int i = s; i < e; i++) {
+            char c = expr[i];
             if (c == '+' || c == '-' || c == '*') {
-                List<Integer> left = diffWaysToCompute(expression.substring(0, i));
-                List<Integer> right = diffWaysToCompute(expression.substring(i + 1));
+                List<Integer> left = diffWaysToCompute(expr, s, i);
+                List<Integer> right = diffWaysToCompute(expr, i + 1, e);
                 for (int l : left) {
                     for (int r : right) {
-                        int ans = switch (c) {
-                            case '+' -> l + r;
-                            case '-' -> l - r;
-                            case '*' -> l * r;
-                            default -> 0;
-                        };
-                        res.add(ans);
+                        if (c == '+') {
+                            res.add(l + r);
+                        } else if (c == '-') {
+                            res.add(l - r);
+                        } else {
+                            res.add(l * r);
+                        }
                     }
                 }
             }
@@ -41,14 +39,22 @@ class Solution {
         return res;
     }
 
-    private boolean isDigit(String s) {
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (c < '0' || c > '9') {
+    private boolean isDigit(char[] expr, int s, int e) {
+        for (int i = s; i < e; i++) {
+            if (expr[i] < '0' || expr[i] > '9') {
                 return false;
             }
         }
         return true;
+    }
+
+    private int toDigit(char[] expr, int s, int e) {
+        int num = 0;
+        for (int i = s; i < e; i++) {
+            int n = expr[i] - '0';
+            num = 10 * num + n;
+        }
+        return num;
     }
 
 }

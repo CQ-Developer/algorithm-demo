@@ -10,51 +10,35 @@ class Solution {
 
     public List<Integer> diffWaysToCompute(String expression) {
         char[] chars = expression.toCharArray();
-        return diffWaysToCompute(chars, 0, chars.length);
+        return diffWaysToCompute(chars, 0, chars.length - 1);
     }
 
     private List<Integer> diffWaysToCompute(char[] expr, int s, int e) {
-        if (isDigit(expr, s, e)) {
-            return List.of(toDigit(expr, s, e));
-        }
         List<Integer> res = new ArrayList<>();
-        for (int i = s; i < e; i++) {
-            char c = expr[i];
-            if (c == '+' || c == '-' || c == '*') {
-                List<Integer> left = diffWaysToCompute(expr, s, i);
+        int num = 0;
+        for (int i = s; i <= e; i++) {
+            if (expr[i] == '+' || expr[i] == '-' || expr[i] == '*') {
+                List<Integer> left = diffWaysToCompute(expr, s, i - 1);
                 List<Integer> right = diffWaysToCompute(expr, i + 1, e);
                 for (int l : left) {
                     for (int r : right) {
-                        if (c == '+') {
+                        if (expr[i] == '+') {
                             res.add(l + r);
-                        } else if (c == '-') {
+                        } else if (expr[i] == '-') {
                             res.add(l - r);
                         } else {
                             res.add(l * r);
                         }
                     }
                 }
+            } else {
+                num = 10 * num + (expr[i] - '0');
             }
+        }
+        if (res.isEmpty()) {
+            res.add(num);
         }
         return res;
-    }
-
-    private boolean isDigit(char[] expr, int s, int e) {
-        for (int i = s; i < e; i++) {
-            if (expr[i] < '0' || expr[i] > '9') {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private int toDigit(char[] expr, int s, int e) {
-        int num = 0;
-        for (int i = s; i < e; i++) {
-            int n = expr[i] - '0';
-            num = 10 * num + n;
-        }
-        return num;
     }
 
 }

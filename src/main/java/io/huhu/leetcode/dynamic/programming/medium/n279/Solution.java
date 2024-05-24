@@ -6,24 +6,17 @@ package io.huhu.leetcode.dynamic.programming.medium.n279;
 class Solution {
 
     public int numSquares(int n) {
-        return dfs(n, new int[n + 1]);
-    }
-
-    private int dfs(int n, int[] cache) {
-        if (n <= 3) {
-            return n;
-        }
-        if (cache[n] != 0) {
-            return cache[n];
-        }
-        int ans = Integer.MAX_VALUE;
-        for (int i = n >> 1; i > 0; i--) {
-            int s = i * i;
-            if (s <= n) {
-                ans = Math.min(ans, 1 + dfs(n - s, cache));
+        int[] dp = new int[n + 1];
+        for (int i = 0; i <= n; i++) {
+            // dp[i]表示完全平方数和为i的最小个数
+            // 最大可能就是i，即1+1+...+1
+            dp[i] = i;
+            for (int j = 1; j * j <= i; j++) {
+                // dp[i-j*j]表示上一个完全平方和小于i的最小个数
+                dp[i] = Math.min(dp[i], 1 + dp[i - j * j]);
             }
         }
-        return cache[n] = ans;
+        return dp[n];
     }
 
 }

@@ -2,6 +2,9 @@ package io.huhu.leetcode.dynamic.programming.medium.n300;
 
 import java.util.Arrays;
 
+/**
+ * <a href="https://leetcode.cn/problems/longest-increasing-subsequence/description/">最长递增子序列</a>
+ */
 class Solution {
 
     public int lengthOfLIS(int[] nums) {

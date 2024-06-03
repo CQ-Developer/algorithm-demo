@@ -6,33 +6,32 @@ package io.huhu.leetcode.dynamic.programming.core.house.robber.n2560;
 class Solution {
 
     public int minCapability(int[] nums, int k) {
-        int left = 0, right = 0;
+        int l = Integer.MAX_VALUE, r = Integer.MIN_VALUE;
         for (int num : nums) {
-            right = Math.max(right, num);
-        }
-        while (left + 1 < right) {
-            int mid = (left + right) >>> 1;
-            if (check(nums, k, mid)) {
-                right = mid;
-            } else {
-                left = mid;
+            if (num > r) {
+                r = num;
+            }
+            if (num < l) {
+                l = num;
             }
         }
-        return right;
-    }
-
-    private boolean check(int[] nums, int k, int mid) {
-        int p = 0, c = 0;
-        for (int num : nums) {
-            if (num > mid) {
-                p = c;
+        while (l <= r) {
+            int m = l + r >> 1, c = 0;
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] <= m) {
+                    if (++c == k) {
+                        break;
+                    }
+                    i++;
+                }
+            }
+            if (c >= k) {
+                r = m - 1;
             } else {
-                int t = c;
-                c = Math.max(c, p + 1);
-                p = t;
+                l = m + 1;
             }
         }
-        return c >= k;
+        return l;
     }
 
 }

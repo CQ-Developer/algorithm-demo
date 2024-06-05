@@ -1,23 +1,27 @@
 package io.huhu.leetcode.dynamic.programming.medium.n353;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * <h1><a href="https://leetcode.cn/problems/integer-break/description/">Integer Break</a></h1>
  */
 class Solution {
 
     public int integerBreak(int n) {
-        int[] dp = new int[n + 1];
-        // can't break 0 and 1
-        for (int i = 2; i < dp.length; i++) {
-            for (int j = 1; j < i; j++) {
-                // !Note: number i can break into j + (i - j)
-                // if number i - j can't break, the maximize product is j * (i - j)
-                // if number i - j can break, the previous maximize product is dp[i - j],
-                // so the current maximize product is j * dp[i - j]
-                dp[i] = Math.max(dp[i], Math.max(j * (i - j), j * dp[i - j]));
-            }
+        return dfs(n, new HashMap<>());
+    }
+
+    private int dfs(int n, Map<Integer, Integer> cache) {
+        if (cache.containsKey(n)) {
+            return cache.get(n);
         }
-        return dp[n];
+        int max = 1;
+        for (int i = 1; i < (n >> 1) + 1; i++) {
+            max = Math.max(max, Math.max(i * (n - i), i * dfs(n - i, cache)));
+        }
+        cache.put(n, max);
+        return max;
     }
 
 }

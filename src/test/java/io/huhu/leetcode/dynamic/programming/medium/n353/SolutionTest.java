@@ -23,4 +23,9 @@ class SolutionTest {
         Assertions.assertEquals(36, solution.integerBreak(10));
     }
 
+    @Test
+    void test3() {
+        Assertions.assertEquals(2, solution.integerBreak(3));
+    }
+
 }

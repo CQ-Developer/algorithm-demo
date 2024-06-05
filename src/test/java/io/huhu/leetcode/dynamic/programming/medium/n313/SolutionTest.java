@@ -27,4 +27,11 @@ class SolutionTest {
         Assertions.assertEquals(1, solution.nthSuperUglyNumber(n, primes));
     }
 
+    @Test
+    void test3() {
+        int n = 5911;
+        int[] primes = {2, 3, 5, 7};
+        Assertions.assertEquals(2144153025, solution.nthSuperUglyNumber(n, primes));
+    }
+
 }

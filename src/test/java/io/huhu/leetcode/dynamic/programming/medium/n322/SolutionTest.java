@@ -43,4 +43,16 @@ class SolutionTest {
         Assertions.assertEquals(20, solution.coinChange(coins, 100));
     }
 
+    @Test
+    void test6() {
+        int[] coins = {1};
+        Assertions.assertEquals(2, solution.coinChange(coins, 2));
+    }
+
+    @Test
+    void test7() {
+        int[] coins = {186, 419, 83, 408};
+        Assertions.assertEquals(20, solution.coinChange(coins, 6249));
+    }
+
 }

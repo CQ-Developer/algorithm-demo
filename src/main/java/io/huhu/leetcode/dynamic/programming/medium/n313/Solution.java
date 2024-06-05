@@ -6,26 +6,26 @@ package io.huhu.leetcode.dynamic.programming.medium.n313;
 class Solution {
 
     public int nthSuperUglyNumber(int n, int[] primes) {
-        int[] points = new int[primes.length];
-        int[] dp = new int[n];
+        int[] p = new int[primes.length];
+        long[] dp = new long[n];
         dp[0] = 1;
         for (int i = 1; i < dp.length; i++) {
-            dp[i] = Integer.MAX_VALUE;
-            for (int j = 0; j < primes.length; j++) {
-                int t = Math.min(dp[i], dp[points[j]] * primes[j]);
-                // 处理越界问题
-                if (t < 0) {
-                    continue;
+            int k = 0;
+            dp[i] = dp[p[k]] * primes[k];
+            for (int j = 1; j < primes.length; j++) {
+                long cur = dp[p[j]] * primes[j];
+                if (cur == dp[i - 1]) {
+                    p[j]++;
+                    cur = dp[p[j]] * primes[j];
                 }
-                dp[i] = t;
-            }
-            for (int j = 0; j < points.length; j++) {
-                if (dp[i] == dp[points[j]] * primes[j]) {
-                    points[j]++;
+                if (cur < dp[i]) {
+                    dp[i] = cur;
+                    k = j;
                 }
             }
+            p[k]++;
         }
-        return dp[n - 1];
+        return (int) dp[n - 1];
     }
 
 }

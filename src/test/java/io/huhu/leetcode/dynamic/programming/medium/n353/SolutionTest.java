@@ -28,4 +28,9 @@ class SolutionTest {
         Assertions.assertEquals(2, solution.integerBreak(3));
     }
 
+    @Test
+    void test4() {
+        Assertions.assertEquals(1549681956, solution.integerBreak(58));
+    }
+
 }

@@ -1,27 +1,18 @@
 package io.huhu.leetcode.dynamic.programming.medium.n353;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * <h1><a href="https://leetcode.cn/problems/integer-break/description/">Integer Break</a></h1>
  */
 class Solution {
 
     public int integerBreak(int n) {
-        return dfs(n, new HashMap<>());
-    }
-
-    private int dfs(int n, Map<Integer, Integer> cache) {
-        if (cache.containsKey(n)) {
-            return cache.get(n);
+        int[] dp = new int[n + 1];
+        for (int i = 2; i < dp.length; i++) {
+            for (int j = 1; j < (i >> 1) + 1; j++) {
+                dp[i] = Math.max(dp[i], Math.max(j * (i - j), j * dp[i - j]));
+            }
         }
-        int max = 1;
-        for (int i = 1; i < (n >> 1) + 1; i++) {
-            max = Math.max(max, Math.max(i * (n - i), i * dfs(n - i, cache)));
-        }
-        cache.put(n, max);
-        return max;
+        return dp[n];
     }
 
 }

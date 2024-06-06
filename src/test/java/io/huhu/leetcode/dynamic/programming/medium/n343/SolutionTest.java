@@ -1,4 +1,4 @@
-package io.huhu.leetcode.dynamic.programming.medium.n353;
+package io.huhu.leetcode.dynamic.programming.medium.n343;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

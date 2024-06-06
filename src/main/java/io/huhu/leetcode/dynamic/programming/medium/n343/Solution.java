@@ -1,4 +1,4 @@
-package io.huhu.leetcode.dynamic.programming.medium.n353;
+package io.huhu.leetcode.dynamic.programming.medium.n343;
 
 /**
  * <h1><a href="https://leetcode.cn/problems/integer-break/description/">Integer Break</a></h1>

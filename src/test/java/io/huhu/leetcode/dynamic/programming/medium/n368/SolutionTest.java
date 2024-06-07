@@ -31,4 +31,17 @@ class SolutionTest {
         Assertions.assertIterableEquals(expected, solution.largestDivisibleSubset(nums));
     }
 
+    @Test
+    void test3() {
+        int[] nums = {1};
+        Assertions.assertIterableEquals(List.of(1), solution.largestDivisibleSubset(nums));
+    }
+
+    @Test
+    void test4() {
+        int[] nums = {3, 4, 16, 8};
+        List<Integer> expected = List.of(4, 8, 16);
+        Assertions.assertIterableEquals(expected, solution.largestDivisibleSubset(nums));
+    }
+
 }

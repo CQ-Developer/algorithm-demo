@@ -18,10 +18,8 @@ class SolutionTest {
     @Test
     void test1() {
         int[] nums = {1, 2, 3};
-        List<Integer> actual = solution.largestDivisibleSubset(nums);
-        boolean len = actual.size() == 2;
-        boolean content = List.of(1, 2).equals(actual) || List.of(1, 3).equals(actual);
-        Assertions.assertTrue(len && content);
+        List<Integer> expected = List.of(1, 2);
+        Assertions.assertIterableEquals(expected, solution.largestDivisibleSubset(nums));
     }
 
     @Test

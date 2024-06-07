@@ -1,6 +1,8 @@
 package io.huhu.leetcode.dynamic.programming.medium.n368;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -26,25 +28,29 @@ class Solution {
      * </ul>
      */
     public List<Integer> largestDivisibleSubset(int[] nums) {
-        List<Integer> ans = new ArrayList<>();
-        if (nums.length == 1) {
-            ans.add(nums[0]);
-            return ans;
-        }
+        Arrays.sort(nums);
+        List<Integer>[] dp = new List[nums.length];
         for (int i = 0; i < nums.length; i++) {
             List<Integer> list = new ArrayList<>();
             list.add(nums[i]);
-            for (int j = i + 1, k = i; j < nums.length; j++, k++) {
-                if (nums[k] % nums[j] != 0 && nums[j] % nums[k] != 0) {
-                    continue;
+            dp[i] = list;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[i] % nums[j] == 0 && dp[j].size() + 1 > dp[i].size()) {
+                    dp[i].clear();
+                    dp[i].addAll(dp[j]);
+                    dp[i].add(nums[i]);
                 }
-                list.add(nums[j]);
-            }
-            if (list.size() > ans.size()) {
-                ans = list;
             }
         }
-        return ans;
+        int i = 0;
+        for (int j = 1; j < dp.length; j++) {
+            if (dp[j].size() > dp[i].size()) {
+                i = j;
+            }
+        }
+        return dp[i];
     }
 
 }

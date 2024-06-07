@@ -28,30 +28,30 @@ class Solution {
      */
     public List<Integer> largestDivisibleSubset(int[] nums) {
         Arrays.sort(nums);
-        int n = nums.length;
-        int[][] dp = new int[n][n + 1];
-        for (int i = 0; i < n; i++) {
-            dp[i][0] = 1;
-            dp[i][1] = nums[i];
-        }
-        int k = 0;
-        for (int i = 1; i < n; i++) {
+        int[] dp = new int[nums.length];
+        dp[0] = 1;
+        int maxLen = 1, maxIndex = 0;
+        for (int i = 1; i < nums.length; i++) {
             for (int j = 0; nums[j] <= nums[i] >> 1; j++) {
-                if (nums[i] % nums[j] == 0 && dp[j][0] + 1 > dp[i][0]) {
-                    System.arraycopy(dp[j], 1, dp[i], 1, dp[j][0]);
-                    dp[i][dp[j][0] + 1] = nums[i];
-                    dp[i][0] = dp[j][0] + 1;
+                if (nums[i] % nums[j] == 0) {
+                    dp[i] = Math.max(dp[i], dp[j]);
                 }
             }
-            if (dp[i][0] > dp[k][0]) {
-                k = i;
+            dp[i]++;
+            if (dp[i] > maxLen) {
+                maxLen = dp[i];
+                maxIndex = i;
             }
         }
-        List<Integer> ans = new ArrayList<>();
-        for (int j = 1; j <= dp[k][0]; j++) {
-            ans.add(dp[k][j]);
+        List<Integer> res = new ArrayList<>();
+        for (int i = maxIndex; i >= 0; i--) {
+            if (maxLen == dp[i] && nums[maxIndex] % nums[i] == 0) {
+                res.add(nums[i]);
+                maxLen--;
+                maxIndex = i;
+            }
         }
-        return ans;
+        return res;
     }
 
 }

@@ -1,5 +1,7 @@
 package io.huhu.huawei.od.s200.n5;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 class Solution {
@@ -19,16 +21,20 @@ class Solution {
         int n = s2.length();
         char[] c2 = new char[n + 1];
         System.arraycopy(s2.toCharArray(), 0, c2, 1, n);
-        return dfs(c1, m, c2, n, 0, 0, 0);
+        return dfs(c1, m, c2, n, 0, 0, 0, new HashMap<>());
     }
 
-    private static int dfs(char[] s1, int m, char[] s2, int n, int i, int j, int path) {
+    private static int dfs(char[] s1, int m, char[] s2, int n, int i, int j, int path, Map<String, Integer> cache) {
         if (i == m && j == n) {
             return path;
         }
+        String k = i + "," + j;
+        if (cache.containsKey(k)) {
+            return cache.get(k);
+        }
         // 斜下方的字母相等
         if (i < m && j < n && s1[i + 1] == s2[j + 1]) {
-            return dfs(s1, m, s2, n, i + 1, j + 1, path + 1);
+            return dfs(s1, m, s2, n, i + 1, j + 1, path + 1, cache);
         }
         // 到达右边界只能向下走
         if (i < m && j == n) {
@@ -39,9 +45,11 @@ class Solution {
             return path + n - j;
         }
         // 可以向右或者向下走
-        int a = dfs(s1, m, s2, n, i + 1, j, path + 1);
-        int b = dfs(s1, m, s2, n, i, j + 1, path + 1);
-        return Math.min(a, b);
+        int a = dfs(s1, m, s2, n, i + 1, j, path + 1, cache);
+        int b = dfs(s1, m, s2, n, i, j + 1, path + 1, cache);
+        int min = Math.min(a, b);
+        cache.put(k, min);
+        return min;
     }
 
 }

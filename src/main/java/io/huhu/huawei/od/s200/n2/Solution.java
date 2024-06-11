@@ -1,46 +1,44 @@
 package io.huhu.huawei.od.s200.n2;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 class Solution {
 
     public static void main(String[] args) {
+        // 输入
         Scanner scanner = new Scanner(System.in);
-        int M = scanner.nextInt();
-        String line = scanner.nextLine();
-        String[] split = line.split(" ");
-        int N = split.length;
-        int[] requirements = new int[N];
-        for (int i = 0; i < N; i++) {
-            requirements[i] = Integer.parseInt(split[i]);
+        int M = Integer.parseInt(scanner.nextLine());
+        String[] s = scanner.nextLine().split(" ");
+        int l = 0, r = 0;
+        int[] requirements = new int[s.length];
+        for (int i = 0; i < s.length; i++) {
+            requirements[i] = Integer.parseInt(s[i]);
+            l = Math.max(l, requirements[i]);
+            r += requirements[i];
         }
-        int min = new Solution().doSolution(M, requirements);
-        System.out.println(min);
-    }
-
-    public int doSolution(int m, int[] requirements) {
-        Arrays.sort(requirements);
-        return test(m, requirements, requirements[requirements.length - 1]);
-    }
-
-    private int test(int m, int[] requirements, int hr) {
-        int l = 0, r = requirements.length - 1, cnt = 0;
+        // 算法
         while (l < r) {
-            if (requirements[l] + requirements[r] <= hr) {
+            int m = (l + r) >> 1;
+            if (check(requirements, m) <= M) {
+                r = m;
+            } else {
+                l = m + 1;
+            }
+        }
+        // 输出
+        System.out.println(l);
+    }
+
+    public static int check(int[] requirements, int m) {
+        int l = 0, r = requirements.length - 1, ans = 0;
+        while (l <= r) {
+            if (requirements[l] + requirements[r] <= m) {
                 l++;
             }
             r--;
-            cnt++;
+            ans++;
         }
-        // 相等表示需要单独加一天完成当前的任务
-        if (l == r) {
-            cnt++;
-        }
-        if (cnt <= m) {
-            return hr;
-        }
-        return test(m, requirements, hr + 1);
+        return ans;
     }
 
 }

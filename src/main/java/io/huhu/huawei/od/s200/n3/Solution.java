@@ -1,6 +1,6 @@
 package io.huhu.huawei.od.s200.n3;
 
-import java.util.Scanner;
+import java.util.*;
 
 class Solution {
 
@@ -11,17 +11,25 @@ class Solution {
             numbers[i] = scanner.nextInt();
         }
         int N = scanner.nextInt();
-        int ans = dfs(numbers, N, 0, numbers.length - 1, 0);
+        int ans = dfs(numbers, N, 0, numbers.length - 1, 0, new HashMap<>());
         System.out.println(ans);
     }
 
-    public static int dfs(int[] numbers, int n, int l, int r, int ans) {
+    public static int dfs(int[] numbers, int n, int l, int r, int ans, Map<Integer, Integer> cache) {
         if (n == 0) {
             return ans;
         }
-        int i = dfs(numbers, n - 1, l + 1, r, ans + numbers[l]);
-        int j = dfs(numbers, n - 1, l, r - 1, ans + numbers[r]);
-        return Math.max(i, j);
+        if (cache.containsKey(n)) {
+            System.out.println("hit");
+            return cache.get(n);
+        }
+        int i = dfs(numbers, n - 1, l + 1, r, ans + numbers[l], cache);
+        int j = dfs(numbers, n - 1, l, r - 1, ans + numbers[r], cache);
+        int max = Math.max(i, j);
+        if (cache.containsKey(n)) {
+            cache.put(n, Math.max(cache.get(n), max));
+        }
+        return max;
     }
 
 }

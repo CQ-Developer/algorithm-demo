@@ -11,25 +11,21 @@ class Solution {
             numbers[i] = scanner.nextInt();
         }
         int N = scanner.nextInt();
-        int ans = dfs(numbers, N, 0, numbers.length - 1, 0, new HashMap<>());
+        int ans = dfs(numbers, N, 0, numbers.length - 1, 0);
         System.out.println(ans);
     }
 
-    public static int dfs(int[] numbers, int n, int l, int r, int ans, Map<Integer, Integer> cache) {
+    public static int dfs(int[] numbers, int n, int l, int r, int ans) {
         if (n == 0) {
             return ans;
         }
-        if (cache.containsKey(n)) {
-            System.out.println("hit");
-            return cache.get(n);
+        if (numbers[l] > numbers[r]) {
+            return dfs(numbers, n - 1, l + 1, r, ans + numbers[l]);
         }
-        int i = dfs(numbers, n - 1, l + 1, r, ans + numbers[l], cache);
-        int j = dfs(numbers, n - 1, l, r - 1, ans + numbers[r], cache);
-        int max = Math.max(i, j);
-        if (cache.containsKey(n)) {
-            cache.put(n, Math.max(cache.get(n), max));
+        if (numbers[l] < numbers[r]) {
+            return dfs(numbers, n - 1, l, r - 1, ans + numbers[r]);
         }
-        return max;
+        return Math.max(dfs(numbers, n - 1, l + 1, r, ans + numbers[l]), dfs(numbers, n - 1, l, r - 1, ans + numbers[r]));
     }
 
 }

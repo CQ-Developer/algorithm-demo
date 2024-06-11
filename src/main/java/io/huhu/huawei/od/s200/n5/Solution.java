@@ -1,7 +1,5 @@
 package io.huhu.huawei.od.s200.n5;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 class Solution {
@@ -15,41 +13,24 @@ class Solution {
     }
 
     public static int doSolution(String s1, String s2) {
-        int m = s1.length();
-        char[] c1 = new char[m + 1];
-        System.arraycopy(s1.toCharArray(), 0, c1, 1, m);
-        int n = s2.length();
-        char[] c2 = new char[n + 1];
-        System.arraycopy(s2.toCharArray(), 0, c2, 1, n);
-        return dfs(c1, m, c2, n, 0, 0, 0, new HashMap<>());
-    }
-
-    private static int dfs(char[] s1, int m, char[] s2, int n, int i, int j, int path, Map<String, Integer> cache) {
-        if (i == m && j == n) {
-            return path;
+        int m = s1.length(), n = s2.length();
+        int[][] dp = new int[m + 1][n + 1];
+        for (int i = 1; i <= m; i++) {
+            dp[i][0] = i;
         }
-        String k = i + "," + j;
-        if (cache.containsKey(k)) {
-            return cache.get(k);
+        for (int j = 1; j <= n; j++) {
+            dp[0][j] = j;
         }
-        // 斜下方的字母相等
-        if (i < m && j < n && s1[i + 1] == s2[j + 1]) {
-            return dfs(s1, m, s2, n, i + 1, j + 1, path + 1, cache);
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1);
+                }
+            }
         }
-        // 到达右边界只能向下走
-        if (i < m && j == n) {
-            return path + m - i;
-        }
-        // 到当下边界只能向右走
-        if (i == m && j < n) {
-            return path + n - j;
-        }
-        // 可以向右或者向下走
-        int a = dfs(s1, m, s2, n, i + 1, j, path + 1, cache);
-        int b = dfs(s1, m, s2, n, i, j + 1, path + 1, cache);
-        int min = Math.min(a, b);
-        cache.put(k, min);
-        return min;
+        return dp[m][n];
     }
 
 }

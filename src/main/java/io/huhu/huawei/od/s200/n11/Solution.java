@@ -1,10 +1,8 @@
 package io.huhu.huawei.od.s200.n11;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
 class Solution {
 
@@ -40,44 +38,38 @@ class Solution {
             }
         }
         // alg
-        Set<String> a = new HashSet<>();
-        dfs(gridA, m, n, start.get(0)[0], start.get(0)[1], a);
-        Set<String> b = new HashSet<>();
-        dfs(gridB, m, n, start.get(1)[0], start.get(1)[1], b);
+        int[][] table = new int[m][n];
+        dfs(gridA, m, n, start.get(0)[0], start.get(0)[1], table);
+        dfs(gridB, m, n, start.get(1)[0], start.get(1)[1], table);
         // output
-        int resul = 0;
-        if (!a.isEmpty() && !b.isEmpty()) {
-            resul = overlap(a, b);
+        int result = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < m; j++) {
+                if (table[i][j] == 2) {
+                    result++;
+                }
+            }
         }
-        System.out.println(resul);
+        System.out.println(result);
     }
 
-    private static void dfs(int[][] grid, int m, int n, int i, int j, Set<String> set) {
+    private static void dfs(int[][] grid, int m, int n, int i, int j, int[][] table) {
         if (grid[i][j] == 3) {
-            set.add(i + "," + j);
+            table[i][j]++;
         }
         grid[i][j] = 1;
         if (i > 0 && grid[i - 1][j] != 1) {
-            dfs(grid, m, n, i - 1, j, set);
+            dfs(grid, m, n, i - 1, j, table);
         }
         if (i + 1 < m && grid[i + 1][j] != 1) {
-            dfs(grid, m, n, i + 1, j, set);
+            dfs(grid, m, n, i + 1, j, table);
         }
         if (j > 0 && grid[i][j - 1] != 1) {
-            dfs(grid, m, n, i, j - 1, set);
+            dfs(grid, m, n, i, j - 1, table);
         }
         if (j + 1 < n && grid[i][j + 1] != 1) {
-            dfs(grid, m, n, i, j + 1, set);
+            dfs(grid, m, n, i, j + 1, table);
         }
-    }
-
-    private static int overlap(Set<String> a, Set<String> b) {
-        if (a.size() > b.size()) {
-            a.retainAll(b);
-            return a.size();
-        }
-        b.retainAll(a);
-        return b.size();
     }
 
 }

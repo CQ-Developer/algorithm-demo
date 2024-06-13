@@ -1,7 +1,5 @@
 package io.huhu.huawei.od.s200.n14;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -33,7 +31,7 @@ class Solution {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 if (grid[i][j] == letters[0]) {
-                    String ans = dfs(grid, i, j, letters, 0, new ArrayList<>());
+                    String ans = dfs(grid, i, j, letters, 0, new StringBuilder());
                     if ("N".equals(ans)) {
                         continue;
                     }
@@ -44,49 +42,41 @@ class Solution {
         return "N";
     }
 
-    private static String dfs(char[][] grid, int i, int j, char[] word, int k, List<Integer> path) {
-        path.addLast(i);
-        path.addLast(j);
-        if (k == word.length - 1) {
-            StringBuilder sb = new StringBuilder();
-            for (int l = 0; l < path.size(); l++) {
-                sb.append(path.get(l));
-                if (l != path.size() - 1) {
-                    sb.append(',');
-                }
-            }
-            return sb.toString();
+    private static String dfs(char[][] grid, int i, int j, char[] word, int k, StringBuilder path) {
+        if (k == word.length) {
+            return path.substring(0, path.length() - 1);
+        }
+        if (i < 0 || i >= grid.length) {
+            return "N";
+        }
+        if (j < 0 || j >= grid[i].length) {
+            return "N";
+        }
+        if (grid[i][j] != word[k]) {
+            return "N";
         }
         char c = grid[i][j];
         grid[i][j] = '.';
-        if (i - 1 >= 0 && grid[i - 1][j] == word[k + 1]) {
-            String ans = dfs(grid, i - 1, j, word, k + 1, path);
-            if (!"N".equals(ans)) {
-                return ans;
-            }
+        path.append(i).append(',').append(j).append(',');
+        String ans = dfs(grid, i - 1, j, word, k + 1, path);
+        if (!"N".equals(ans)) {
+            return ans;
         }
-        if (i + 1 < grid.length && grid[i + 1][j] == word[k + 1]) {
-            String ans = dfs(grid, i + 1, j, word, k + 1, path);
-            if (!"N".equals(ans)) {
-                return ans;
-            }
+        ans = dfs(grid, i + 1, j, word, k + 1, path);
+        if (!"N".equals(ans)) {
+            return ans;
         }
-        if (j - 1 >= 0 && grid[i][j - 1] == word[k + 1]) {
-            String ans = dfs(grid, i, j - 1, word, k + 1, path);
-            if (!"N".equals(ans)) {
-                return ans;
-            }
+        ans = dfs(grid, i, j - 1, word, k + 1, path);
+        if (!"N".equals(ans)) {
+            return ans;
         }
-        if (j + 1 < grid[i].length && grid[i][j + 1] == word[k + 1]) {
-            String ans = dfs(grid, i, j + 1, word, k + 1, path);
-            if (!"N".equals(ans)) {
-                return ans;
-            }
+        ans =  dfs(grid, i, j + 1, word, k + 1, path);
+        if (!"N".equals(ans)) {
+            return ans;
         }
         grid[i][j] = c;
-        path.removeLast();
-        path.removeLast();
-        return "N";
+        path.setLength(path.length() - 4);
+        return ans;
     }
 
 }

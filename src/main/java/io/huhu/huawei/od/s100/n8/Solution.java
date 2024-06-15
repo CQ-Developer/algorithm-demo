@@ -19,38 +19,32 @@ class Solution {
         }
 
         table = new long[n][n];
-        long ch = 0;
+        long ans = 0;
 
         for (int i = 0; i < n; i++) {
             int l = (i - 1 + n) % n;
             int r = (i + 1) % n;
-            long num = dfs(pizza, n, l, r, false, pizza[i]);
-            ch = Math.max(ch, num);
+            ans = Math.max(ans, pizza[i] + dfs(pizza, n, n - 1, l, r));
         }
 
-        System.out.println(ch);
+        System.out.println(ans);
     }
 
-    private static long dfs(int[] pizza, int n, int l, int r, boolean ch, long path) {
-        // 最后一块皮萨一定是吃货选
-        if (l == r) {
-            return table[l][r] = Math.max(table[l][r], path + pizza[l]);
+    private static long dfs(int[] pizza, int n, int k, int l, int r) {
+        if (k <= 0) {
+            return 0;
         }
-        // 命中曾经走过的路径
+        if (pizza[l] > pizza[r]) {
+            l = (l - 1 + n) % n;
+        } else {
+            r = (r + 1) % n;
+        }
         if (table[l][r] != 0) {
             return table[l][r];
         }
-        // 馋嘴选最大的
-        if (!ch) {
-            int max = Math.max(pizza[l], pizza[r]);
-            l = pizza[l] == max ? (l - 1 + n) % n : l;
-            r = pizza[r] == max ? (r + 1) % n : r;
-            return dfs(pizza, n, l, r, true, path);
-        }
-        // 吃货随意选
-        long a = dfs(pizza, n, (l - 1 + n) % n, r, false, path + pizza[l]);
-        long b = dfs(pizza, n, l, (r + 1) % n, false, path + pizza[r]);
-        return table[l][r] = Math.max(table[l][r], Math.max(a, b));
+        long a = pizza[l] + dfs(pizza, n, k - 2, (l - 1 + n) % n, r);
+        long b = pizza[r] + dfs(pizza, n, k - 2, l, (r + 1) % n);
+        return table[l][r] = Math.max(a, b);
     }
 
 }

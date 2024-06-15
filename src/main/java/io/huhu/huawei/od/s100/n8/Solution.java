@@ -7,6 +7,8 @@ import java.util.Scanner;
  */
 class Solution {
 
+    static long[][] table;
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -16,32 +18,34 @@ class Solution {
             pizza[i] = scanner.nextInt();
         }
 
+        table = new long[n][n];
         long ch = 0;
 
         for (int i = 0; i < n; i++) {
             int l = (i - 1 + n) % n;
             int r = (i + 1) % n;
-            long num = dfs(pizza, n, l, r, n - 1, false, pizza[i]);
+            long num = dfs(pizza, n, l, r, false, pizza[i]);
             ch = Math.max(ch, num);
         }
 
         System.out.println(ch);
     }
 
-    private static long dfs(int[] pizza, int n, int l, int r, int rest, boolean ch, long path) {
-        if (rest == 0) {
-            return path;
+    private static long dfs(int[] pizza, int n, int l, int r, boolean ch, long path) {
+        // 最后一块皮萨一定是吃货选
+        if (l == r) {
+            return path + pizza[l];
         }
         // 馋嘴选最大的
         if (!ch) {
             int max = Math.max(pizza[l], pizza[r]);
             l = pizza[l] == max ? (l - 1 + n) % n : l;
             r = pizza[r] == max ? (r + 1) % n : r;
-            return dfs(pizza, n, l, r, rest - 1, true, path);
+            return dfs(pizza, n, l, r, true, path);
         }
         // 吃货随意选
-        long a = dfs(pizza, n, (l - 1 + n) % n, r, rest - 1, false, path + pizza[l]);
-        long b = dfs(pizza, n, l, (r + 1) % n, rest - 1, false, path + pizza[r]);
+        long a = dfs(pizza, n, (l - 1 + n) % n, r, false, path + pizza[l]);
+        long b = dfs(pizza, n, l, (r + 1) % n, false, path + pizza[r]);
         return Math.max(a, b);
     }
 

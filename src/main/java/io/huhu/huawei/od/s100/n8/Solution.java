@@ -34,7 +34,11 @@ class Solution {
     private static long dfs(int[] pizza, int n, int l, int r, boolean ch, long path) {
         // 最后一块皮萨一定是吃货选
         if (l == r) {
-            return path + pizza[l];
+            return table[l][r] = Math.max(table[l][r], path + pizza[l]);
+        }
+        // 命中曾经走过的路径
+        if (table[l][r] != 0) {
+            return table[l][r];
         }
         // 馋嘴选最大的
         if (!ch) {
@@ -46,7 +50,7 @@ class Solution {
         // 吃货随意选
         long a = dfs(pizza, n, (l - 1 + n) % n, r, false, path + pizza[l]);
         long b = dfs(pizza, n, l, (r + 1) % n, false, path + pizza[r]);
-        return Math.max(a, b);
+        return table[l][r] = Math.max(table[l][r], Math.max(a, b));
     }
 
 }

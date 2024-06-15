@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
+/**
+ * 分月饼
+ */
 class Solution {
 
     public static void main(String[] args) {

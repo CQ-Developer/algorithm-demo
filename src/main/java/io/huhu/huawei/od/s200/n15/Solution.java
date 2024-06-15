@@ -7,6 +7,9 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.util.Set;
 
+/**
+ * 跳马
+ */
 class Solution {
 
     // 马所有可能的移动方式

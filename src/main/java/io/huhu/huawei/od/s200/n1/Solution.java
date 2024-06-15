@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Scanner;
 
+/**
+ * 5G网络建设
+ */
 class Solution {
 
     public static void main(String[] args) {

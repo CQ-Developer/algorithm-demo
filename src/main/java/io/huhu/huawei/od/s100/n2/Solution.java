@@ -3,6 +3,9 @@ package io.huhu.huawei.od.s100.n2;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * CPU算力分配
+ */
 class Solution {
 
     public static void main(String[] args) {

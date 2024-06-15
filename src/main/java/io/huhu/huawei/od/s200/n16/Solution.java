@@ -3,6 +3,9 @@ package io.huhu.huawei.od.s200.n16;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * 项目排期
+ */
 class Solution {
 
     public static void main(String[] args) {

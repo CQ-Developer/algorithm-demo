@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * 电脑病毒感染
+ */
 class Solution {
 
     public static void main(String[] args) {

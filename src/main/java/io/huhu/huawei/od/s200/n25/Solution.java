@@ -2,6 +2,9 @@ package io.huhu.huawei.od.s200.n25;
 
 import java.util.Scanner;
 
+/**
+ * 员工派遣
+ */
 class Solution {
 
     private static int x;

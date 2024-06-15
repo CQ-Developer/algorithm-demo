@@ -2,6 +2,9 @@ package io.huhu.huawei.od.s100.n4;
 
 import java.util.Scanner;
 
+/**
+ * 传递悄悄话
+ */
 class Solution {
 
     /**

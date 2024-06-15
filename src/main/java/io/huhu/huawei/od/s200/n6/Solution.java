@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+/**
+ * 查找一个有向网络的头节点和尾节点
+ */
 class Solution {
 
     public static void main(String[] args) {

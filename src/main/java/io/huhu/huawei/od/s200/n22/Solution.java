@@ -2,6 +2,9 @@ package io.huhu.huawei.od.s200.n22;
 
 import java.util.Scanner;
 
+/**
+ * 高效货运
+ */
 class Solution {
 
     public static void main(String[] args) {

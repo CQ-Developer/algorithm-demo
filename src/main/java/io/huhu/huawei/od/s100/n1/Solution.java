@@ -2,6 +2,9 @@ package io.huhu.huawei.od.s100.n1;
 
 import java.util.Scanner;
 
+/**
+ * API集群负载统计
+ */
 class Solution {
 
     public static void main(String[] args) {

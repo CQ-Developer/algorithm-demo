@@ -2,6 +2,9 @@ package io.huhu.huawei.od.s100.n5;
 
 import java.util.Scanner;
 
+/**
+ * 停车场车辆统计
+ */
 class Solution {
 
     public static void main(String[] args) {

@@ -2,6 +2,9 @@ package io.huhu.huawei.od.s200.n5;
 
 import java.util.Scanner;
 
+/**
+ * 两个字符串间的最短路径问题
+ */
 class Solution {
 
     public static void main(String[] args) {

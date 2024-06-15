@@ -1,7 +1,14 @@
 package io.huhu.huawei.od.s100.n6;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
 
+/**
+ * 内存冷热标记
+ */
 class Solution {
 
     /**

@@ -3,6 +3,9 @@ package io.huhu.huawei.od.s100.n3;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * 万能字符串单词拼写
+ */
 class Solution {
 
     public static void main(String[] args) {

@@ -2,6 +2,9 @@ package io.huhu.huawei.od.s100.n7;
 
 import java.util.Scanner;
 
+/**
+ * 分割均衡字符串
+ */
 class Solution {
 
     public static void main(String[] args) {

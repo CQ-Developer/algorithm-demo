@@ -14,15 +14,12 @@ class Solution {
         if (n == 1) {
             return 1;
         }
-        if (n == 2 && nums[0] == nums[1]) {
-            return 1;
-        }
         int[] dp = new int[n + 1];
         dp[1] = 1;
-        dp[2] = 2;
+        dp[2] = nums[0] == nums[1] ? 1 : 2;
         for (int i = 3, j = i - 1; i < n + 1; i++, j++) {
             int a = nums[j - 2], b = nums[j - 1], c = nums[j];
-            if ((a > b && c > b) || (a < b && c < b)) {
+            if ((a > b && c > b) || (a < b && c < b) || (a == b && c != b)) {
                 dp[i] = dp[i - 1] + 1;
             } else {
                 dp[i] = dp[i - 1];

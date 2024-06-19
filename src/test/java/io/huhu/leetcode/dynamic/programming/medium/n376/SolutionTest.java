@@ -43,4 +43,10 @@ class SolutionTest {
         Assertions.assertEquals(2, solution.wiggleMaxLength(nums));
     }
 
+    @Test
+    void test6() {
+        int[] nums = {0, 0};
+        Assertions.assertEquals(1, solution.wiggleMaxLength(nums));
+    }
+
 }

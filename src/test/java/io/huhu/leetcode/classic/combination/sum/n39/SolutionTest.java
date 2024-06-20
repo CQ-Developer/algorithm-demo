@@ -20,14 +20,23 @@ class SolutionTest {
         int[] candidates = {2, 3, 6, 7};
         List<List<Integer>> actual = solution.combinationSum(candidates, 7);
         List<List<Integer>> expected = List.of(List.of(2, 2, 3), List.of(7));
-        Assertions.assertEquals(actual.size(), expected.size());
-        for (List<Integer> list : expected) {
-            Assertions.assertTrue(actual.contains(list));
-        }
+        Assertions.assertIterableEquals(expected, actual);
     }
 
+    @Test
     void test2() {
         int[] candidates = {2, 3, 5};
+        List<List<Integer>> actual = solution.combinationSum(candidates, 8);
+        List<List<Integer>> expected = List.of(List.of(2, 2, 2, 2), List.of(2, 3, 3), List.of(3, 5));
+        Assertions.assertIterableEquals(expected, actual);
+    }
+
+    @Test
+    void test3() {
+        int[] candidates = {2};
+        List<List<Integer>> actual = solution.combinationSum(candidates, 1);
+        List<List<Integer>> expected = List.of();
+        Assertions.assertIterableEquals(expected, actual);
     }
 
 }

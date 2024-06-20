@@ -23,19 +23,18 @@ class Solution {
      * </ul>
      */
     public int maxRotateFunction(int[] nums) {
-        int n = nums.length, result = Integer.MIN_VALUE;
-        for (int k = 0; k < n; k++) {
-            int i = (n - k) % n, j = (i + 1) % n;
-            int num = 0, f = 1;
-            while (j != i) {
-                num += (f++ * nums[j]);
-                j = (j + 1) % n;
-            }
-            if (result < num) {
-                result = num;
-            }
+        int f = 0, sum = 0, n = nums.length;
+        for (int i = 0; i < n; i++) {
+            sum += nums[i];
+            f += i * nums[i];
         }
-        return result;
+        int res = f;
+        for (int i = 1; i < n; i++) {
+            // f(i) = f(i-1) + sum - n * nums[n-i]
+            f = f + sum - n * nums[n - i];
+            res = Math.max(res, f);
+        }
+        return res;
     }
 
 }

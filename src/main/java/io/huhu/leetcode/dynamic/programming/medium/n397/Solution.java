@@ -1,8 +1,5 @@
 package io.huhu.leetcode.dynamic.programming.medium.n397;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * <h1>
  * <a href="https://leetcode.cn/problems/integer-replacement/description/">Integer Replacement</a>
@@ -20,18 +17,26 @@ class Solution {
      * 1 &lt;= n &lt;= 2<sup>31</sup> - 1
      */
     public int integerReplacement(int n) {
-        return backTracing(n, new HashMap<>());
-    }
-
-    private int backTracing(long n, Map<Long, Integer> m) {
-        if (n == 1) {
-            return 0;
+        long m = n;
+        int ans = 0;
+        /*
+         * 如果将n看成一个二进制数, 那么就是怎么将数字变成最低位为1, 其他位为0
+         * 偶数直接右移一位
+         * 奇数的最低位一定为1, 分情况:
+         * 次低位如果为1, 那么加1能消除连续的1, 除非是边界情况3
+         * 次低位不为1, 那么减1能让最低位变为0
+         *
+         * 核心思想就是:
+         * 偶数直接右移, 奇数尽量消除更多的1
+         */
+        while (m > 1) {
+            if ((m & 1) == 0) {
+                m >>= 1;
+            } else {
+                m += m != 3 && ((m >> 1) & 1) == 1 ? 1 : -1;
+            }
+            ans++;
         }
-        if (m.containsKey(n)) {
-            return m.get(n);
-        }
-        int ans = (n & 1) == 1 ? Math.min(backTracing(n - 1, m), backTracing(n + 1, m)) : backTracing(n >> 1, m);
-        m.put(n, ++ans);
         return ans;
     }
 

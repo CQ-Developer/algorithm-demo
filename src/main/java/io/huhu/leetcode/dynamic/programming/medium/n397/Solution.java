@@ -23,20 +23,15 @@ class Solution {
         return backTracing(n, new HashMap<>());
     }
 
-    private int backTracing(long n, Map<Long, Integer> map) {
+    private int backTracing(long n, Map<Long, Integer> m) {
         if (n == 1) {
             return 0;
         }
-        if (map.get(n) != null) {
-            return map.get(n);
+        if (m.containsKey(n)) {
+            return m.get(n);
         }
-        int ans = 1;
-        if ((n & 1) == 1) {
-            ans += Math.min(backTracing(n - 1, map), backTracing(n + 1, map));
-        } else {
-            ans += backTracing(n >> 1, map);
-        }
-        map.put(n, ans);
+        int ans = (n & 1) == 1 ? Math.min(backTracing(n - 1, m), backTracing(n + 1, m)) : backTracing(n >> 1, m);
+        m.put(n, ++ans);
         return ans;
     }
 

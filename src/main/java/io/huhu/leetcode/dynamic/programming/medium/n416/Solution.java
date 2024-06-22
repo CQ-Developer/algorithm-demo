@@ -26,24 +26,17 @@ class Solution {
         if ((sum & 1) == 1) {
             return false;
         }
-        return backTracing(nums, 0, sum >> 1, new boolean[(sum >> 1) + 1]);
+        return backTracing(nums, 0, sum >> 1);
     }
 
-    private boolean backTracing(int[] nums, int j, int n, boolean[] timeout) {
+    private boolean backTracing(int[] nums, int i, int n) {
         if (n == 0) {
             return true;
         }
-        if (timeout[n]) {
+        if (i == nums.length) {
             return false;
         }
-        for (int i = j; i < nums.length; i++) {
-            if (n >= nums[i] && backTracing(nums, i + 1, n - nums[i], timeout)) {
-                return true;
-            } else {
-                timeout[n] = true;
-            }
-        }
-        return false;
+        return backTracing(nums, i + 1, n) || backTracing(nums, i + 1, n - nums[i]);
     }
 
 }

@@ -25,4 +25,10 @@ class SolutionTest {
         Assertions.assertFalse(solution.canPartition(nums));
     }
 
+    @Test
+    void test3() {
+        int[] nums = {1, 2, 3, 5, 17, 6, 14, 12, 6};
+        Assertions.assertTrue(solution.canPartition(nums));
+    }
+
 }

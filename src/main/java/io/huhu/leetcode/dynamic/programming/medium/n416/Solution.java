@@ -21,7 +21,6 @@ class Solution {
      * </ul>
      */
     public boolean canPartition(int[] nums) {
-        Arrays.sort(nums);
         int sum = 0;
         for (int num : nums) {
             sum += num;
@@ -29,30 +28,24 @@ class Solution {
         if ((sum & 1) == 1) {
             return false;
         }
-        return backTracing(nums, new boolean[nums.length], sum >> 1);
+        int n = nums.length, avg = sum >> 1;
+        int[][] mem = new int[n][avg + 1];
+        for (int[] i : mem) {
+            Arrays.fill(i, -1);
+        }
+        return dfs(nums, n - 1, avg, mem);
     }
 
-    private boolean backTracing(int[] nums, boolean[] used, int n) {
-        if (n == 0) {
-            return true;
+    private boolean dfs(int[] nums, int i, int j, int[][] mem) {
+        if (i < 0) {
+            return j == 0;
         }
-        for (int i = nums.length - 1; i >= 0; i--) {
-            if (n < nums[i]) {
-                break;
-            }
-            if (used[i]) {
-                continue;
-            }
-            if (i > 0 && nums[i - 1] == nums[i] && !used[i - 1]) {
-                continue;
-            }
-            used[i] = true;
-            if (backTracing(nums, used, n - nums[i])) {
-                return true;
-            }
-            used[i] = false;
+        if (mem[i][j] != -1) {
+            return mem[i][j] == 1;
         }
-        return false;
+        boolean ans = j >= nums[i] && dfs(nums, i - 1, j - nums[i], mem) || dfs(nums, i - 1, j, mem);
+        mem[i][j] = ans ? 1 : 0;
+        return ans;
     }
 
 }

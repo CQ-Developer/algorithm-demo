@@ -1,5 +1,7 @@
 package io.huhu.leetcode.dynamic.programming.medium.n416;
 
+import java.util.Arrays;
+
 /**
  * <h1>
  * <a href="https://leetcode.cn/problems/partition-equal-subset-sum/description/">Partition Equal Subset Sum</a>
@@ -19,6 +21,7 @@ class Solution {
      * </ul>
      */
     public boolean canPartition(int[] nums) {
+        Arrays.sort(nums);
         int sum = 0;
         for (int num : nums) {
             sum += num;
@@ -26,17 +29,30 @@ class Solution {
         if ((sum & 1) == 1) {
             return false;
         }
-        return backTracing(nums, 0, sum >> 1);
+        return backTracing(nums, new boolean[nums.length], sum >> 1);
     }
 
-    private boolean backTracing(int[] nums, int i, int n) {
+    private boolean backTracing(int[] nums, boolean[] used, int n) {
         if (n == 0) {
             return true;
         }
-        if (i == nums.length) {
-            return false;
+        for (int i = nums.length - 1; i >= 0; i--) {
+            if (n < nums[i]) {
+                break;
+            }
+            if (used[i]) {
+                continue;
+            }
+            if (i > 0 && nums[i - 1] == nums[i] && !used[i - 1]) {
+                continue;
+            }
+            used[i] = true;
+            if (backTracing(nums, used, n - nums[i])) {
+                return true;
+            }
+            used[i] = false;
         }
-        return backTracing(nums, i + 1, n) || backTracing(nums, i + 1, n - nums[i]);
+        return false;
     }
 
 }

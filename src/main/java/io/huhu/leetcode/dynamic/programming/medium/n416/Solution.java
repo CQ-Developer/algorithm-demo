@@ -1,7 +1,5 @@
 package io.huhu.leetcode.dynamic.programming.medium.n416;
 
-import java.util.Arrays;
-
 /**
  * <h1>
  * <a href="https://leetcode.cn/problems/partition-equal-subset-sum/description/">Partition Equal Subset Sum</a>
@@ -21,31 +19,31 @@ class Solution {
      * </ul>
      */
     public boolean canPartition(int[] nums) {
+        // 计算数组元素的和
         int sum = 0;
         for (int num : nums) {
             sum += num;
         }
+        // 如果不是偶数, 那么一定不能平分, 返回false
         if ((sum & 1) == 1) {
             return false;
         }
-        int n = nums.length, avg = sum >> 1;
-        int[][] mem = new int[n][avg + 1];
-        for (int[] i : mem) {
-            Arrays.fill(i, -1);
+        // 使用动态规划求解
+        int n = nums.length, x = sum >> 1;
+        boolean[] dp = new boolean[x + 1];
+        dp[0] = true;
+        if (nums[0] < x) {
+            dp[nums[0]] = true;
         }
-        return dfs(nums, n - 1, avg, mem);
-    }
-
-    private boolean dfs(int[] nums, int i, int j, int[][] mem) {
-        if (i < 0) {
-            return j == 0;
+        for (int i = 1; i < n; i++) {
+            for (int j = x; j >= 0 && nums[i] <= j; j--) {
+                dp[j] = dp[j] || dp[j - nums[i]];
+            }
+            if (dp[x]) {
+                return true;
+            }
         }
-        if (mem[i][j] != -1) {
-            return mem[i][j] == 1;
-        }
-        boolean ans = j >= nums[i] && dfs(nums, i - 1, j - nums[i], mem) || dfs(nums, i - 1, j, mem);
-        mem[i][j] = ans ? 1 : 0;
-        return ans;
+        return dp[x];
     }
 
 }

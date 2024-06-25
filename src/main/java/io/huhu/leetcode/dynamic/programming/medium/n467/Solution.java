@@ -24,8 +24,22 @@ class Solution {
      * <li>s consists of lowercase English letters.</li>
      * </ul>
      */
-    public int findSubstringInWraparoundString(String s) {
-        return 0;
+    public int findSubstringInWraproundString(String s) {
+        int[] f = new int[26];
+        int j = -1, n = 0;
+        for (char c : s.toCharArray()) {
+            int i = c - 'a';
+            n = (i == j + 1) || (j == 25 && i == 0) ? n + 1 : 1;
+            if (n > f[i]) {
+                f[i] = n;
+            }
+            j = i;
+        }
+        int sum = 0;
+        for (int i : f) {
+            sum += i;
+        }
+        return sum;
     }
 
 }

@@ -15,17 +15,17 @@ class SolutionTest {
 
     @Test
     void test1() {
-        Assertions.assertEquals(1, solution.findSubstringInWraparoundString("a"));
+        Assertions.assertEquals(1, solution.findSubstringInWraproundString("a"));
     }
 
     @Test
     void test2() {
-        Assertions.assertEquals(2, solution.findSubstringInWraparoundString("cac"));
+        Assertions.assertEquals(2, solution.findSubstringInWraproundString("cac"));
     }
 
     @Test
     void test3() {
-        Assertions.assertEquals(6, solution.findSubstringInWraparoundString("zab"));
+        Assertions.assertEquals(6, solution.findSubstringInWraproundString("zab"));
     }
 
 }

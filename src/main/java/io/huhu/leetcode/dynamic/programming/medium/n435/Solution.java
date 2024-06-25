@@ -23,22 +23,15 @@ class Solution {
      * </ul>
      */
     public int eraseOverlapIntervals(int[][] intervals) {
-        Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
-        int end = intervals[0][1], count = 0;
+        Arrays.sort(intervals, Comparator.comparingInt(a -> a[1]));
+        int r = intervals[0][1], ans = 1;
         for (int i = 1; i < intervals.length; i++) {
-            // there is overlapping
-            if (intervals[i][0] < end) {
-                // keep the small range
-                end = Math.min(end, intervals[i][1]);
-                // delete the large range
-                count++;
-            }
-            // there is non-overlapping
-            else {
-                end = intervals[i][1];
+            if (intervals[i][0] >= r) {
+                ans++;
+                r = intervals[i][1];
             }
         }
-        return count;
+        return intervals.length - ans;
     }
 
 }

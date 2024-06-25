@@ -31,4 +31,10 @@ class SolutionTest {
         Assertions.assertEquals(0, solution.eraseOverlapIntervals(intervals));
     }
 
+    @Test
+    void test4() {
+        int[][] intervals = {{1, 2}};
+        Assertions.assertEquals(0, solution.eraseOverlapIntervals(intervals));
+    }
+
 }

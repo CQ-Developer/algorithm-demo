@@ -1,5 +1,8 @@
 package io.huhu.leetcode.dynamic.programming.medium.n435;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 /**
  * <h1>
  * <a href="https://leetcode.cn/problems/non-overlapping-intervals/description/">Non-overlapping Intervals</a>
@@ -20,7 +23,22 @@ class Solution {
      * </ul>
      */
     public int eraseOverlapIntervals(int[][] intervals) {
-        return 0;
+        Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
+        int end = intervals[0][1], count = 0;
+        for (int i = 1; i < intervals.length; i++) {
+            // there is overlapping
+            if (intervals[i][0] < end) {
+                // keep the small range
+                end = Math.min(end, intervals[i][1]);
+                // delete the large range
+                count++;
+            }
+            // there is non-overlapping
+            else {
+                end = intervals[i][1];
+            }
+        }
+        return count;
     }
 
 }

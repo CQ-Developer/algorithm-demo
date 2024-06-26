@@ -9,19 +9,21 @@ class DP implements Solution {
 
     @Override
     public int mincostTickets(int[] days, int[] costs) {
-        int n = days.length;
-        int[] dp = new int[366], duration = {1, 7, 30};
-        Arrays.fill(dp, 0, n + 1, Integer.MAX_VALUE);
-        dp[n] = 0;
-        for (int i = n - 1; i >= 0; i--) {
-            for (int k = 0, j = i; k < costs.length; k++) {
-                while (j < days.length && days[i] + duration[k] > days[j]) {
-                    j++;
-                }
-                dp[i] = Math.min(dp[i], costs[k] + dp[j]);
+        int n = days.length, last = days[n - 1];
+        int[] dp = new int[last + 1];
+        for (int i = 1, j = 0; i < dp.length; i++) {
+            if (i == days[j]) {
+                int a = costs[0] + (i >= 1 ? dp[i - 1] : 0);
+                int b = costs[1] + (i >= 7 ? dp[i - 7] : 0);
+                int c = costs[2] + (i >= 30 ? dp[i - 30] : 0);
+                dp[i] = Math.min(a, Math.min(b, c));
+                j++;
+            }
+            else {
+                dp[i] = dp[i - 1];
             }
         }
-        return dp[0];
+        return dp[last];
     }
 
 }

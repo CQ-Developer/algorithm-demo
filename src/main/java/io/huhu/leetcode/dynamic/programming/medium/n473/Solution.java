@@ -28,28 +28,25 @@ class Solution {
         if (sum % 4 != 0) {
             return false;
         }
-        Arrays.sort(matchsticks);
-        return backTracing(matchsticks, matchsticks.length - 1, new int[4], sum >> 2);
-    }
-
-    private boolean backTracing(int[] matchsticks, int j, int[] edges, int target) {
-        if (j < 0) {
-            return true;
+        int len = sum >> 2, n = matchsticks.length;
+        int[] dp = new int[1 << n];
+        Arrays.fill(dp, -1);
+        dp[0] = 0;
+        for (int s = 1; s < dp.length; s++) {
+            for (int k = 0; k < n; k++) {
+                if ((s & (1 << k)) == 0) {
+                    // s的第k位为0表示表示第k根火柴未被放入
+                    continue;
+                }
+                // TODO ?
+                int s1 = s & ~(1 << k);
+                if (dp[s1] >= 0 && dp[s1] + matchsticks[k] <= len) {
+                    dp[s] = (dp[s1] + matchsticks[k]) % len;
+                    break;
+                }
+            }
         }
-        for (int i = 0; i < edges.length; i++) {
-            if (edges[i] + matchsticks[j] > target) {
-                continue;
-            }
-            if (i > 0 && edges[i - 1] < target && edges[i - 1] == edges[i]) {
-                continue;
-            }
-            edges[i] += matchsticks[j];
-            if (backTracing(matchsticks, j - 1, edges, target)) {
-                return true;
-            }
-            edges[i] -= matchsticks[j];
-        }
-        return false;
+        return dp[dp.length - 1] == 0;
     }
 
 }

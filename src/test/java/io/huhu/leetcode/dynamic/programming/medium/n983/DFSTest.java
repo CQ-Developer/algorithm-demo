@@ -22,4 +22,9 @@ class DFSTest extends SolutionTest {
         case_2(solution);
     }
 
+    @Test
+    void test3() {
+        case_3(solution);
+    }
+
 }

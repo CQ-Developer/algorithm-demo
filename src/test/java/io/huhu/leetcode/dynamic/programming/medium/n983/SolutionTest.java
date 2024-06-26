@@ -14,4 +14,9 @@ class SolutionTest {
         Assertions.assertEquals(17, solution.mincostTickets(days, costs));
     }
 
+    final void case_3(Solution solution) {
+        int[] days = {1, 2, 3, 4, 6, 8, 9, 10, 13, 14, 16, 17, 19, 21, 24, 26, 27, 28, 29}, costs = {3, 14, 50};
+        Assertions.assertEquals(50, solution.mincostTickets(days, costs));
+    }
+
 }

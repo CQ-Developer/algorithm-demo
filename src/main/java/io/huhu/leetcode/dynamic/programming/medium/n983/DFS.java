@@ -9,7 +9,7 @@ class DFS implements Solution {
 
     @Override
     public int mincostTickets(int[] days, int[] costs) {
-        int[] mem = new int[365 + 1];
+        int[] mem = new int[days.length + 1];
         Arrays.fill(mem, -1);
         return dfs(days, costs, new int[]{1, 7, 30}, 0, mem);
     }

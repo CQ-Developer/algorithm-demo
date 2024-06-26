@@ -1,31 +1,18 @@
 package io.huhu.leetcode.dynamic.programming.medium.n91;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SolutionTest {
 
-    Solution solution;
-
-    @BeforeEach
-    void setup() {
-        solution = new Solution();
-    }
-
-    @Test
-    void test_1() {
+    void case_1(Solution solution) {
         assertEquals(2, solution.numDecodings("12"));
     }
 
-    @Test
-    void test_2() {
+    void case_2(Solution solution) {
         assertEquals(3, solution.numDecodings("226"));
     }
 
-    @Test
-    void test_3() {
+    void case_3(Solution solution) {
         assertEquals(0, solution.numDecodings("06"));
     }
 

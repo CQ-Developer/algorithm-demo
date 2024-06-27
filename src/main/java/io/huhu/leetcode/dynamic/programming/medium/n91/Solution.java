@@ -5,6 +5,6 @@ package io.huhu.leetcode.dynamic.programming.medium.n91;
  */
 abstract class Solution {
 
-    abstract int numDecodings(String s);
+    protected abstract int numDecodings(String s);
 
 }

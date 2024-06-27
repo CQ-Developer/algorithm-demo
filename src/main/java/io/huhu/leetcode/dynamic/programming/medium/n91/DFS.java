@@ -16,11 +16,11 @@ class DFS extends Solution {
         if (i == s.length) {
             return 1;
         }
-        if (s[i] == '0') {
-            return 0;
-        }
         if (f[i] != -1) {
             return f[i];
+        }
+        if (s[i] == '0') {
+            return f[i] = 0;
         }
         int ans = dfs(s, i + 1, f);
         if (i + 1 < s.length && ((s[i] - '0') * 10 + (s[i + 1] - '0')) <= 26) {

@@ -1,10 +1,5 @@
 package io.huhu.leetcode.dynamic.programming.medium.n983;
 
-import java.util.Arrays;
-
-/**
- * <a href="https://leetcode.cn/problems/minimum-cost-for-tickets/description/">Minimum Cost For Tickets</a>
- */
 class DP implements Solution {
 
     @Override

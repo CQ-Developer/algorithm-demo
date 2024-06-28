@@ -1,4 +1,4 @@
-package io.huhu.leetcode.dynamic.programming.medium.n639;
+package io.huhu.leetcode.dynamic.programming.hard.n639;
 
 /**
  * <a href="https://leetcode.cn/problems/decode-ways-ii/description/">Decode Ways II</a>

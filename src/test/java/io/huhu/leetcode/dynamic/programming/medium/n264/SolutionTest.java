@@ -3,7 +3,7 @@ package io.huhu.leetcode.dynamic.programming.medium.n264;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-abstract sealed class SolutionTest permits DFSSolutionTest, DPSolutionTest {
+abstract sealed class SolutionTest permits DPSolutionTest {
 
     protected Solution solution;
 

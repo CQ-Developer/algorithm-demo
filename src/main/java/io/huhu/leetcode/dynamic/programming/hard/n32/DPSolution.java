@@ -16,15 +16,12 @@ final class DPSolution extends Solution {
                 } else {
                     if (f[i - 1] != 0) {
                         int j = i - 1 - f[i - 1];
-                        if (j >= 0) {
-                            if (s.charAt(j) == '(') {
-                                f[i] = f[i - 1] + 2;
-                                if (j - 1 >= 0) {
-                                    f[i] += f[j - 1];
-                                }
+                        if (j >= 0 && s.charAt(j) == '(') {
+                            f[i] = f[i - 1] + 2;
+                            if (j - 1 >= 0) {
+                                f[i] += f[j - 1];
                             }
                         }
-
                     }
                 }
             }

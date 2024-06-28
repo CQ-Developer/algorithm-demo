@@ -4,19 +4,19 @@ final class DPSolution extends Solution {
 
     @Override
     public int findSubstringInWraproundString(String s) {
-        int[] c = new int[s.length()];
-        for (int i = 0; i < s.length(); i++) {
-            c[i] = s.charAt(i) - 'a';
-        }
         int[] f = new int[26];
-        f[c[0]] = 1;
-        for (int i = 1, j = 0, len = 1; i < c.length; i++, j++) {
-            if ((c[i] == 0 && c[j] == 25) || c[i] == c[j] + 1) {
-                len++;
+        int n = 0, p = -1;
+        for (char c : s.toCharArray()) {
+            int i = c - 'a';
+            if (i == p + 1 || (p == 25 && i == 0)) {
+                n++;
             } else {
-                len = 1;
+                n = 1;
             }
-            f[c[i]] = Math.max(f[c[i]], len);
+            if (n > f[i]) {
+                f[i] = n;
+            }
+            p = i;
         }
         int sum = 0;
         for (int i : f) {

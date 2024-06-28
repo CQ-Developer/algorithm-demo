@@ -3,11 +3,11 @@ package io.huhu.leetcode.dynamic.programming.medium.n264;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-abstract class SolutionTest {
+abstract sealed class SolutionTest permits DFSSolutionTest, DPSolutionTest {
 
-    Solution solution;
+    protected Solution solution;
 
-    protected abstract void setup();
+    abstract void setup();
 
     @Test
     void test_1() {

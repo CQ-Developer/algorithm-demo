@@ -6,17 +6,16 @@ final class DPSolution extends Solution {
     public int minPathSum(int[][] grid) {
         int n = grid.length, m = grid[0].length;
         int[][] f = new int[n][m];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (i == 0 && j == 0) {
-                    f[i][j] = grid[i][j];
-                } else if (i - 1 < 0) {
-                    f[i][j] = grid[i][j] + f[i][j - 1];
-                } else if (j - 1 < 0) {
-                    f[i][j] = grid[i][j] + f[i - 1][j];
-                } else {
-                    f[i][j] = grid[i][j] + Math.min(f[i - 1][j], f[i][j - 1]);
-                }
+        f[0][0] = grid[0][0];
+        for (int i = 1; i < n; i++) {
+            f[i][0] = grid[i][0] + f[i - 1][0];
+        }
+        for (int j = 1; j < m; j++) {
+            f[0][j] = grid[0][j] + f[0][j - 1];
+        }
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j < m; j++) {
+                f[i][j] = grid[i][j] + Math.min(f[i - 1][j], f[i][j - 1]);
             }
         }
         return f[n - 1][m - 1];

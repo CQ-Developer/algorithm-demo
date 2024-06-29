@@ -1,18 +1,14 @@
 package io.huhu.leetcode.dynamic.programming.medium.n64;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class SolutionTest {
+abstract class SolutionTest {
 
     Solution solution;
 
-    @BeforeEach
-    void setup() {
-        solution = new Solution();
-    }
+    abstract void setup();
 
     @Test
     void test_1() {

@@ -17,9 +17,10 @@ class Solution {
      * board 和 word 仅由大小写英文字母组成
      */
     public boolean exist(char[][] board, String word) {
+        char[] chars = word.toCharArray();
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                if (backTrace(board, i, j, word, 0)) {
+                if (chars[0] == board[i][j] && backTrace(board, i, j, chars, 0)) {
                     return true;
                 }
             }
@@ -29,23 +30,23 @@ class Solution {
 
     /**
      * 回溯算法
-     * 选择条件: c == word.length - 1
-     * 剪枝条件: i越界 || j越界 || word[c] != bard[i][j]
+     * 选择条件: k == word.length - 1
+     * 剪枝条件: i越界 || j越界 || word[k] != bard[i][j]
      */
-    private boolean backTrace(char[][] board, int i, int j, String word, int c) {
-        if (i < 0 || i == board.length || j < 0 || j == board[i].length || word.charAt(c) != board[i][j]) {
-            return false;
-        }
-        if (c == word.length() - 1) {
+    private boolean backTrace(char[][] board, int i, int j, char[] word, int k) {
+        if (k == word.length) {
             return true;
         }
-        board[i][j] = '\0';
-        boolean result = backTrace(board, i - 1, j, word, c + 1)
-                      || backTrace(board, i + 1, j, word, c + 1)
-                      || backTrace(board, i, j - 1, word, c + 1)
-                      || backTrace(board, i, j + 1, word, c + 1);
-        board[i][j] = word.charAt(c);
-        return result;
+        if (i < 0 || i == board.length || j < 0 || j == board[i].length || word[k] != board[i][j]) {
+            return false;
+        }
+        board[i][j] = '.';
+        boolean found = backTrace(board, i - 1, j, word, k + 1)
+                     || backTrace(board, i + 1, j, word, k + 1)
+                     || backTrace(board, i, j - 1, word, k + 1)
+                     || backTrace(board, i, j + 1, word, k + 1);
+        board[i][j] = word[k];
+        return found;
     }
 
 }

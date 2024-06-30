@@ -5,18 +5,18 @@ final class DPSolution extends Solution {
     @Override
     public int minPathSum(int[][] grid) {
         int n = grid.length, m = grid[0].length;
-        for (int i = 1; i < n; i++) {
-            grid[i][0] = grid[i][0] + grid[i - 1][0];
-        }
+        int[] f = new int[m];
+        f[0] = grid[0][0];
         for (int j = 1; j < m; j++) {
-            grid[0][j] = grid[0][j] + grid[0][j - 1];
+            f[j] = grid[0][j] + f[j - 1];
         }
         for (int i = 1; i < n; i++) {
+            f[0] += grid[i][0];
             for (int j = 1; j < m; j++) {
-                grid[i][j] = grid[i][j] + Math.min(grid[i - 1][j], grid[i][j - 1]);
+                f[j] = grid[i][j] + Math.min(f[j - 1], f[j]);
             }
         }
-        return grid[n - 1][m - 1];
+        return f[m - 1];
     }
 
 }

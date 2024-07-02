@@ -7,6 +7,6 @@ package io.huhu.leetcode.dynamic.programming.medium.n516;
  */
 abstract class Solution {
 
-    protected abstract int longestPalindromeSubseq(String s);
+    abstract int longestPalindromeSubseq(String s);
 
 }

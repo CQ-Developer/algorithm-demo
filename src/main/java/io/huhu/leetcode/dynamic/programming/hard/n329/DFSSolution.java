@@ -4,23 +4,22 @@ final class DFSSolution extends Solution {
 
     @Override
     public int longestIncreasingPath(int[][] matrix) {
-        int m = matrix.length, n = matrix[0].length;
-        int[][] mem = new int[m][n];
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
+        int[][] mem = new int[matrix.length][matrix[0].length];
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
                 mem[i][j] = -1;
             }
         }
         int ans = 0;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                ans = Math.max(ans, dfs(mem, matrix, i, m, j, n));
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                ans = Math.max(ans, dfs(mem, matrix, i, j));
             }
         }
         return ans;
     }
 
-    private int dfs(int[][] mem, int[][] matrix, int i, int m, int j, int n) {
+    private int dfs(int[][] mem, int[][] matrix, int i, int j) {
         if (matrix[i][j] == -1) {
             return 0;
         }
@@ -29,17 +28,17 @@ final class DFSSolution extends Solution {
         }
         int num = matrix[i][j], ans = 1;
         matrix[i][j] = -1;
-        if (i + 1 < m && matrix[i + 1][j] > num) {
-            ans = Math.max(ans, 1 + dfs(mem, matrix, i + 1, m, j, n));
+        if (i + 1 < matrix.length && matrix[i + 1][j] > num) {
+            ans = Math.max(ans, 1 + dfs(mem, matrix, i + 1, j));
         }
         if (i - 1 >= 0 && matrix[i - 1][j] > num) {
-            ans = Math.max(ans, 1 + dfs(mem, matrix, i - 1, m, j, n));
+            ans = Math.max(ans, 1 + dfs(mem, matrix, i - 1, j));
         }
-        if (j + 1 < n && matrix[i][j + 1] > num) {
-            ans = Math.max(ans, 1 + dfs(mem, matrix, i, m, j + 1, n));
+        if (j + 1 < matrix[i].length && matrix[i][j + 1] > num) {
+            ans = Math.max(ans, 1 + dfs(mem, matrix, i, j + 1));
         }
         if (j - 1 >= 0 && matrix[i][j - 1] > num) {
-            ans = Math.max(ans, 1 + dfs(mem, matrix, i, m, j - 1, n));
+            ans = Math.max(ans, 1 + dfs(mem, matrix, i, j - 1));
         }
         matrix[i][j] = num;
         return mem[i][j] = ans;

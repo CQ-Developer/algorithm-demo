@@ -8,17 +8,18 @@ package io.huhu.leetcode.dynamic.programming.hard.n115;
 class Solution {
 
     public int numDistinct(String s, String t) {
-        int m = s.length(), n = t.length();
+        char[] a = s.toCharArray(), b = t.toCharArray();
+        int m = a.length, n = b.length;
         int[] f = new int[n + 1];
         f[0] = 1;
         for (int i = 1; i <= m; i++) {
-            int leftUp = f[0];
+            int leftup = f[0];
             for (int j = 1; j <= n; j++) {
-                int a = f[j];
-                if (s.charAt(i - 1) == t.charAt(j - 1)) {
-                    f[j] += leftUp;
+                int x = f[j];
+                if (a[i - 1] == b[j - 1]) {
+                    f[j] += leftup;
                 }
-                leftUp = a;
+                leftup = x;
             }
         }
         return f[n];

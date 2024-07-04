@@ -9,19 +9,19 @@ class Solution {
 
     public int numDistinct(String s, String t) {
         int m = s.length(), n = t.length();
-        int[][] f = new int[m + 1][n + 1];
-        for (int i = 0; i <= m; i++) {
-            f[i][0] = 1;
-        }
+        int[] f = new int[n + 1];
+        f[0] = 1;
         for (int i = 1; i <= m; i++) {
+            int leftUp = f[0];
             for (int j = 1; j <= n; j++) {
-                f[i][j] = f[i - 1][j];
+                int a = f[j];
                 if (s.charAt(i - 1) == t.charAt(j - 1)) {
-                    f[i][j] += f[i - 1][j - 1];
+                    f[j] += leftUp;
                 }
+                leftUp = a;
             }
         }
-        return f[m][n];
+        return f[n];
     }
 
 }

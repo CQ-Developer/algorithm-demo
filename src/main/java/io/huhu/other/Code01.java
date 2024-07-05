@@ -8,23 +8,25 @@ package io.huhu.other;
  */
 class Code01 {
 
-    public int code(String s1, String s2) {
+    public int minCost(String s1, String s2) {
         char[] c1 = s1.toCharArray(), c2 = s2.toCharArray();
         int m = c1.length, n = c2.length;
-        int[][] f = new int[m + 1][n + 1];
-        for (int i = 1; i <= m; i++) {
-            f[i][0] = i;
+        int[] f = new int[n + 1];
+        for (int i = 1, leftUp = 0; i <= m; i++) {
+            f[0] = i;
             for (int j = 1; j <= n; j++) {
+                int num = f[j];
                 if (c1[i - 1] == c2[j - 1]) {
-                    f[i][j] = f[i - 1][j - 1];
+                    f[j] = leftUp;
                 } else {
-                    f[i][j] = f[i - 1][j] + 1;
+                    f[j] = f[j] + 1;
                 }
+                leftUp = num;
             }
         }
         int ans = Integer.MAX_VALUE;
         for (int j = 0; j <= n; j++) {
-            ans = Math.min(ans, f[m][j]);
+            ans = Math.min(ans, f[j]);
         }
         return ans;
     }

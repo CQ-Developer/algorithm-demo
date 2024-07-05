@@ -15,7 +15,7 @@ class Code01Test {
 
     @Test
     void test1() {
-        Assertions.assertEquals(1, code.code("axbc", "abcde"));
+        Assertions.assertEquals(1, code.minCost("axbc", "abcde"));
     }
 
 }

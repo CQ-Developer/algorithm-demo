@@ -43,7 +43,6 @@ abstract class SolutionTest {
             return;
         }
         String path = url.getPath();
-        System.out.println(path);
         List<String> lines = Files.readAllLines(Paths.get(path));
         int[][] grid = new int[lines.size()][];
         for (int i = 0; i < lines.size(); i++) {

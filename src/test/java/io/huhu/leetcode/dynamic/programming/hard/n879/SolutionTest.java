@@ -20,7 +20,7 @@ abstract class SolutionTest {
     void test2() {
         int n = 10, minProfit = 5;
         int[] group = {2, 3, 5}, profit = {6, 7, 8};
-        Assertions.assertEquals(2, solution.profitableSchemes(n, minProfit, group, profit));
+        Assertions.assertEquals(7, solution.profitableSchemes(n, minProfit, group, profit));
     }
 
 }

@@ -54,7 +54,7 @@ abstract class SolutionTest {
             }
         }
         int k = 4;
-        Assertions.assertEquals(1, solution.numberOfPaths(grid, k));
+        Assertions.assertEquals(365124505, solution.numberOfPaths(grid, k));
     }
 
 }

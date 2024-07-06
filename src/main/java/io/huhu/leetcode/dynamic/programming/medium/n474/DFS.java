@@ -4,52 +4,40 @@ final class DFS implements Solution {
 
     @Override
     public int findMaxForm(String[] strs, int m, int n) {
-        char[][] c = new char[strs.length][];
-        for (int i = 0; i < strs.length; i++) {
-            c[i] = strs[i].toCharArray();
-        }
-        int[][] bc = new int[strs.length][];
-        int[][][] dp = new int[strs.length + 1][m + 1][n + 1];
-        return dfs(c, 0, bc, m, n, dp);
+        return dfs(strs, 0, m, n, new int[strs.length][], new int[strs.length][m + 1][n + 1]);
     }
 
-    private int dfs(char[][] s, int j, int[][] bc, int m, int n, int[][][] f) {
-        if (j == s.length) {
+    private int dfs(String[] strs, int i, int m, int n, int[][] bc, int[][][] mem) {
+        if (i == strs.length) {
             return 0;
         }
-        if (m == 0 && n == 0) {
-            return 0;
+        if (mem[i][m][n] != 0) {
+            return mem[i][m][n];
         }
-        if (f[j][m][n] != 0) {
-            return f[j][m][n];
+        int x = dfs(strs, i + 1, m, n, bc, mem);
+        int y = 0;
+        int[] b = binaryCount(strs, i, bc);
+        if (m >= b[0] && n >= b[1]) {
+            y = dfs(strs, i + 1, m - b[0], n - b[1], bc, mem) + 1;
         }
-        int ans = 0;
-        for (int i = j; i < s.length; i++) {
-            int[] b = binaryCount(s, i, bc);
-            if (m >= b[0] && n >= b[1]) {
-                int max = dfs(s, i + 1, bc, m - b[0], n - b[1], f) + 1;
-                if (max > ans) {
-                    ans = max;
-                }
-            }
-        }
-        return f[j][m][n] = ans;
+        return mem[i][m][n] = Math.max(x, y);
     }
 
-    private int[] binaryCount(char[][] s, int i, int[][] bc) {
+    private int[] binaryCount(String[] strs, int i, int[][] bc) {
         if (bc[i] != null) {
             return bc[i];
         }
-        int[] a = new int[2];
-        for (int j = 0; j < s[i].length; j++) {
-            if (s[i][j] == '0') {
-                a[0]++;
+        int[] arr = new int[2];
+        for (int j = 0; j < strs[i].length(); j++) {
+            char c = strs[i].charAt(j);
+            if (c == '0') {
+                arr[0]++;
             }
-            if (s[i][j] == '1') {
-                a[1]++;
+            if (c == '1') {
+                arr[1]++;
             }
         }
-        return bc[i] = a;
+        return bc[i] = arr;
     }
 
 }

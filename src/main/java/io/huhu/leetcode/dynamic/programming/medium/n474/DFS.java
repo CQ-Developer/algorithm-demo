@@ -4,40 +4,53 @@ final class DFS implements Solution {
 
     @Override
     public int findMaxForm(String[] strs, int m, int n) {
-        return dfs(strs, 0, m, n, new int[strs.length][], new int[strs.length][m + 1][n + 1]);
+        char[][] c = new char[strs.length][];
+        for (int i = 0; i < strs.length; i++) {
+            c[i] = strs[i].toCharArray();
+        }
+        int[][][] f = new int[c.length][m + 1][n + 1];
+        for (int i = 0; i < c.length; i++) {
+            for (int j = 0; j <= m; j++) {
+                for (int k = 0; k <= n; k++) {
+                    f[i][j][k] = -1;
+                }
+            }
+        }
+        return dfs(c, 0, m, n, new int[c.length][], f);
     }
 
-    private int dfs(String[] strs, int i, int m, int n, int[][] bc, int[][][] mem) {
+    private int dfs(char[][] strs, int i, int m, int n, int[][] bc, int[][][] f) {
         if (i == strs.length) {
             return 0;
         }
-        if (mem[i][m][n] != 0) {
-            return mem[i][m][n];
+        if (f[i][m][n] != -1) {
+            return f[i][m][n];
         }
-        int x = dfs(strs, i + 1, m, n, bc, mem);
-        int y = 0;
+        f[i][m][n] = dfs(strs, i + 1, m, n, bc, f);
         int[] b = binaryCount(strs, i, bc);
         if (m >= b[0] && n >= b[1]) {
-            y = dfs(strs, i + 1, m - b[0], n - b[1], bc, mem) + 1;
+            int num = dfs(strs, i + 1, m - b[0], n - b[1], bc, f) + 1;
+            if (num > f[i][m][n]) {
+                f[i][m][n] = num;
+            }
         }
-        return mem[i][m][n] = Math.max(x, y);
+        return f[i][m][n];
     }
 
-    private int[] binaryCount(String[] strs, int i, int[][] bc) {
+    private int[] binaryCount(char[][] c, int i, int[][] bc) {
         if (bc[i] != null) {
             return bc[i];
         }
-        int[] arr = new int[2];
-        for (int j = 0; j < strs[i].length(); j++) {
-            char c = strs[i].charAt(j);
-            if (c == '0') {
-                arr[0]++;
+        bc[i] = new int[2];
+        for (int j = 0; j < c[i].length; j++) {
+            if (c[i][j] == '0') {
+                bc[i][0]++;
             }
-            if (c == '1') {
-                arr[1]++;
+            if (c[i][j] == '1') {
+                bc[i][1]++;
             }
         }
-        return bc[i] = arr;
+        return bc[i];
     }
 
 }

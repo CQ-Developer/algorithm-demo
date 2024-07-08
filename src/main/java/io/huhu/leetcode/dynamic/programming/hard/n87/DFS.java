@@ -10,25 +10,21 @@ final class DFS implements Solution {
         return dfs(c1, 0, c2, 0, n, f);
     }
 
-    private boolean dfs(char[] s1, int l1, char[] s2, int l2, int n, int[][][] f) {
+    private boolean dfs(char[] s1, int i, char[] s2, int j, int n, int[][][] f) {
         if (n == 1) {
-            return s1[l1] == s2[l2];
+            return s1[i] == s2[j];
         }
-        if (f[l1][l2][n] != 0) {
-            return f[l1][l2][n] == 1;
+        if (f[i][j][n] != 0) {
+            return f[i][j][n] == 1;
         }
         boolean ans = false;
         for (int k = 1; k < n && !ans; k++) {
-            if (dfs(s1, l1, s2, l2, k, f) && dfs(s1, l1 + k, s2, l2 + k, n - k, f)) {
-                ans = true;
-            }
+            ans = dfs(s1, i, s2, j, k, f) && dfs(s1, i + k, s2, j + k, n - k, f);
         }
-        for (int k = 1, i = l1 + 1, j = l2 + n - 1; k < n && !ans; k++, i++, j--) {
-            if (dfs(s1, l1, s2, j, k, f) && dfs(s1, i, s2, l2, n - k, f)) {
-                ans = true;
-            }
+        for (int k = 1; k < n && !ans; k++) {
+            ans = dfs(s1, i, s2, j + n - k, k, f) && dfs(s1, i + k, s2, j, n - k, f);
         }
-        f[l1][l2][n] = ans ? 1 : -1;
+        f[i][j][n] = ans ? 1 : -1;
         return ans;
     }
 

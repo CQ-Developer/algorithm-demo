@@ -5,7 +5,9 @@ package io.huhu.leetcode.classic.ugly.number.n1201;
  */
 class Solution {
 
-    public int nthUglyNumber(int n, int a, int b, int c) { int l = 1, r = Integer.MAX_VALUE; while (l < r) {
+    public int nthUglyNumber(int n, int a, int b, int c) {
+        int l = 1, r = Integer.MAX_VALUE;
+        while (l < r) {
             int m = l + ((r - l) >> 1);
             if (check(m, n, a, b, c)) {
                 r = m;

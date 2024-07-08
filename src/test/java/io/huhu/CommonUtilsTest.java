@@ -57,4 +57,14 @@ class CommonUtilsTest {
         assertEquals(2, CommonUtils.recursionFindMax(arr));
     }
 
+    @Test
+    void gcd() {
+        assertEquals(10, CommonUtils.gcd(30, 50));
+    }
+
+    @Test
+    void lcm() {
+        assertEquals(150, CommonUtils.lcm(30, 50));
+    }
+
 }

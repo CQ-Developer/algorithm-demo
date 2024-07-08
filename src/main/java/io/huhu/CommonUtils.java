@@ -203,4 +203,18 @@ public final class CommonUtils {
         lists.sort(c);
     }
 
+    /**
+     * 最大公约数
+     */
+    public static long gcd(long a, long b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+
+    /**
+     * 最小公倍数
+     */
+    public static long lcm(long a, long b) {
+        return a / gcd(a, b) * b;
+    }
+
 }

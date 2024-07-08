@@ -6,20 +6,20 @@ final class DFS implements Solution {
     public boolean isScramble(String s1, String s2) {
         char[] c1 = s1.toCharArray(), c2 = s2.toCharArray();
         int n = c1.length;
-        return dfs(c1, 0, n - 1, c2, 0, n - 1);
+        return f(c1, 0, c2, 0, n);
     }
 
-    private boolean dfs(char[] s1, int l1, int r1, char[] s2, int l2, int r2) {
-        if (l1 == r1) {
+    private boolean f(char[] s1, int l1, char[] s2, int l2, int n) {
+        if (n == 1) {
             return s1[l1] == s2[l2];
         }
-        for (int i = l1, j = l2; i < r1; i++, j++) {
-            if (dfs(s1, l1, i, s2, l2, j) && dfs(s1, i + 1, r1, s2, j + 1, r2)) {
+        for (int k = 1; k < n; k++) {
+            if (f(s1, l1, s2, l2, k) && f(s1, l1 + k, s2, l2 + k, n - k)) {
                 return true;
             }
         }
-        for (int i = l1, j = r2; i < r1; i++, j--) {
-            if (dfs(s1, l1, i, s2, j, r2) && dfs(s1, i + 1, r1, s2, l2, j - 1)) {
+        for (int k = 1, i = l1 + 1, j = l2 + n - 1; k < n; k++, i++, j--) {
+            if (f(s1, l1, s2, j, k) && f(s1, i, s2, l2, n - k)) {
                 return true;
             }
         }

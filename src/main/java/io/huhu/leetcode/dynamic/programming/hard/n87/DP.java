@@ -15,14 +15,9 @@ final class DP implements Solution {
         for (int n = 2; n <= m; n++) {
             for (int i = 0; i <= m - n; i++) {
                 for (int j = 0; j <= m - n; j++) {
-                    boolean ans = false;
-                    for (int k = 1; k < n && !ans; k++) {
-                        ans = f[i][j][k] && f[i + k][j + k][n - k];
+                    for (int k = 1; k < n && !f[i][j][n]; k++) {
+                        f[i][j][n] = (f[i][j][k] && f[i + k][j + k][n - k]) || (f[i][j + n - k][k] && f[i + k][j][n - k]);
                     }
-                    for (int k = 1; k < n && !ans; k++) {
-                        ans = f[i][j + n - k][k] && f[i + k][j][n - k];
-                    }
-                    f[i][j][n] = ans;
                 }
             }
         }

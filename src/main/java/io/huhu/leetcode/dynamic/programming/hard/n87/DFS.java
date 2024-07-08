@@ -6,8 +6,7 @@ final class DFS implements Solution {
     public boolean isScramble(String s1, String s2) {
         char[] c1 = s1.toCharArray(), c2 = s2.toCharArray();
         int n = c1.length;
-        int[][][] f = new int[n][n][n + 1];
-        return dfs(c1, 0, c2, 0, n, f);
+        return dfs(c1, 0, c2, 0, n, new int[n][n][n + 1]);
     }
 
     private boolean dfs(char[] s1, int i, char[] s2, int j, int n, int[][][] f) {
@@ -19,10 +18,7 @@ final class DFS implements Solution {
         }
         boolean ans = false;
         for (int k = 1; k < n && !ans; k++) {
-            ans = dfs(s1, i, s2, j, k, f) && dfs(s1, i + k, s2, j + k, n - k, f);
-        }
-        for (int k = 1; k < n && !ans; k++) {
-            ans = dfs(s1, i, s2, j + n - k, k, f) && dfs(s1, i + k, s2, j, n - k, f);
+            ans = (dfs(s1, i, s2, j, k, f) && dfs(s1, i + k, s2, j + k, n - k, f)) || (dfs(s1, i, s2, j + n - k, k, f) && dfs(s1, i + k, s2, j, n - k, f));
         }
         f[i][j][n] = ans ? 1 : -1;
         return ans;

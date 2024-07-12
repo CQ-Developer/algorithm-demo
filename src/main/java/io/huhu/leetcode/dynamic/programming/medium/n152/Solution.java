@@ -17,18 +17,18 @@ package io.huhu.leetcode.dynamic.programming.medium.n152;
 class Solution {
 
     public int maxProduct(int[] nums) {
-        int max = Integer.MIN_VALUE, dpMax = 1, dpMin = 1;
+        int ans = Integer.MIN_VALUE, min = 1, max = 1;
         for (int num : nums) {
             if (num < 0) {
-                int tmp = dpMax;
-                dpMax = dpMin;
-                dpMin = tmp;
+                max ^= min;
+                min ^= max;
+                max ^= min;
             }
-            dpMax = Math.max(dpMax * num, num);
-            dpMin = Math.min(dpMin * num, num);
-            max = Math.max(max, dpMax);
+            max = Integer.max(num, max * num);
+            min = Integer.min(num, min * num);
+            ans = Integer.max(ans, max);
         }
-        return max;
+        return ans;
     }
 
 }

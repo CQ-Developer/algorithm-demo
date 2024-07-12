@@ -31,4 +31,10 @@ class SolutionTest {
         Assertions.assertEquals(-2, solution.maxProduct(nums));
     }
 
+    @Test
+    void test_4() {
+        int[] nums = {0, 10, 10, 10, 10, 10, 10, 10, 10, 10, -10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0};
+        Assertions.assertEquals(1000000000, solution.maxProduct(nums));
+    }
+
 }

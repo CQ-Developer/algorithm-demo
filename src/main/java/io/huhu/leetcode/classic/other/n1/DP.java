@@ -10,13 +10,12 @@ class DP implements Code {
             f[0][j] = -1;
         }
         for (int i = 1; i <= n; i++) {
-            int num = nums[i - 1];
-            // 当前需要的余数
-            int cur = num % 7;
+            int x = nums[i - 1] % 7;
             for (int j = 0; j < 7; j++) {
-                int k = (7 + j - cur) % 7;
+                f[i][j] = f[i - 1][j];
+                int k = x <= j ? j - x : j - x + 7;
                 if (f[i - 1][k] != -1) {
-                    f[i][j] = Integer.max(f[i - 1][j], f[i - 1][k] + num);
+                    f[i][j] = Integer.max(f[i][j], f[i - 1][k] + nums[i - 1]);
                 }
             }
         }

@@ -21,9 +21,9 @@ class CodeTest {
     @Test
     void test() {
         Random rnd = new Random(System.currentTimeMillis());
-        int len = 15, rd = 30;
+        int len = 30, rd = 30;
         for (int i = 0; i < rd; i++) {
-            int[] nums = new int[rnd.nextInt(1, len)];
+            int[] nums = new int[rnd.nextInt(1, len + 1)];
             for (int j = 0; j < nums.length; j++) {
                 nums[j] = rnd.nextInt(0, 100);
             }

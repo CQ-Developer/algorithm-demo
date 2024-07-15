@@ -17,16 +17,16 @@ class DFS implements Code {
         return dfs(nums, 0, 0, f);
     }
 
-    private int dfs(int[] nums, int i, int sum, int[][] f) {
+    private int dfs(int[] nums, int i, int j, int[][] f) {
         if (i == nums.length) {
-            return sum % 7 == 0 ? sum : 0;
+            return j % 7 == 0 ? j : 0;
         }
-        if (f[i][sum] != -1) {
-            return f[i][sum];
+        if (f[i][j] != -1) {
+            return f[i][j];
         }
-        int a = dfs(nums, i + 1, sum, f);
-        int b = dfs(nums, i + 1, sum + nums[i], f);
-        return f[i][sum] = Integer.max(a, b);
+        int a = dfs(nums, i + 1, j, f);
+        int b = dfs(nums, i + 1, j + nums[i], f);
+        return f[i][j] = Integer.max(a, b);
     }
 
 }

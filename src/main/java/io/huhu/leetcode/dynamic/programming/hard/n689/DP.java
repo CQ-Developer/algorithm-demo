@@ -5,7 +5,7 @@ class DP implements Solution {
     @Override
     public int[] maxSumOfThreeSubarrays(int[] nums, int k) {
         int n = nums.length;
-        // i位置的最大累加和
+        // 以i位置起长度为k的最大累加和
         int[] sums = new int[n];
         for (int l = 0, r = 0, sum = 0; r < n; r++) {
             sum += nums[r];

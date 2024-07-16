@@ -1,15 +1,15 @@
 package io.huhu.leetcode.dynamic.programming.medium.n300;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class SolutionTest {
 
-    Solution solution;
+    static Solution solution;
 
-    @BeforeEach
-    void setup() {
+    @BeforeAll
+    static void setup() {
         solution = new Solution();
     }
 

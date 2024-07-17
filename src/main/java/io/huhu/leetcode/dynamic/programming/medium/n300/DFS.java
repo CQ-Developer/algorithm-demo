@@ -16,13 +16,12 @@ class DFS implements Solution {
         if (f[i] != 0) {
             return f[i];
         }
-        int ans = 0;
         for (int j = 0; j < i; j++) {
             if (nums[j] < nums[i]) {
-                ans = Integer.max(ans, dfs(nums, j, f));
+                f[i] = Integer.max(f[i], dfs(nums, j, f));
             }
         }
-        return f[i] = ans + 1;
+        return ++f[i];
     }
 
 }

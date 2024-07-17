@@ -5,6 +5,7 @@ class BinarySearch implements Solution {
     @Override
     public int lengthOfLIS(int[] nums) {
         int len = 0;
+        // f[i]: 长度为i+1的递增子序列中最后一位数字(即最大值)
         int[] f = new int[nums.length];
         for (int i = 0; i < nums.length; i++) {
             int j = binarySearch(f, len, nums[i]);

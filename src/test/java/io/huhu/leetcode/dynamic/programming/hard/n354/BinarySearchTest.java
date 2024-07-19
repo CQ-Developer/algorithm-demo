@@ -1,10 +1,10 @@
 package io.huhu.leetcode.dynamic.programming.hard.n354;
 
-class DPTest extends SolutionTest {
+class BinarySearchTest extends SolutionTest {
 
     @Override
     protected Solution getSolution() {
-        return new DP();
+        return new BinarySearch();
     }
 
 }

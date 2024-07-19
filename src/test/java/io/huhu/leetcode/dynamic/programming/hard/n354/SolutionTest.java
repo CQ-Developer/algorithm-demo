@@ -4,19 +4,17 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-abstract class SolutionTest {
+class SolutionTest {
 
-    Solution solution;
+    static Solution solution;
 
-    @BeforeEach
-    void setup() {
-        solution = getSolution();
+    @BeforeAll
+    static void setup() {
+        solution = new Solution();
     }
-
-    protected abstract Solution getSolution();
 
     @Test
     void test_1() {

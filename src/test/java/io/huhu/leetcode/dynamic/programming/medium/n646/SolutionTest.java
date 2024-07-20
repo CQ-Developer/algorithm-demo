@@ -1,14 +1,14 @@
 package io.huhu.leetcode.dynamic.programming.medium.n646;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 abstract class SolutionTest {
 
     Solution solution;
 
-    @BeforeAll
+    @BeforeEach
     void setup() {
         solution = getSolution();
     }

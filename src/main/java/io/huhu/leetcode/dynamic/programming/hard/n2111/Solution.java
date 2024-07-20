@@ -24,11 +24,12 @@ class Solution {
         int len = 0;
         int[] dp = new int[n];
         for (int i = 0; i < n; i++) {
-            int j = bs(dp, len, nums[i]);
+            int num = nums[i];
+            int j = bs(dp, len, num);
             if (j == -1) {
-                dp[len++] = nums[i];
+                dp[len++] = num;
             } else {
-                dp[j] = nums[i];
+                dp[j] = num;
             }
         }
         return len;

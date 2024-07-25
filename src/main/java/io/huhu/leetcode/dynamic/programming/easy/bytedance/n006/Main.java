@@ -11,19 +11,29 @@ class Main {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt(), x = sc.nextInt();
-        int[] price = new int[n], discount = new int[n], happy = new int[n];
+        long ans = 0;
+        int n = sc.nextInt(), x = sc.nextInt(), m = 0;
+        int[] cost = new int[n];
+        long[] value = new long[n];
         for (int i = 0; i < n; i++) {
-            price[i] = sc.nextInt();
-            discount[i] = sc.nextInt();
-            happy[i] = sc.nextInt();
+            int a = sc.nextInt(), b = sc.nextInt();
+            long w = sc.nextLong();
+            int well = a - b - b;
+            if (well >= 0) {
+                x += well;
+                ans += w;
+            } else {
+                cost[m] = -well;
+                value[m++] = w;
+            }
         }
-        int ans = buy(n, x, price, discount, happy);
-        System.err.println(ans);
-    }
-
-    static int buy(int n, int x, int[] price, int[] discount, int[] happy) {
-        return DFS.buy(n, x, price, discount, happy);
+        long[] dp = new long[x + 1];
+        for (int i = 0; i < m; i++) {
+            for (int j = x; j >= cost[i]; j--) {
+                dp[j] = Long.max(dp[j], dp[j - cost[i]] + value[i]);
+            }
+        }
+        System.out.println(ans + dp[x]);
     }
 
 }

@@ -1,26 +1,30 @@
 package io.huhu.leetcode.dynamic.programming.medium.n494;
 
-import java.util.HashMap;
-import java.util.Map;
-
 class DFS implements Solution {
 
     @Override
     public int findTargetSumWays(int[] nums, int target) {
-        return dfs(nums, 0, target, new HashMap<>());
+        int n = nums.length, m = 0;
+        for (int num : nums) {
+            m += num;
+        }
+        int[][] f = new int[n][m * 2 + 1];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < f[i].length; j++) {
+                f[i][j] = -1;
+            }
+        }
+        return dfs(nums, 0, target, 0, f, m);
     }
 
-    private int dfs(int[] nums, int i, int j, Map<Integer, Map<Integer, Integer>> mem) {
+    private int dfs(int[] nums, int i, int target, int j, int[][] f, int m) {
         if (i == nums.length) {
-            return j == 0 ? 1 : 0;
+            return j == target ? 1 : 0;
         }
-        if (mem.containsKey(i) && mem.get(i).containsKey(j)) {
-            return mem.get(i).get(j);
+        if (f[i][m + j] != -1) {
+            return f[i][m + j];
         }
-        int ans = dfs(nums, i + 1, j + nums[i], mem) + dfs(nums, i + 1, j - nums[i], mem);
-        mem.putIfAbsent(i, new HashMap<>());
-        mem.get(i).put(j, ans);
-        return ans;
+        return f[i][m + j] = dfs(nums, i + 1, target, j + nums[i], f, m) + dfs(nums, i + 1, target, j - nums[i], f, m);
     }
 
 }

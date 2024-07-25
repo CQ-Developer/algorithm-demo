@@ -7,11 +7,11 @@ class DFS implements Solution {
         return dfs(nums, 0, target);
     }
 
-    private int dfs(int[] nums, int i, int target) {
+    private int dfs(int[] nums, int i, int j) {
         if (i == nums.length) {
-            return target == 0 ? 1 : 0;
+            return j == 0 ? 1 : 0;
         }
-        return dfs(nums, i + 1, target + nums[i]) + dfs(nums, i + 1, target - nums[i]);
+        return dfs(nums, i + 1, j + nums[i]) + dfs(nums, i + 1, j - nums[i]);
     }
 
 }

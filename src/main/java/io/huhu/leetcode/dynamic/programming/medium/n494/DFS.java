@@ -1,20 +1,20 @@
 package io.huhu.leetcode.dynamic.programming.medium.n494;
 
+import java.util.Arrays;
+
 class DFS implements Solution {
 
     @Override
     public int findTargetSumWays(int[] nums, int target) {
-        int n = nums.length, m = 0;
+        int sum = 0;
         for (int num : nums) {
-            m += num;
+            sum += num;
         }
-        int[][] f = new int[n][m * 2 + 1];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < f[i].length; j++) {
-                f[i][j] = -1;
-            }
+        int[][] f = new int[nums.length][sum * 2 + 1];
+        for (int[] a : f) {
+            Arrays.fill(a, -1);
         }
-        return dfs(nums, 0, target, 0, f, m);
+        return dfs(nums, 0, target, 0, f, sum);
     }
 
     private int dfs(int[] nums, int i, int target, int j, int[][] f, int m) {

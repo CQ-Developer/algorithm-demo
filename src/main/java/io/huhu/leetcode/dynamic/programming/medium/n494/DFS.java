@@ -17,14 +17,14 @@ class DFS implements Solution {
         return dfs(nums, 0, target, 0, f, sum);
     }
 
-    private int dfs(int[] nums, int i, int target, int j, int[][] f, int m) {
+    private int dfs(int[] nums, int i, int target, int j, int[][] f, int s) {
         if (i == nums.length) {
             return j == target ? 1 : 0;
         }
-        if (f[i][m + j] != -1) {
-            return f[i][m + j];
+        if (f[i][s + j] != -1) {
+            return f[i][s + j];
         }
-        return f[i][m + j] = dfs(nums, i + 1, target, j + nums[i], f, m) + dfs(nums, i + 1, target, j - nums[i], f, m);
+        return f[i][s + j] = dfs(nums, i + 1, target, j + nums[i], f, s) + dfs(nums, i + 1, target, j - nums[i], f, s);
     }
 
 }

@@ -6,4 +6,5 @@ class DPTest extends SolutionTest {
     protected Solution getSolution() {
         return new DP();
     }
+
 }

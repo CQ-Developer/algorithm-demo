@@ -1,30 +1,36 @@
 package io.huhu.leetcode.dynamic.programming.medium.n1049;
 
-import java.util.HashMap;
-import java.util.Map;
-
 class DFS implements Solution {
 
     @Override
     public int lastStoneWeightII(int[] stones) {
-        return dfs(stones, 0, 0, 0, new HashMap<>());
+        int sum = 0;
+        for (int stone : stones) {
+            sum += stone;
+        }
+        int n = stones.length, m = (sum >> 1) + 1;
+        int[][] f = new int[n][m];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                f[i][j] = -1;
+            }
+        }
+        int required = dfs(stones, 0, sum >> 1, 0, f);
+        return sum - required - required;
     }
 
-    private int dfs(int[] stones, int i, int a, int b, Map<Integer, Map<Integer, Map<Integer, Integer>>> cache) {
+    private int dfs(int[] stones, int i, int t, int j, int[][] f) {
         if (i == stones.length) {
-            return Math.abs(a - b);
+            return j;
         }
-        if (cache.containsKey(i) && cache.get(i).containsKey(a) && cache.get(i).get(a).containsKey(b)) {
-            return cache.get(i).get(a).get(b);
+        if (f[i][j] != -1) {
+            return f[i][j];
         }
-        int x = dfs(stones, i + 1, a + stones[i], b, cache);
-        int y = dfs(stones, i + 1, a, b + stones[i], cache);
-        int ans = Integer.min(x, y);
-        cache.putIfAbsent(i, new HashMap<>());
-        Map<Integer, Map<Integer, Integer>> map = cache.get(i);
-        map.putIfAbsent(a, new HashMap<>());
-        map.get(a).put(b, ans);
-        return ans;
+        f[i][j] = dfs(stones, i + 1, t, j, f);
+        if (j + stones[i] <= t) {
+            f[i][j] = Integer.max(f[i][j], dfs(stones, i + 1, t, j + stones[i], f));
+        }
+        return f[i][j];
     }
 
 }

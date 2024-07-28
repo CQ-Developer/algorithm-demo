@@ -8,17 +8,14 @@ class DP implements Solution {
         for (int stone : stones) {
             sum += stone;
         }
-        int n = stones.length, m = sum >> 1;
-        int[][] dp = new int[n + 1][m + 1];
-        for (int i = 1; i <= n; i++) {
-            for (int j = 0; j <= m; j++) {
-                dp[i][j] = dp[i - 1][j];
-                if (j - stones[i - 1] >= 0) {
-                    dp[i][j] = Integer.max(dp[i][j], dp[i - 1][j - stones[i - 1]] + stones[i - 1]);
-                }
+        int m = sum >> 1;
+        int[] dp = new int[m + 1];
+        for (int stone : stones) {
+            for (int i = m; i >= stone; i--) {
+                dp[i] = Integer.max(dp[i], dp[i - stone] + stone);
             }
         }
-        return sum - dp[n][m] - dp[n][m];
+        return sum - dp[m] - dp[m];
     }
 
 }

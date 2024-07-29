@@ -30,12 +30,35 @@ class Main {
                 follower[q][fan[q]++] = i;
             }
         }
-        int ans = dfs(n, m, v, p, main, fan, follower);
+        int ans = dfs(n, m + 1, v, p, main, fan, follower, 0, 0);
         System.out.println(ans);
     }
 
-    private static int dfs(int n, int m, int[] v, int[] p, boolean[] main, int[] fan, int[][] follower) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    private static int dfs(int budget, int n, int[] price, int[] value, boolean[] primary, int[] attachmentSize, int[][] attachmentId, int i, int x) {
+        if (budget < 0) {
+            return 0;
+        }
+        if (i == n) {
+            return budget >= 0 ? x : 0;
+        }
+        if (!primary[i]) {
+            return dfs(budget, n, price, value, primary, attachmentSize, attachmentId, i + 1, x);
+        }
+        int a = dfs(budget - price[i], n, price, value, primary, attachmentSize, attachmentId, i + 1, x + value[i]);
+        if (attachmentSize[i] == 1) {
+            int c = dfs(budget - price[i] - price[attachmentId[i][0]], n, price, value, primary, attachmentSize, attachmentId, i + 1, x + value[i] + value[attachmentId[i][0]]);
+            a = Integer.max(a, c);
+        }
+        if (attachmentSize[i] == 2) {
+            int c = dfs(budget - price[i] - price[attachmentId[i][0]], n, price, value, primary, attachmentSize, attachmentId, i + 1, x + value[i] + value[attachmentId[i][0]]);
+            a = Integer.max(a, c);
+            int d = dfs(budget - price[i] - price[attachmentId[i][1]], n, price, value, primary, attachmentSize, attachmentId, i + 1, x + value[i] + value[attachmentId[i][1]]);
+            a = Integer.max(a, d);
+            int e = dfs(budget - price[i] - price[attachmentId[i][0]] - price[attachmentId[i][1]], n, price, value, primary, attachmentSize, attachmentId, i + 1, x + value[i] + value[attachmentId[i][0]] + value[attachmentId[i][1]]);
+            a = Integer.max(a, e);
+        }
+        int b = dfs(budget, n, price, value, primary, attachmentSize, attachmentId, i + 1, x);
+        return Integer.max(a, b);
     }
 
 }

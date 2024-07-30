@@ -25,31 +25,26 @@ class DP {
                 attachment[q][size[q]++] = i;
             }
         }
-        int k = 0;
-        int[][] dp = new int[n + 1][budget + 1];
-        for (int i = 1; i < dp.length; i++) {
+        int[] dp = new int[budget + 1];
+        for (int i = 1; i <= n; i++) {
             if (primary[i]) {
-                for (int j = 0; j < dp[i].length; j++) {
-                    dp[i][j] = dp[k][j];
-                    if (j - price[i] >= 0) {
-                        dp[i][j] = Integer.max(dp[i][j], dp[k][j - price[i]] + value[i]);
-                    }
+                for (int j = dp.length - 1; j >= price[i]; j--) {
+                    dp[j] = Integer.max(dp[j], dp[j - price[i]] + value[i]);
                     int a = size[i] >= 1 ? attachment[i][0] : -1;
                     int b = size[i] >= 2 ? attachment[i][1] : -1;
                     if (a != -1 && j - price[i] - price[a] >= 0) {
-                        dp[i][j] = Integer.max(dp[i][j], dp[k][j - price[i] - price[a]] + value[i] + value[a]);
+                        dp[j] = Integer.max(dp[j], dp[j - price[i] - price[a]] + value[i] + value[a]);
                     }
                     if (b != -1 && j - price[i] - price[b] >= 0) {
-                        dp[i][j] = Integer.max(dp[i][j], dp[k][j - price[i] - price[b]] + value[i] + value[b]);
+                        dp[j] = Integer.max(dp[j], dp[j - price[i] - price[b]] + value[i] + value[b]);
                     }
                     if (a != -1 && b != -1 && j - price[i] - price[a] - price[b] >= 0) {
-                        dp[i][j] = Integer.max(dp[i][j], dp[k][j - price[i] - price[a] - price[b]] + value[i] + value[a] + value[b]);
+                        dp[j] = Integer.max(dp[j], dp[j - price[i] - price[a] - price[b]] + value[i] + value[a] + value[b]);
                     }
                 }
-                k = i;
             }
         }
-        System.out.println(dp[k][budget]);
+        System.out.println(dp[budget]);
     }
 
 }

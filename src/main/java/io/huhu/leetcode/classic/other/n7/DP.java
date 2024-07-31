@@ -25,20 +25,17 @@ public class DP {
         for (int i = 0; i < n; i++) {
             group[g[i]][size[g[i]]++] = i;
         }
-        int[][] dp = new int[len + 1][m + 1];
+        int[] dp = new int[m + 1];
         for (int i = 1; i <= len; i++) {
-            for (int j = 0; j <= m; j++) {
-                dp[i][j] = dp[i - 1][j];
+            for (int j = m; j >= 0; j--) {
                 for (int k = 0; k < size[i]; k++) {
-                    int l = group[i][k];
-                    if (j - w[l] >= 0) {
-                        dp[i][j] = Integer.max(dp[i][j], dp[i - 1][j - w[l]] + v[l]);
+                    if (j - w[group[i][k]] >= 0) {
+                        dp[j] = Integer.max(dp[j], dp[j - w[group[i][k]]] + v[group[i][k]]);
                     }
                 }
             }
         }
-
-        System.out.println(dp[len][m]);
+        System.out.println(dp[m]);
     }
 
 }

@@ -14,7 +14,11 @@ class DFS implements Solution {
         }
         boolean ans;
         if (i == s.length) {
-            ans = j == p.length || j + 1 < p.length && p[j + 1] == '*' && dfs(s, p, f, i, j + 2);
+            if (j == p.length) {
+                ans = true;
+            } else {
+                ans = j + 1 < p.length && p[j + 1] == '*' && dfs(s, p, f, i, j + 2);
+            }
         } else if (j == p.length) {
             ans = false;
         } else {

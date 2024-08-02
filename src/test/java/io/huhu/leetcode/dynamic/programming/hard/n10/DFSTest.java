@@ -1,6 +1,6 @@
 package io.huhu.leetcode.dynamic.programming.hard.n10;
 
-class DFSSolution extends SolutionTest {
+class DFSTest extends SolutionTest {
 
     @Override
     protected Solution getSolution() {

@@ -15,7 +15,7 @@ class DFS implements Solution {
             return false;
         }
         if (j + 1 == p.length || p[j + 1] != '*') {
-            return (s[i] == p[i] || p[j] == '.') && dfs(s, p, i + 1, j + 1);
+            return (s[i] == p[j] || p[j] == '.') && dfs(s, p, i + 1, j + 1);
         }
         boolean a = dfs(s, p, i, j + 2);
         boolean b = (s[i] == p[j] || p[j] == '.') && dfs(s, p, i + 1, j);

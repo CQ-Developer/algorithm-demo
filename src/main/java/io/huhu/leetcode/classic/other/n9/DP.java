@@ -7,24 +7,35 @@ import java.util.Scanner;
  */
 class DP {
 
+    static final int MAXN = 1001;
+    static final int MAXW = 40001;
+
+    static final int[] V = new int[MAXN];
+    static final int[] W = new int[MAXN];
+    static final int[] dp = new int[MAXW];
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt(), W = sc.nextInt();
-        int[] v = new int[n], w = new int[n], m = new int[n];
-        for (int i = 0; i < n; i++) {
-            v[i] = sc.nextInt();
-            w[i] = sc.nextInt();
-            m[i] = sc.nextInt();
-        }
-        int[] dp = new int[W + 1];
-        for (int i = 0; i < n; i++) {
-            for (int j = W; j >= 0; j--) {
-                for (int k = 1; k <= m[i] && j >= w[i] * k; k++) {
-                    dp[j] = Integer.max(dp[j], dp[j - w[i] * k] + v[i] * k);
-                }
+        int n = sc.nextInt(), t = sc.nextInt();
+        int m = 0;
+        for (int i = 1; i <= n; i++) {
+            int v = sc.nextInt(), w = sc.nextInt(), c = sc.nextInt();
+            for (int k = 1; k <= c; k <<= 1) {
+                V[++m] = k * v;
+                W[m] = k * w;
+                c -= k;
+            }
+            if (c > 0) {
+                V[++m] = c * v;
+                W[m] = c * w;
             }
         }
-        System.out.println(dp[W]);
+        for (int i = 1; i <= m; i++) {
+            for (int j = t; j >= W[i]; j--) {
+                dp[j] = Integer.max(dp[j], dp[j - W[i]] + V[i]);
+            }
+        }
+        System.out.println(dp[t]);
     }
 
 }

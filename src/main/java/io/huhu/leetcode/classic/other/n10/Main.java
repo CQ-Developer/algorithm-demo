@@ -16,6 +16,9 @@ class Main {
         List<Integer> costs = new ArrayList<>(), values = new ArrayList<>();
         for (int i = 1; i <= n; i++) {
             int c = sc.nextInt(), v = sc.nextInt(), cnt = sc.nextInt();
+            if (cnt == 0) {
+                cnt = 1000;
+            }
             for (int j = 1; j <= cnt; j <<= 1) {
                 costs.add(j * c);
                 values.add(j * v);

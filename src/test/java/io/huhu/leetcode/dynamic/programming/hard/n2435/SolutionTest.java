@@ -1,13 +1,13 @@
 package io.huhu.leetcode.dynamic.programming.hard.n2435;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.StringTokenizer;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 abstract class SolutionTest {
 
@@ -37,20 +37,19 @@ abstract class SolutionTest {
     }
 
     @Test
-    void test4() throws IOException {
+    void test4() throws Exception {
         URL url = SolutionTest.class.getClassLoader().getResource("n2435.txt");
         if (url == null) {
             return;
         }
-        String path = url.getPath();
-        List<String> lines = Files.readAllLines(Paths.get(path));
+        List<String> lines = Files.readAllLines(Paths.get(url.toURI()));
         int[][] grid = new int[lines.size()][];
-        for (int i = 0; i < lines.size(); i++) {
-            String line = lines.get(i);
-            String[] s = line.split(",");
-            grid[i] = new int[s.length];
-            for (int j = 0; j < s.length; j++) {
-                grid[i][j] = Integer.parseInt(s[j]);
+        for (int i = 0; i < grid.length; i++) {
+            StringTokenizer tokenizer = new StringTokenizer(lines.get(i), ",");
+            grid[i] = new int[tokenizer.countTokens()];
+            int j = 0;
+            while (tokenizer.hasMoreTokens()) {
+                grid[i][j++] = Integer.parseInt(tokenizer.nextToken());
             }
         }
         int k = 4;

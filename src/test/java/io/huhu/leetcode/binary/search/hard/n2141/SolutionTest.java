@@ -1,14 +1,14 @@
 package io.huhu.leetcode.binary.search.hard.n2141;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import java.io.BufferedReader;
 import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
+import java.util.StringTokenizer;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 abstract class SolutionTest {
 
@@ -34,13 +34,12 @@ abstract class SolutionTest {
         if (Objects.isNull(url)) {
             return;
         }
-        Path path = Paths.get(url.getFile());
-        try (BufferedReader reader = Files.newBufferedReader(path)) {
-            String line = reader.readLine();
-            String[] s = line.split(",");
-            int[] batteries = new int[s.length];
-            for (int i = 0; i < s.length; i++) {
-                batteries[i] = Integer.parseInt(s[i]);
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(url.toURI()))) {
+            StringTokenizer tokenizer = new StringTokenizer(reader.readLine(), ",");
+            int[] batteries = new int[tokenizer.countTokens()];
+            int i = 0;
+            while (tokenizer.hasMoreTokens()) {
+                batteries[i++] = Integer.parseInt(tokenizer.nextToken());
             }
             Assertions.assertEquals(318353, solution.maxRunTime(5099, batteries));
         }

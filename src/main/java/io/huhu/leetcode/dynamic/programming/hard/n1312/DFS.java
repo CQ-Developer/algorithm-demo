@@ -24,9 +24,7 @@ class DFS implements Solution {
         if (s[l] == s[r]) {
             f[l][r] = dfs(s, l + 1, r - 1, f);
         } else {
-            int a = dfs(s, l + 1, r, f) + 1;
-            int b = dfs(s, l, r - 1, f) + 1;
-            f[l][r] = Integer.min(a, b);
+            f[l][r] = Integer.min(dfs(s, l + 1, r, f), dfs(s, l, r - 1, f)) + 1;
         }
         return f[l][r];
     }

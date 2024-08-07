@@ -12,7 +12,7 @@ class DP implements Solution {
                 if (c[l] == c[r]) {
                     dp[l][r] = dp[l + 1][r - 1];
                 } else {
-                    dp[l][r] = Integer.min(dp[l + 1][r] + 1, dp[l][r - 1] + 1);
+                    dp[l][r] = Integer.min(dp[l + 1][r], dp[l][r - 1]) + 1;
                 }
             }
         }

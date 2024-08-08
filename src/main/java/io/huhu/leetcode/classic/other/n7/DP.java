@@ -7,7 +7,7 @@ import java.util.Scanner;
  * 分组背包
  * </a>
  */
-public class DP {
+class DP {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);

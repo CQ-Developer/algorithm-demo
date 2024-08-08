@@ -22,7 +22,8 @@ class DP implements Solution {
         for (int num : nums) {
             sum += num;
         }
-        return dp[0][n - 1] >= sum - dp[0][n - 1];
+        int p1 = dp[0][n - 1], p2 = sum - p1;
+        return p1 >= p2;
     }
 
 }

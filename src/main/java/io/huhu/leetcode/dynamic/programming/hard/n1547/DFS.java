@@ -22,14 +22,17 @@ class DFS implements Solution {
         if (l > r) {
             return 0;
         }
+        if (l == r) {
+            return arr[r + 1] - arr[l - 1];
+        }
         if (f[l][r] != -1) {
             return f[l][r];
         }
         f[l][r] = Integer.MAX_VALUE;
-        for (int m = l; m <= r; m++) {
-            f[l][r] = Math.min(f[l][r], dfs(arr, l, m - 1, f) + dfs(arr, m + 1, r, f) + arr[r + 1] - arr[l - 1]);
+        for (int k = l; k <= r; k++) {
+            f[l][r] = Math.min(f[l][r], dfs(arr, l, k - 1, f) + dfs(arr, k + 1, r, f));
         }
-        return f[l][r];
+        return f[l][r] += arr[r + 1] - arr[l - 1];
     }
 
 }

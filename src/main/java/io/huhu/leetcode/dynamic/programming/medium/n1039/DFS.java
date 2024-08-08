@@ -4,18 +4,22 @@ class DFS implements Solution {
 
     @Override
     public int minScoreTriangulation(int[] values) {
-        return dfs(values, 0, values.length - 1);
+        int n = values.length;
+        return dfs(values, 0, n - 1, new int[n][n]);
     }
 
-    private int dfs(int[] v, int l, int r) {
+    private int dfs(int[] v, int l, int r, int[][] f) {
         if (l == r || l + 1 == r) {
             return 0;
         }
-        int ans = Integer.MAX_VALUE;
-        for (int m = l + 1; m < r; m++) {
-            ans = Integer.min(ans, dfs(v, l, m) + dfs(v, m, r) + v[l] * v[m] * v[r]);
+        if (f[l][r] != 0) {
+            return f[l][r];
         }
-        return ans;
+        f[l][r] = Integer.MAX_VALUE;
+        for (int m = l + 1; m < r; m++) {
+            f[l][r] = Integer.min(f[l][r], dfs(v, l, m, f) + dfs(v, m, r, f) + v[l] * v[m] * v[r]);
+        }
+        return f[l][r];
     }
 
 }

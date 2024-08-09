@@ -27,4 +27,16 @@ abstract class SolutionTest {
         Assertions.assertEquals(10, solution.maxCoins(nums));
     }
 
+    @Test
+    void test_3() {
+        int[] nums = {7, 9, 8, 0, 7, 1, 3, 5};
+        Assertions.assertEquals(1358, solution.maxCoins(nums));
+    }
+
+    @Test
+    void test_4() {
+        int[] nums = {7, 9, 8, 0, 7, 1, 3, 5, 5, 2, 3, 3};
+        Assertions.assertEquals(1717, solution.maxCoins(nums));
+    }
+
 }

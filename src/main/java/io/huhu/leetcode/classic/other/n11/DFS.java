@@ -8,7 +8,7 @@ import java.util.Scanner;
  * 括号区间匹配
  * </a>
  */
-class Main {
+class DFS {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);

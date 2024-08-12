@@ -2,7 +2,7 @@ package io.huhu.leetcode.dynamic.programming.hard.n1547;
 
 import java.util.Arrays;
 
-public class DP implements Solution {
+class DP implements Solution {
 
     @Override
     public int minCost(int n, int[] cuts) {

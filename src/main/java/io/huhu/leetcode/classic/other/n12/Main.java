@@ -24,33 +24,32 @@ class Main {
         if (n == 1) {
             return 1;
         }
-        int[][][] dp = new int[n + 1][n + 1][2];
-        for (int i = 1; i < n; i++) {
-            if (nums[i] < nums[i + 1]) {
-                dp[i][i + 1][0] = dp[i][i + 1][1] = 1;
-            }
+        int[][] dp = new int[n + 1][2];
+        if (nums[n - 1] < nums[n]) {
+            dp[n][0] = dp[n][1] = 1;
         }
         for (int l = n - 2; l >= 1; l--) {
+            dp[l + 1][0] = dp[l + 1][1] = nums[l] < nums[l + 1] ? 1 : 0;
             for (int r = l + 2; r <= n; r++) {
-                // l -> [l+1...r)
+                int sum = 0;
                 if (nums[l] < nums[l + 1]) {
-                    dp[l][r][0] = (dp[l][r][0] + dp[l + 1][r][0]) % MOD;
+                    sum = (sum + dp[r][0]) % MOD;
                 }
-                // l -> (l+1...r]
                 if (nums[l] < nums[r]) {
-                    dp[l][r][0] = (dp[l][r][0] + dp[l + 1][r][1]) % MOD;
+                    sum = (sum + dp[r][1]) % MOD;
                 }
-                // r -> [l...r-1)
+                dp[r][0] = sum;
+                sum = 0;
                 if (nums[r] > nums[l]) {
-                    dp[l][r][1] = (dp[l][r][1] + dp[l][r - 1][0]) % MOD;
+                    sum = (sum + dp[r - 1][0]) % MOD;
                 }
-                // r -> (l...r-1]
                 if (nums[r] > nums[r - 1]) {
-                    dp[l][r][1] = (dp[l][r][1] + dp[l][r - 1][1]) % MOD;
+                    sum = (sum + dp[r - 1][1]) % MOD;
                 }
+                dp[r][1] = sum;
             }
         }
-        return (dp[1][n][0] + dp[1][n][1]) % MOD;
+        return (dp[n][0] + dp[n][1]) % MOD;
     }
 
     static int test(int[] nums) {

@@ -8,23 +8,23 @@ class DepthFirstSearch implements Solution {
         if ((n - 1) % (k - 1) != 0) {
             return -1;
         }
-        int[] pre = new int[n + 1];
+        int[] p = new int[n + 1];
         for (int i = 0; i < n; i++) {
-            pre[i + 1] = pre[i] + stones[i];
+            p[i + 1] = p[i] + stones[i];
         }
-        return f(pre, k, 0, n - 1);
+        return f(p, k, 0, n - 1);
     }
 
-    private int f(int[] pre, int k, int l, int r) {
+    private int f(int[] p, int k, int l, int r) {
         if (l == r) {
             return 0;
         }
         int ans = Integer.MAX_VALUE;
         for (int i = l; i < r; i += k - 1) {
-            ans = Math.min(ans, f(pre, k, l, i) + f(pre, k, i + 1, r));
+            ans = Math.min(ans, f(p, k, l, i) + f(p, k, i + 1, r));
         }
         if ((r - l) % (k - 1) == 0) {
-            ans += pre[r + 1] - pre[l];
+            ans += p[r + 1] - p[l];
         }
         return ans;
     }

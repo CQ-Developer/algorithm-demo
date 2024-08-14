@@ -25,14 +25,14 @@ class MemorySearch implements Solution {
         if (l == r) {
             return 0;
         }
-        int ans = Integer.MAX_VALUE;
+        m[l][r] = Integer.MAX_VALUE;
         for (int i = l; i < r; i += k - 1) {
-            ans = Math.min(ans, f(p, k, m, l, i) + f(p, k, m, i + 1, r));
+            m[l][r] = Math.min(m[l][r], f(p, k, m, l, i) + f(p, k, m, i + 1, r));
         }
         if ((r - l) % (k - 1) == 0) {
-            ans += p[r + 1] - p[l];
+            m[l][r] += p[r + 1] - p[l];
         }
-        return m[l][r] = ans;
+        return m[l][r];
     }
 
 }

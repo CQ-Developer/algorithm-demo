@@ -15,14 +15,13 @@ class DynamicProgramming implements Solution {
         int[][] dp = new int[n][n];
         for (int l = n - 2; l >= 0; l--) {
             for (int r = l + 1; r < n; r++) {
-                int ans = Integer.MAX_VALUE;
+                dp[l][r] = Integer.MAX_VALUE;
                 for (int i = l; i < r; i += k - 1) {
-                    ans = Math.min(ans, dp[l][i] + dp[i + 1][r]);
+                    dp[l][r] = Math.min(dp[l][r], dp[l][i] + dp[i + 1][r]);
                 }
                 if ((r - l) % (k - 1) == 0) {
-                    ans += p[r + 1] - p[l];
+                    dp[l][r] += p[r + 1] - p[l];
                 }
-                dp[l][r] = ans;
             }
         }
         return dp[0][n - 1];

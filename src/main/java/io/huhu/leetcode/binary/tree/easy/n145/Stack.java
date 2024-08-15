@@ -16,13 +16,14 @@ class Stack implements Solution {
         Deque<TreeNode> stack = new ArrayDeque<>();
         stack.addFirst(root);
         while (!stack.isEmpty()) {
-            root = stack.removeFirst();
-            ans.addFirst(root.val);
-            if (root.left != null) {
-                stack.addFirst(root.left);
-            }
-            if (root.right != null) {
-                stack.addFirst(root.right);
+            TreeNode cur = stack.getFirst();
+            if (cur.left != null && cur.left != root && cur.right != root) {
+                stack.addFirst(cur.left);
+            } else if (cur.right != null && cur.right != root) {
+                stack.addFirst(cur.right);
+            } else {
+                ans.add(cur.val);
+                root = stack.removeFirst();
             }
         }
         return ans;

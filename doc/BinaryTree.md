@@ -75,15 +75,14 @@ void preOrder(Tree head) {
 ```java
 void preOrder(Tree head) {
     Deque<Tree> stack = new ArrayDeque<>();
-    stack.addFirst(head);
-    while (!stack.isEmpty()) {
-        head = stack.removeFirst();
-        System.out.println(head.value);
-        if (head.right != null) {
-            stack.addFirst(head.right);
-        }
-        if (head.left != null) {
-            stack.addFirst(head.left);
+    while (!stack.isEmpty() || head != null) {
+        if (head != null) {
+            stack.addFirst(head);
+            head = head.left;
+        } else {
+            head = stack.removeFirst();
+            System.out.println(head.value);
+            head = head.right;
         }
     }
 }

@@ -1,0 +1,134 @@
+# 二叉树
+
+```java
+class Tree {
+    int value;
+    Tree left;
+    Tree right;
+}
+```
+
+## 递归
+
+### 前序遍历
+
+```java
+void preOrder(Tree head) {
+    if (head == null) {
+        return;
+    }
+    System.out.println(head.value);
+    preOrder(head.left);
+    preOrder(head.right);
+}
+```
+
+### 中序遍历
+
+```java
+void inOrder(Tree head) {
+    if (head == null) {
+        return;
+    }
+    inOrder(head.left);
+    System.out.println(head.value);
+    inOrder(head.right);
+}
+```
+
+### 后序遍历
+
+```java
+void posOrder(Tree head) {
+    if (head == null) {
+        return;
+    }
+    posOrder(head.left);
+    posOrder(head.right);
+    System.out.println(head.value);
+}
+```
+
+## 非递归
+
+### 前序遍历
+
+```java
+void preOrder(Tree head) {
+    Deque<Tree> stack = new ArrayDeque<>();
+    stack.addFirst(head);
+    while (!stack.isEmpty()) {
+        head = stack.removeFirst();
+        System.out.println(head.value);
+        if (head.right != null) {
+            stack.addFirst(head.right);
+        }
+        if (head.left != null) {
+            stack.addFirst(head.left);
+        }
+    }
+}
+```
+
+### 中序遍历
+
+```java
+void preOrder(Tree head) {
+    Deque<Tree> stack = new ArrayDeque<>();
+    stack.addFirst(head);
+    while (!stack.isEmpty()) {
+        head = stack.removeFirst();
+        System.out.println(head.value);
+        if (head.right != null) {
+            stack.addFirst(head.right);
+        }
+        if (head.left != null) {
+            stack.addFirst(head.left);
+        }
+    }
+}
+```
+
+### 后序遍历
+
+```java
+void posOrder(Tree head) {
+    Deque<Tree> stack = new ArrayDeque<>();
+    Deque<Tree> deque = new ArrayDeque<>();
+    stack.addFirst(head);
+    while (!stack.isEmpty()) {
+        head = stack.removeFirst();
+        deque.addFirst(head);
+        if (head.left != null) {
+            stack.addFirst(head.left);
+        }
+        if (head.right != null) {
+            stack.addFirst(head.right);
+        }
+    }
+    while (!deque.isEmpty()) {
+        Tree node = deque.removeFirst();
+        System.out.println(node.value);
+    }
+}
+```
+
+### 后序遍历 - 优化空间
+
+```java
+void posOrder(Tree head) {
+    Deque<Tree> stack = new ArrayDeque<>();
+    stack.addFirst(head);
+    while (!stack.isEmpty()) {
+        Tree cur = stack.getFirst();
+        if (cur.left != null && cur.left != head && cur.right != head) {
+            stack.addFirst(cur.left);
+        } else if (cur.right != null && cur.right != head) {
+            stack.addFirst(cur.right);
+        } else {
+            System.out.println(cur.value);
+            head = stack.removeFirst();
+        }
+    }
+}
+```

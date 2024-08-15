@@ -1,4 +1,4 @@
-package io.huhu.leetcode.binary.tree.n94;
+package io.huhu.leetcode.binary.tree.easy.n114;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 class Recurse implements Solution {
 
     @Override
-    public List<Integer> inorderTraversal(TreeNode root) {
+    public List<Integer> preorderTraversal(TreeNode root) {
         List<Integer> ans = new ArrayList<>();
         recurse(root, ans);
         return ans;
@@ -16,8 +16,8 @@ class Recurse implements Solution {
         if (root == null) {
             return;
         }
-        recurse(root.left, ans);
         ans.add(root.val);
+        recurse(root.left, ans);
         recurse(root.right, ans);
     }
 

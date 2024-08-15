@@ -1,4 +1,4 @@
-package io.huhu.leetcode.binary.tree.n94;
+package io.huhu.leetcode.binary.tree.easy.n94;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

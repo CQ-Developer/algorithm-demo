@@ -1,4 +1,4 @@
-package io.huhu.leetcode.binary.tree.n114;
+package io.huhu.leetcode.binary.tree.easy.n114;
 
 class TreeNode {
 

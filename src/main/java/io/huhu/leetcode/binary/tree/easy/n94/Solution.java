@@ -1,4 +1,4 @@
-package io.huhu.leetcode.binary.tree.n94;
+package io.huhu.leetcode.binary.tree.easy.n94;
 
 import java.util.List;
 

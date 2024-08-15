@@ -39,7 +39,7 @@ void inOrder(Tree head) {
 ### 后序遍历
 
 ```java
-void posOrder(Tree head) {
+void postOrder(Tree head) {
     if (head == null) {
         return;
     }
@@ -91,7 +91,7 @@ void preOrder(Tree head) {
 ### 后序遍历
 
 ```java
-void posOrder(Tree head) {
+void postOrder(Tree head) {
     Deque<Tree> stack = new ArrayDeque<>();
     Deque<Tree> deque = new ArrayDeque<>();
     stack.addFirst(head);
@@ -115,7 +115,7 @@ void posOrder(Tree head) {
 ### 后序遍历 - 优化空间
 
 ```java
-void posOrder(Tree head) {
+void postOrder(Tree head) {
     Deque<Tree> stack = new ArrayDeque<>();
     stack.addFirst(head);
     while (!stack.isEmpty()) {

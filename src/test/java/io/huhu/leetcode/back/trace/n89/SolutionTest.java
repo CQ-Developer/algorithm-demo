@@ -27,9 +27,4 @@ class SolutionTest {
         Assertions.assertIterableEquals(expected, solution.grayCode(3));
     }
 
-    @Test
-    void test() {
-        System.out.println(solution.grayCode(3));
-    }
-
 }

@@ -20,7 +20,6 @@ class SolutionTest {
     void readBinaryWatch1() {
         List<String> expected = Stream.of("0:01", "0:02", "0:04", "0:08", "0:16", "0:32", "1:00", "2:00", "4:00", "8:00").sorted().toList();
         List<String> actual = solution.readBinaryWatch(1).stream().sorted().toList();
-        System.out.println(actual);
         Assertions.assertIterableEquals(expected, actual);
     }
 

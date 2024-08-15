@@ -49,34 +49,4 @@ class SolutionTest {
         }
     }
 
-    @Test
-    void test() {
-        var tree = treeFromList(List.of(1, 3, 2));
-        System.out.println();
-    }
-
-    TreeNode treeFromList(List<Integer> list) {
-        var root = new TreeNode(0);
-        for (int i : list) {
-            treeFromList(root, i);
-        }
-        return root.right;
-    }
-
-    void treeFromList(TreeNode pre, int i) {
-        if (i < pre.val) {
-            if (pre.left == null) {
-                pre.left = new TreeNode(i);
-            } else {
-                treeFromList(pre.left, i);
-            }
-        } else {
-            if (pre.right==null) {
-                pre.right = new TreeNode(i);
-            } else {
-                treeFromList(pre.right, i);
-            }
-        }
-    }
-
 }

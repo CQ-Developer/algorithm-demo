@@ -1,7 +1,5 @@
 package io.huhu.leetcode.bit.manipulation.easy.lcr.n003;
 
-import java.util.Arrays;
-
 /**
  * <a href="https://leetcode.cn/problems/w3tCBm/description/">比特位计数</a>
  */
@@ -18,7 +16,6 @@ class Solution {
             return;
         }
         a[i] = cnt;
-        System.out.println(Arrays.toString(a));
         dfs(i << 1, cnt, n, a);
         dfs((i << 1) + 1, cnt + 1, n, a);
     }

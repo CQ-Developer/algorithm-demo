@@ -22,7 +22,7 @@ class Solution {
         while (l < r) {
             int n = r - l;
             List<Integer> list = new ArrayList<>();
-            while (n-- > 0) {
+            for (int i = 0; i < n; i++) {
                 TreeNode cur = queue[l++];
                 list.add(cur.val);
                 if (cur.left != null) {

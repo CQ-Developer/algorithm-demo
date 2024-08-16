@@ -1,8 +1,6 @@
 package io.huhu.leetcode.binary.tree.medium.n102;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
 /**
@@ -12,24 +10,26 @@ import java.util.List;
  */
 class Solution {
 
+    static final TreeNode[] queue = new TreeNode[20001];
+
     public List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> ans = new ArrayList<>();
         if (root == null) {
             return ans;
         }
-        Deque<TreeNode> deque = new ArrayDeque<>();
-        deque.addLast(root);
-        while (!deque.isEmpty()) {
-            int n = deque.size();
+        int l = 0, r = 0;
+        queue[r++] = root;
+        while (l < r) {
+            int n = r - l;
             List<Integer> list = new ArrayList<>();
             while (n-- > 0) {
-                TreeNode cur = deque.removeFirst();
+                TreeNode cur = queue[l++];
                 list.add(cur.val);
                 if (cur.left != null) {
-                    deque.addLast(cur.left);
+                    queue[r++] = cur.left;
                 }
                 if (cur.right != null) {
-                    deque.addLast(cur.right);
+                    queue[r++] = cur.right;
                 }
             }
             ans.add(list);

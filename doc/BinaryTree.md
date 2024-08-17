@@ -131,3 +131,7 @@ void postOrder(Tree head) {
     }
 }
 ```
+
+## 序列化
+
+## 反序列化

@@ -5,13 +5,16 @@ package io.huhu.leetcode.binary.tree.hard.n297;
  */
 class Codec {
 
+    final static String NULL = "#";
+    final static String DELEMITER = ",";
+
     public String serialize(TreeNode root) {
         return serialize(root, new StringBuilder());
     }
 
     private String serialize(TreeNode root, StringBuilder sb) {
         if (root == null) {
-            sb.append("null,");
+            sb.append(NULL).append(DELEMITER);
         } else {
             sb.append(root.val).append(",");
             serialize(root.left, sb);
@@ -23,12 +26,12 @@ class Codec {
     int i = 0;
 
     public TreeNode deserialize(String data) {
-        return deserialize(data.split(","));
+        return deserialize(data.split(DELEMITER));
     }
 
     private TreeNode deserialize(String[] s) {
         String cur = s[i++];
-        if ("null".equals(cur)) {
+        if (NULL.equals(cur)) {
             return null;
         }
         TreeNode root = new TreeNode(Integer.parseInt(cur));

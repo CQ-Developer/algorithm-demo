@@ -1,69 +1,14 @@
 package io.huhu.leetcode.binary.tree.hard.n297;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 /**
  * <a href="https://leetcode.cn/problems/serialize-and-deserialize-binary-tree/description/">
  * Serialize and Deserialize Binary Tree
  * </a>
  */
-class Codec {
+interface Codec {
 
-    static final String NULL = "#";
-    static final String DELEMITER = ",";
+    String serialize(TreeNode root);
 
-    /**
-     * 序列化
-     */
-    public String serialize(TreeNode root) {
-        return serialize(root, new StringBuilder());
-    }
-
-    private String serialize(TreeNode root, StringBuilder sb) {
-        if (root == null) {
-            sb.append(NULL).append(DELEMITER);
-        } else {
-            sb.append(root.val).append(",");
-            serialize(root.left, sb);
-            serialize(root.right, sb);
-        }
-        return sb.toString();
-    }
-
-    /**
-     * 反序列化
-     */
-    public TreeNode deserialize(String data) {
-        String[] arr = data.split(",");
-        Queue<String> queue = new LinkedList<>();
-        for (String s : arr) {
-            queue.add(s);
-        }
-        return deserialize(queue);
-    }
-
-    private TreeNode deserialize(Queue<String> queue) {
-        String cur = queue.remove();
-        if (NULL.equals(cur)) {
-            return null;
-        }
-        TreeNode root = new TreeNode(Integer.parseInt(cur));
-        root.left = deserialize(queue);
-        root.right = deserialize(queue);
-        return root;
-    }
-
-}
-
-class TreeNode {
-
-    int val;
-    TreeNode left;
-    TreeNode right;
-
-    public TreeNode(int val) {
-        this.val = val;
-    }
+    TreeNode deserialize(String data);
 
 }

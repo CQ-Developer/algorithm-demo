@@ -1,16 +1,18 @@
 package io.huhu.leetcode.binary.tree.hard.n297;
- 
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class CodecTest {
+abstract class CodecTest {
 
     Codec codec;
 
+    abstract Codec getCodec();
+
     @BeforeEach
     void setup() {
-        codec = new Codec();
+        codec = getCodec();
     }
 
     @Test

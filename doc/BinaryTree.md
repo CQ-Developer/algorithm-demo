@@ -134,4 +134,43 @@ void postOrder(Tree head) {
 
 ## 序列化
 
+### 前序
+
+```java
+String serialize(TreeNode root, StringBuilder sb) {
+    if (root == null) {
+        sb.append("null").append(",");
+    } else {
+        sb.append(root.val).append(",");
+        serialize(root.left, sb);
+        serialize(root.right, sb);
+    }
+    return sb.toString();
+}
+```
+
 ## 反序列化
+
+### 前序
+
+```java
+TreeNode deserialize(String data) {
+    String[] arr = data.split(",");
+    Queue<String> queue = new LinkedList<>();
+    for (String s : arr) {
+        queue.add(s);
+    }
+    return deserialize(queue);
+}
+
+TreeNode deserialize(Queue<String> queue) {
+    String cur = queue.remove();
+    if ("null".equals(cur)) {
+        return null;
+    }
+    TreeNode root = new TreeNode(Integer.parseInt(cur));
+    root.left = deserialize(queue);
+    root.right = deserialize(queue);
+    return root;
+}
+```

@@ -1,5 +1,8 @@
 package io.huhu.leetcode.binary.tree.medium.n105;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +22,7 @@ class SolutionTest {
         int[] inorder = {9, 3, 15, 20, 7};
         TreeNode actual = solution.buildTree(preorder, inorder);
         TreeNode expected = new TreeNode(3, new TreeNode(9), new TreeNode(20, new TreeNode(15), new TreeNode(7)));
-        Assertions.assertTrue(treeEquals(actual, expected));
+        Assertions.assertEquals(serialize(expected), serialize(actual));
     }
 
     @Test
@@ -28,14 +31,24 @@ class SolutionTest {
         int[] inorder = {-1};
         TreeNode actual = solution.buildTree(preorder, inorder);
         TreeNode expected = new TreeNode(-1);
-        Assertions.assertTrue(treeEquals(expected, actual));
+        Assertions.assertEquals(serialize(expected), serialize(actual));
     }
 
-    boolean treeEquals(TreeNode t1, TreeNode t2) {
-        if (t1 != null && t2 != null) {
-            return t1.val == t2.val && treeEquals(t1.left, t2.left) && treeEquals(t1.right, t2.right);
+    String serialize(TreeNode root) {
+        String s = serialize(root, new ArrayList<>());
+        System.out.println(s);
+        return s;
+    }
+
+    String serialize(TreeNode root, List<String> list) {
+        if (root == null) {
+            list.add(null);
+        } else {
+            list.add(String.valueOf(root.val));
+            serialize(root.left, list);
+            serialize(root.right, list);
         }
-        return t1 == null && t2 == null;
+        return String.join(",", list);
     }
 
 }

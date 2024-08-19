@@ -15,10 +15,10 @@ class Solution {
         for (int i = 0; i < inorder.length; i++) {
             map.put(inorder[i], i);
         }
-        return f(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1, map);
+        return buildTree(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1, map);
     }
 
-    private TreeNode f(int[] preorder, int l1, int r1, int[] inorder, int l2, int r2, Map<Integer, Integer> map) {
+    private TreeNode buildTree(int[] preorder, int l1, int r1, int[] inorder, int l2, int r2, Map<Integer, Integer> map) {
         if (l1 > r1) {
             return null;
         }
@@ -27,8 +27,8 @@ class Solution {
         }
         TreeNode root = new TreeNode(preorder[l1]);
         int i = map.get(preorder[l1]);
-        root.left = f(preorder, l1 + 1, l1 + i - l2, inorder, l2, i - 1, map);
-        root.right = f(preorder, l1 + i - l2 + 1, r1, inorder, i + 1, r2, map);
+        root.left = buildTree(preorder, l1 + 1, l1 + i - l2, inorder, l2, i - 1, map);
+        root.right = buildTree(preorder, l1 + i - l2 + 1, r1, inorder, i + 1, r2, map);
         return root;
     }
 

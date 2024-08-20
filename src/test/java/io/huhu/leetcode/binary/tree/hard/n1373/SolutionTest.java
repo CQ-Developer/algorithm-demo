@@ -37,4 +37,28 @@ class SolutionTest {
         Assertions.assertEquals(2, solution.maxSumBST(root));
     }
 
+    @Test
+    void test_3() {
+        TreeNode root = new TreeNode(4, new TreeNode(-2), new TreeNode(-5));
+        Assertions.assertEquals(0, solution.maxSumBST(root));
+    }
+
+    @Test
+    void test_4() {
+        TreeNode root = new TreeNode(2, new TreeNode(1), new TreeNode(3));
+        Assertions.assertEquals(6, solution.maxSumBST(root));
+    }
+
+    @Test
+    void test_5() {
+        TreeNode root = new TreeNode(5,
+                new TreeNode(4,
+                        new TreeNode(3),
+                        null),
+                new TreeNode(8,
+                        new TreeNode(6),
+                        new TreeNode(3)));
+        Assertions.assertEquals(7, solution.maxSumBST(root));
+    }
+
 }

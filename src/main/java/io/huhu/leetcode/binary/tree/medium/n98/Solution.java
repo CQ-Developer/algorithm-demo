@@ -19,6 +19,7 @@ class Solution {
                 root = root.left;
             } else {
                 root = stack.removeFirst();
+                // when a BST traversal inorder, it must increase, so pre < cur
                 if (pre != null && pre.val >= root.val) {
                     return false;
                 }

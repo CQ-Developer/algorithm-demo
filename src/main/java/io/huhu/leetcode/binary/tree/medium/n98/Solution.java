@@ -8,10 +8,10 @@ package io.huhu.leetcode.binary.tree.medium.n98;
 class Solution {
 
     public boolean isValidBST(TreeNode root) {
-        return isValidBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        return isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
     }
 
-    private boolean isValidBST(TreeNode cur, int min, int max) {
+    private boolean isValidBST(TreeNode cur, long min, long max) {
         if (cur == null) {
             return true;
         }

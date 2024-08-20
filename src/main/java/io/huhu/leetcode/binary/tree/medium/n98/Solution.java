@@ -1,5 +1,8 @@
 package io.huhu.leetcode.binary.tree.medium.n98;
 
+import java.util.Deque;
+import java.util.LinkedList;
+
 /**
  * <a href="https://leetcode.cn/problems/validate-binary-search-tree/description/">
  * Validate Binary Search Tree
@@ -8,17 +11,22 @@ package io.huhu.leetcode.binary.tree.medium.n98;
 class Solution {
 
     public boolean isValidBST(TreeNode root) {
-        return isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
-    }
-
-    private boolean isValidBST(TreeNode cur, long min, long max) {
-        if (cur == null) {
-            return true;
+        Deque<TreeNode> stack = new LinkedList<>();
+        TreeNode pre = null;
+        while (!stack.isEmpty() || root != null) {
+            if (root != null) {
+                stack.addFirst(root);
+                root = root.left;
+            } else {
+                root = stack.removeFirst();
+                if (pre != null && pre.val >= root.val) {
+                    return false;
+                }
+                pre = root;
+                root = root.right;
+            }
         }
-        if (cur.val <= min || cur.val >= max) {
-            return false;
-        }
-        return isValidBST(cur.left, min, cur.val) && isValidBST(cur.right, cur.val, max);
+        return true;
     }
 
 }

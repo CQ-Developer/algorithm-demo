@@ -10,12 +10,14 @@ class Solution {
     static class Info {
 
         final boolean isBST;
+        final int maxBSTSum;
         final int sum;
         final int max;
         final int min;
 
-        Info(boolean isBST, int sum, int max, int min) {
+        Info(boolean isBST, int maxBSTSum, int sum, int max, int min) {
             this.isBST = isBST;
+            this.maxBSTSum = maxBSTSum;
             this.sum = sum;
             this.max = max;
             this.min = min;
@@ -24,25 +26,24 @@ class Solution {
     }
 
     public int maxSumBST(TreeNode root) {
-        return f(root).sum;
+        return f(root).maxBSTSum;
     }
 
     private Info f(TreeNode root) {
         if (root == null) {
-            return new Info(true, 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+            return new Info(true, 0, 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
         }
         Info left = f(root.left);
         Info right = f(root.right);
         int max = Math.max(root.val, Math.max(left.max, right.max));
         int min = Math.min(root.val, Math.min(left.min, right.min));
+        int sum = left.sum + right.sum + root.val;
         boolean isBST = left.isBST && right.isBST && root.val > left.max && root.val < right.min;
-        int sum;
+        int maxBSTSum = Math.max(left.maxBSTSum, right.maxBSTSum);
         if (isBST) {
-            sum = left.sum + right.sum + root.val;
-        } else {
-            sum = Math.max(left.sum, right.sum);
+            maxBSTSum = Math.max(maxBSTSum, sum);
         }
-        return new Info(isBST, sum, max, min);
+        return new Info(isBST, maxBSTSum, sum, max, min);
     }
 
 }

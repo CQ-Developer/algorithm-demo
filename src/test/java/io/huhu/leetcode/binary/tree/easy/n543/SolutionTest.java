@@ -23,4 +23,10 @@ class SolutionTest {
         Assertions.assertEquals(3, solution.diameterOfBinaryTree(root));
     }
 
+    @Test
+    void test_2() {
+        TreeNode root = new TreeNode(1, new TreeNode(2), null);
+        Assertions.assertEquals(1, solution.diameterOfBinaryTree(root));
+    }
+
 }

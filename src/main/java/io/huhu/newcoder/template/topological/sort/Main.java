@@ -1,7 +1,6 @@
 package io.huhu.newcoder.template.topological.sort;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -11,34 +10,35 @@ import java.util.Scanner;
  */
 class Main {
 
+    static final int MAXN = 200001;
+
+    static final int[] QUEUE = new int[MAXN];
+
+    static final int[] INDEGRESS = new int[MAXN];
+
+    static final int[] HEAD = new int[MAXN];
+    static final int[] NEXT = new int[MAXN];
+    static final int[] TO = new int[MAXN];
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt(), m = scanner.nextInt();
-        List<List<Integer>> graph = new ArrayList<>();
-        for (int i = 0; i <= n; i++) {
-            graph.add(new ArrayList<>());
-        }
-        int[] indegress = new int[n + 1];
-        for (int i = 0; i < m; i++) {
-            int f = scanner.nextInt(), t = scanner.nextInt();
-            graph.get(f).add(t);
-            indegress[t]++;
-        }
+        initGraph(n);
+        buildGraph(m, scanner);
         int l = 0, r = 0;
-        int[] queue = new int[n + 1];
         for (int i = 1; i <= n; i++) {
-            if (indegress[i] == 0) {
-                queue[r++] = i;
+            if (INDEGRESS[i] == 0) {
+                QUEUE[r++] = i;
             }
         }
         int i = 0;
         int[] ans = new int[n];
         while (l < r) {
-            int f = queue[l++];
+            int f = QUEUE[l++];
             ans[i++] = f;
-            for (int t : graph.get(f)) {
-                if (--indegress[t] == 0) {
-                    queue[r++] = t;
+            for (int j = HEAD[f]; j > 0; j = NEXT[j]) {
+                if (--INDEGRESS[TO[j]] == 0) {
+                    QUEUE[r++] = TO[j];
                 }
             }
         }
@@ -50,6 +50,22 @@ class Main {
         } else {
             System.out.println(-1);
         }
+    }
+
+    static void buildGraph(int m, Scanner scanner) {
+        int edge = 1;
+        for (int i = 0; i < m; i++) {
+            int f = scanner.nextInt(), t = scanner.nextInt();
+            NEXT[edge] = HEAD[f];
+            TO[edge] = t;
+            HEAD[f] = edge++;
+            INDEGRESS[t]++;
+        }
+    }
+
+    static void initGraph(int n) {
+        Arrays.fill(HEAD, 0, n + 1, 0);
+        Arrays.fill(INDEGRESS, 0, n + 1, 0);
     }
 
 }

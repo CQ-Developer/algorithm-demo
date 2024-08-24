@@ -174,3 +174,9 @@ TreeNode deserialize(Queue<String> queue) {
     return root;
 }
 ```
+
+## 拓扑排序
+
+可以描述节点之前的关系
+要求必须是有向无环图
+入度消除法, 如果无法将所有点都消除, 说明图中存在环

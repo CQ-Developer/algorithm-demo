@@ -34,7 +34,7 @@ class Main {
     static int[] path = new int[MAXN];
 
     public static void main(String[] args) throws Exception {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)); PrintWriter writer = new PrintWriter(System.out)) {
+        try (var reader = new BufferedReader(new InputStreamReader(System.in)); var writer = new PrintWriter(System.out)) {
             StreamTokenizer tokenizer = new StreamTokenizer(reader);
             int n = readInt(tokenizer), m = readInt(tokenizer);
             init(n);
@@ -47,6 +47,9 @@ class Main {
         }
     }
 
+    /**
+     * reset all status
+     */
     private static void init(int n) {
         edge = 1;
         Arrays.fill(head, 1, n + 1, 0);
@@ -54,18 +57,28 @@ class Main {
         Arrays.fill(path, 1, n + 1, 0);
     }
 
+    /**
+     * read integer from console
+     */
     private static int readInt(StreamTokenizer tokenizer) throws Exception {
         tokenizer.nextToken();
         return (int) tokenizer.nval;
     }
 
+    /**
+     * build graph
+     */
     private static void buildGraph(int f, int t) {
         next[edge] = head[f];
         to[edge] = t;
         head[f] = edge++;
     }
 
+    /**
+     * topological sort from bottom to top of the food chain
+     */
     private static int topologicalSort(int n) {
+        // init queue
         int l = 0, r = 0;
         for (int i = 1; i <= n; i++) {
             if (indegress[i] == 0) {
@@ -76,11 +89,13 @@ class Main {
         int ans = 0;
         while (l < r) {
             int f = queue[l++];
+            // here is the top of the food chain
             if (head[f] == 0) {
                 ans = (ans + path[f]) % MOD;
             } else {
                 for (int e = head[f]; e > 0; e = next[e]) {
                     int t = to[e];
+                    // accumulation of path from bottom to top
                     path[t] = (path[t] + path[f]) % MOD;
                     if (--indegress[t] == 0) {
                         queue[r++] = t;

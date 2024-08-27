@@ -1,8 +1,5 @@
 package io.huhu.leetcode.topological.sort.n851;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * <a href="https://leetcode.cn/problems/loud-and-rich/description/">
  * Loud and Rich
@@ -11,15 +8,18 @@ import java.util.List;
 class Solution {
 
     public int[] loudAndRich(int[][] richer, int[] quiet) {
-        int n = quiet.length;
-        List<List<Integer>> graph = new ArrayList<>(n);
-        for (int i = 0; i < n; i++) {
-            graph.add(new ArrayList<>());
-        }
+        int n = quiet.length, m = richer.length;
+        int edge = 1;
+        int[] head = new int[n];
+        int[] next = new int[m + 1];
+        int[] to = new int[m + 1];
         int[] indegress = new int[n];
         for (int[] a : richer) {
-            graph.get(a[0]).add(a[1]);
-            indegress[a[1]]++;
+            int f = a[0], t = a[1];
+            next[edge] = head[f];
+            to[edge] = t;
+            head[f] = edge++;
+            indegress[t]++;
         }
         int[] ans = new int[n];
         for (int i = 0; i < n; i++) {
@@ -34,7 +34,8 @@ class Solution {
         }
         while (l < r) {
             int f = queue[l++];
-            for (int t : graph.get(f)) {
+            for (int e = head[f]; e > 0; e = next[e]) {
+                int t = to[e];
                 if (quiet[ans[f]] < quiet[ans[t]]) {
                     ans[t] = ans[f];
                 }

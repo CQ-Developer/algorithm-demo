@@ -21,8 +21,7 @@ class Solution {
         if (root == null) {
             return new Info(1, 0);
         }
-        var l = f(root.left);
-        var r = f(root.right);
+        Info l = f(root.left), r = f(root.right);
         int sum = l.camera + r.camera;
         if (l.status == 0 || r.status == 0) {
             return new Info(2, sum + 1);

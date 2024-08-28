@@ -7,34 +7,42 @@ package io.huhu.leetcode.binary.tree.hard.n968;
  */
 class Solution {
 
-    private int ans;
-
     public int minCameraCover(TreeNode root) {
-        if (f(root) == 0) {
-            ans++;
-        }
-        return ans;
+        Info info = f(root);
+        return info.status == 0 ? info.camera + 1 : info.camera;
     }
 
     /**
-     * status = 0: no cover & no camera
-     * status = 1:  covered & no camera
-     * status = 2:  covered & camera
+     * <li>status = 0: no cover & no sum</li>
+     * <li>status = 1: covered & no sum</li>
+     * <li>status = 2: covered & sum</li>
      */
-    private int f(TreeNode root) {
+    private Info f(TreeNode root) {
         if (root == null) {
-            return 1;
+            return new Info(1, 0);
         }
-        int l = f(root.left);
-        int r = f(root.right);
-        if (l == 0 || r == 0) {
-            ans++;
-            return 2;
+        var l = f(root.left);
+        var r = f(root.right);
+        int sum = l.camera + r.camera;
+        if (l.status == 0 || r.status == 0) {
+            return new Info(2, sum + 1);
         }
-        if (l == 1 && r == 1) {
-            return 0;
+        if (l.status == 1 && r.status == 1) {
+            return new Info(0, sum);
         }
-        return 1;
+        return new Info(1, sum);
+    }
+
+    class Info {
+
+        final int status;
+        final int camera;
+
+        Info(int status, int camera) {
+            this.status = status;
+            this.camera = camera;
+        }
+
     }
 
 }

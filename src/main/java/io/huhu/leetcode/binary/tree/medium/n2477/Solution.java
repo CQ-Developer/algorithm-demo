@@ -31,14 +31,17 @@ class Solution {
         return graph;
     }
 
-    private void f(List<List<Integer>> graph, int seats, int x, int p, int[] size, long[] cost) {
-        size[x] = 1;
-        for (int n : graph.get(x)) {
+    private void f(List<List<Integer>> graph, int seats, int c, int p, int[] size, long[] cost) {
+        size[c] = 1;
+        for (int n : graph.get(c)) {
+            // aviod back to parent
             if (n != p) {
-                f(graph, seats, n, x, size, cost);
-                size[x] += size[n];
-                cost[x] += cost[n];
-                cost[x] += (size[n] + seats - 1) / seats;
+                f(graph, seats, n, c, size, cost);
+                // before c
+                size[c] += size[n];
+                cost[c] += cost[n];
+                // arrive c
+                cost[c] += (size[n] + seats - 1) / seats;
             }
         }
     }

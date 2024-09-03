@@ -3,50 +3,51 @@ package io.huhu.leetcode.dynamic.programming.medium.n473;
 import java.util.Arrays;
 
 /**
- * <h1>
- * <a href="https://leetcode.cn/problems/matchsticks-to-square/description/">Matchsticks to Square</a>
- * </h1>
- * <p>You are given an integer array matchsticks where matchsticks[i] is the length
- * of the i<sub>th</sub> matchstick. You want to use all the matchsticks to make
- * one square. You should not break any stick, but you can link them up, and each
- * matchstick must be used exactly one time.</p>
- * <p>Return true if you can make this square and false otherwise.</p>
+ * <a href="https://leetcode.cn/problems/matchsticks-to-square/description/">
+ * Matchsticks to Square
+ * </a>
  */
 class Solution {
 
-    /**
-     * <ul>
-     * <li>1 <= matchsticks.length <= 15</li>
-     * <li>1 <= matchsticks[i] <= 10<sup>8</sup></li>
-     * </ul>
-     */
     public boolean makesquare(int[] matchsticks) {
-        int sum = 0;
-        for (int matchstick : matchsticks) {
-            sum += matchstick;
-        }
-        if (sum % 4 != 0) {
+        int total = sum(matchsticks);
+        if (total % 4 != 0) {
             return false;
         }
-        int len = sum >> 2, n = matchsticks.length;
-        int[] dp = new int[1 << n];
-        Arrays.fill(dp, -1);
-        dp[0] = 0;
-        for (int s = 1; s < dp.length; s++) {
-            for (int k = 0; k < n; k++) {
-                if ((s & (1 << k)) == 0) {
-                    // s的第k位为0表示表示第k根火柴未被放入
-                    continue;
+        Arrays.sort(matchsticks);
+        return f(matchsticks, total >> 2, (1 << matchsticks.length) - 1, 0, 4, new int[1 << matchsticks.length]);
+    }
+
+    private boolean f(int[] matchsticks, int target, int status, int cur, int rest, int[] dp) {
+        if (rest == 0) {
+            return status == 0;
+        }
+        if (dp[status] != 0) {
+            return dp[status] == 1;
+        }
+        boolean ans = false;
+        for (int i = matchsticks.length - 1; i >= 0; i--) {
+            if (((1 << i) & status) != 0 && cur + matchsticks[i] <= target) {
+                if (cur + matchsticks[i] == target) {
+                    ans = f(matchsticks, target, status ^ (1 << i), 0, rest - 1, dp);
+                } else {
+                    ans = f(matchsticks, target, status ^ (1 << i), cur + matchsticks[i], rest, dp);
                 }
-                // TODO ?
-                int s1 = s & ~(1 << k);
-                if (dp[s1] >= 0 && dp[s1] + matchsticks[k] <= len) {
-                    dp[s] = (dp[s1] + matchsticks[k]) % len;
+                if (ans) {
                     break;
                 }
             }
         }
-        return dp[dp.length - 1] == 0;
+        dp[status] = ans ? 1 : -1;
+        return ans;
+    }
+
+    private int sum(int[] matchsticks) {
+        int sum = 0;
+        for (int matchstick : matchsticks) {
+            sum += matchstick;
+        }
+        return sum;
     }
 
 }

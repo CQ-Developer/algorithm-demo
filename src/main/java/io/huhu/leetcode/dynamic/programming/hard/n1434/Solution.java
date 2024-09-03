@@ -44,10 +44,14 @@ class Solution {
             return dp[status][i];
         }
         int ans = f(satisfies, n, m, status, i + 1, dp);
-        for (int p = 0; p < n; p++) {
-            if ((status & (1 << p)) == 0 && (satisfies[i] & (1 << p)) != 0) {
-                ans = (ans + f(satisfies, n, m, status | (1 << p), i + 1, dp)) % M;
+        int p = satisfies[i];
+        while (p != 0) {
+            // 从右向左依次取出当前帽子能满足的人
+            int j = p & -p;
+            if ((status & j) == 0) {
+                ans = (ans + f(satisfies, n, m, status | j, i + 1, dp)) % M;
             }
+            p ^= j;
         }
         return dp[status][i] = ans;
     }

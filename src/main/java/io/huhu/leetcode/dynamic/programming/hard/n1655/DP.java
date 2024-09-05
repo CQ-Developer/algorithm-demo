@@ -27,6 +27,9 @@ class DP implements Solution {
         return dp[m - 1];
     }
 
+    /**
+     * 统计每种状态需要的多少相同数字
+     */
     private int[] countStatus(int[] quantity) {
         int n = 1 << quantity.length;
         int[] ans = new int[n];
@@ -39,6 +42,9 @@ class DP implements Solution {
         return ans;
     }
 
+    /**
+     * 统计每种数字的数量
+     */
     private int[] countNums(int[] nums) {
         Arrays.sort(nums);
         int n = 1;

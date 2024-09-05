@@ -8,25 +8,23 @@ class DP implements Solution {
     public boolean canDistribute(int[] nums, int[] quantity) {
         int[] numsCnt = countNums(nums), quantityCnt = countStatus(quantity);
         int n = numsCnt.length, m = 1 << quantity.length;
-        boolean[][] dp = new boolean[n + 1][m];
-        for (int i = 0; i <= n; i++) {
-            dp[i][0] = true;
-        }
+        boolean[] dp = new boolean[m];
+        dp[0] = true;
         for (int i = n - 1; i >= 0; i--) {
-            for (int j = 1; j < m; j++) {
+            for (int j = m - 1; j > 0; j--) {
                 boolean ans = false;
                 for (int s = j; !ans && s > 0; s = (s - 1) & j) {
-                    if ((j ^ s) >= 0 && quantityCnt[s] <= numsCnt[i] && dp[i + 1][j ^ s]) {
+                    if (quantityCnt[s] <= numsCnt[i] && (j ^ s) >= 0 && dp[j ^ s]) {
                         ans = true;
                     }
                 }
                 if (!ans) {
-                    ans = dp[i + 1][j];
+                    ans = dp[j];
                 }
-                dp[i][j] = ans;
+                dp[j] = ans;
             }
         }
-        return dp[0][m - 1];
+        return dp[m - 1];
     }
 
     private int[] countStatus(int[] quantity) {

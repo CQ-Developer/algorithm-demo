@@ -45,22 +45,23 @@ class DP implements Solution {
         for (int num : nums) {
             count[num]++;
         }
-        int[][] dp = new int[N + 1][1 << 10];
-        dp[1][0] = 1;
+        int[] dp = new int[1 << 10];
+        dp[0] = 1;
         for (int i = 0; i < count[1]; i++) {
-            dp[1][0] = (dp[1][0] << 1) % M;
+            dp[0] = (dp[0] << 1) % M;
         }
         for (int i = 2; i <= N; i++) {
-            for (int j = 0; j < dp[i].length; j++) {
-                dp[i][j] = dp[i - 1][j];
-                if (count[i] != 0 && TABLE[i] != 0 && (TABLE[i] & j) == TABLE[i] && (j ^ TABLE[i]) >= 0) {
-                    dp[i][j] = (int) (((long) dp[i - 1][j ^ TABLE[i]] * count[i] + dp[i][j]) % M);
+            if (count[i] != 0 && TABLE[i] != 0) {
+                for (int j = dp.length - 1; j >= 0; j--) {
+                    if ((TABLE[i] & j) == TABLE[i] && (j ^ TABLE[i]) >= 0) {
+                        dp[j] = (int) (((long) dp[j ^ TABLE[i]] * count[i] + dp[j]) % M);
+                    }
                 }
             }
         }
         int ans = 0;
         for (int j = 1; j < (1 << 10); j++) {
-            ans = (ans + dp[N][j]) % M;
+            ans = (ans + dp[j]) % M;
         }
         return ans;
     }

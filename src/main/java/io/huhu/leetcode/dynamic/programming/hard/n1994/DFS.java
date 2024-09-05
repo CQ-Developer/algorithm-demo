@@ -1,5 +1,7 @@
 package io.huhu.leetcode.dynamic.programming.hard.n1994;
 
+import java.util.Arrays;
+
 class DFS implements Solution {
 
     private static final int N = 30;
@@ -46,13 +48,20 @@ class DFS implements Solution {
             count[num]++;
         }
         int ans = 0;
+        int[][] dp = new int[N + 1][1 << 10];
+        for (var a : dp) {
+            Arrays.fill(a, -1);
+        }
         for (int status = 1; status < (1 << 10); status++) {
-            ans = (ans + f(count, N, status)) % M;
+            ans = (ans + f(count, N, status, dp)) % M;
         }
         return ans;
     }
 
-    private int f(int[] count, int num, int status) {
+    private int f(int[] count, int num, int status, int[][] dp) {
+        if (dp[num][status] != -1) {
+            return dp[num][status];
+        }
         int ans = 0;
         if (num == 1) {
             if (status == 0) {
@@ -62,12 +71,12 @@ class DFS implements Solution {
                 }
             }
         } else {
-            ans = f(count, num - 1, status);
+            ans = f(count, num - 1, status, dp);
             if (count[num] != 0 && TABLE[num] != 0 && (TABLE[num] & status) == TABLE[num]) {
-                ans = (int) (((long) f(count, num - 1, status ^ TABLE[num]) * count[num] + ans) % M);
+                ans = (int) (((long) f(count, num - 1, status ^ TABLE[num], dp) * count[num] + ans) % M);
             }
         }
-        return ans;
+        return dp[num][status] = ans;
     }
 
 }

@@ -4,13 +4,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class SolutionTest {
+abstract class SolutionTest {
 
     Solution solution;
 
+    abstract Solution getSolution();
+
     @BeforeEach
     void setUp() {
-        solution = new Solution();
+        solution = getSolution();
     }
 
     @Test

@@ -8,15 +8,16 @@ class DP implements Solution {
         if (k >= (n >> 1)) {
             return infinity(prices);
         }
-        int[][] dp = new int[k + 1][n];
-        for (int i = 1; i <= k; i++) {
-            int best = dp[i - 1][0] - prices[0];
+        int[] dp = new int[n];
+        for (int i = 0; i < k; i++) {
+            int best = dp[0] - prices[0];
             for (int j = 1; j < n; j++) {
-                dp[i][j] = Math.max(dp[i][j - 1], best + prices[j]);
-                best = Math.max(best, dp[i - 1][j] - prices[j]);
+                int tmp = dp[j];
+                dp[j] = Math.max(dp[j - 1], best + prices[j]);
+                best = Math.max(best, tmp - prices[j]);
             }
         }
-        return dp[k][n - 1];
+        return dp[n - 1];
     }
 
     /**

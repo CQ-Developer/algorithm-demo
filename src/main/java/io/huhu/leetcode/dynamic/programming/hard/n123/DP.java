@@ -4,21 +4,15 @@ class DP implements Solution {
 
     @Override
     public int maxProfit(int[] prices) {
-        int n = prices.length;
-        int ans = 0;
-        int[] dp1 = new int[n];
-        int[] dp2 = new int[n];
-        int[] best = new int[n];
-        best[0] = dp1[0] - prices[0];
-        int min = prices[0];
-        for (int i = 1; i < n; i++) {
-            min = Math.min(min, prices[i]);
-            dp1[i] = Math.max(dp1[i - 1], prices[i] - min);
-            best[i] = Math.max(best[i - 1], dp1[i] - prices[i]);
-            dp2[i] = best[i] + prices[i];
-            ans = Math.max(ans, dp2[i]);
+        int b1 = prices[0], p1 = 0;
+        int b2 = -prices[0], p2 = 0;
+        for (int i = 1; i < prices.length; i++) {
+            b1 = Math.min(b1, prices[i]);
+            p1 = Math.max(p1, prices[i] - b1);
+            b2 = Math.max(b2, p1 - prices[i]);
+            p2 = Math.max(p2, b2 + prices[i]);
         }
-        return ans;
+        return p2;
     }
 
 }

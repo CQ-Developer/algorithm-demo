@@ -4,13 +4,12 @@ class DP implements Solution {
 
     @Override
     public int maxProfit(int[] prices, int fee) {
-        int sold = 0, hold = -prices[0];
+        int prepare = -prices[0] - fee, done = 0;
         for (int i = 1; i < prices.length; i++) {
-            int tmp = sold;
-            sold = Math.max(sold, hold + prices[i] - fee);
-            hold = Math.max(hold, tmp - prices[i]);
+            done = Math.max(done, prepare + prices[i]);
+            prepare = Math.max(prepare, done - prices[i] - fee);
         }
-        return sold;
+        return done;
     }
 
 }

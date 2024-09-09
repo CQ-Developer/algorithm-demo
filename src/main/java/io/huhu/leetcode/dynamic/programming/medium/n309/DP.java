@@ -4,15 +4,17 @@ class DP implements Solution {
 
     @Override
     public int maxProfit(int[] prices) {
-        int free = 0, cool = 0, hold = -prices[0];
-        for (int i = 1; i < prices.length; i++) {
-            int f = free;
-            free = Math.max(free, cool);
-            int h = hold;
-            hold = Math.max(hold, f - prices[i]);
-            cool = h + prices[i];
+        if (prices.length < 2) {
+            return 0;
         }
-        return Math.max(free, cool);
+        int pre = Math.max(-prices[0], -prices[1]), cur = Math.max(0, prices[1] - prices[0]), preCur = 0;
+        for (int i = 2; i < prices.length; i++) {
+            int tmp = Math.max(cur, pre + prices[i]);
+            pre = Math.max(pre, preCur - prices[i]);
+            preCur = cur;
+            cur = tmp;
+        }
+        return cur;
     }
 
 }

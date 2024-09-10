@@ -11,24 +11,28 @@ class SCDP implements Solution {
     public int numPermsDISequence(String s) {
         char[] c = s.toCharArray();
         int n = c.length + 1;
-        int[][] dp = new int[n + 1][n + 1];
+        int[] down = new int[n + 1], up = new int[n + 1];
         for (int i = 0; i <= n; i++) {
-            dp[n][i] = 1;
+            down[i] = 1;
         }
         for (int i = n - 1; i >= 0; i--) {
             if (i == 0 || c[i - 1] == 'D') {
-                dp[i][1] = dp[i + 1][0];
+                up[1] = down[0];
                 for (int j = 2; j <= n; j++) {
-                    dp[i][j] = (dp[i][j - 1] + dp[i + 1][j - 1]) % M;
+                    up[j] = (up[j - 1] + down[j - 1]) % M;
                 }
             } else {
-                dp[i][n - i - 1] = dp[i + 1][n - i - 1];
+                up[n - i - 1] = down[n - i - 1];
                 for (int j = n - i - 2; j >= 0; j--) {
-                    dp[i][j] = (dp[i][j + 1] + dp[i + 1][j]) % M;
+                    up[j] = (up[j + 1] + down[j]) % M;
                 }
             }
+            for (int j = 0; j <= n; j++) {
+                down[j] = up[j];
+                up[j] = 0;
+            }
         }
-        return dp[0][n];
+        return down[n];
     }
 
 }

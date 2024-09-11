@@ -2,21 +2,21 @@ package io.huhu.leetcode.dynamic.programming.hard.n629;
 
 class DP implements Solution {
 
-    private static final int M = 1000000007;
+    private static final int M = (int) 1E9 + 7;
 
     @Override
     public int kInversePairs(int n, int k) {
         int[][] dp = new int[n + 1][k + 1];
         dp[0][0] = 1;
         for (int i = 1; i <= n; i++) {
-            int window = dp[i][0] = 1;
+            dp[i][0] = 1;
+            long window = 1;
             for (int j = 1; j <= k; j++) {
-                if (i > j) {
-                    window = (window + dp[i - 1][j]) % M;
-                } else {
-                    window = ((window + dp[i - 1][j]) % M - dp[i - 1][j - i] + M) % M;
+                window += dp[i - 1][j];
+                if (j >= i) {
+                    window -= dp[i - 1][j - i];
                 }
-                dp[i][j] = window;
+                dp[i][j] = (int) (window % M);
             }
         }
         return dp[n][k];

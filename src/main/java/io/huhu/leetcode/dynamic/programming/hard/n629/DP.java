@@ -9,17 +9,14 @@ class DP implements Solution {
         int[][] dp = new int[n + 1][k + 1];
         dp[0][0] = 1;
         for (int i = 1; i <= n; i++) {
-            dp[i][0] = 1;
+            int window = dp[i][0] = 1;
             for (int j = 1; j <= k; j++) {
                 if (i > j) {
-                    for (int p = 0; p <= j; p++) {
-                        dp[i][j] = (dp[i][j] + dp[i - 1][p]) % M;
-                    }
+                    window = (window + dp[i - 1][j]) % M;
                 } else {
-                    for (int p = j - i + 1; p <= j; p++) {
-                        dp[i][j] = (dp[i][j] + dp[i - 1][p]) % M;
-                    }
+                    window = ((window + dp[i - 1][j]) % M - dp[i - 1][j - i] + M) % M;
                 }
+                dp[i][j] = window;
             }
         }
         return dp[n][k];

@@ -6,8 +6,7 @@ class DP implements Solution {
 
     @Override
     public int kInversePairs(int n, int k) {
-        int[] up = new int[k + 1];
-        int[] dp = new int[k + 1];
+        int[] up = new int[k + 1], dp = new int[k + 1];
         up[0] = 1;
         for (int i = 1; i <= n; i++) {
             dp[0] = 1;

@@ -32,15 +32,25 @@ class DFS implements Solution {
         if (dp[i] != -1) {
             return dp[i];
         }
-        int a = dfs(table, dp, i - 1);
-        int b = table[i][2];
-        for (int j = i - 1; j >= 0; j--) {
-            if (table[j][1] <= table[i][0]) {
-                b += dfs(table, dp, j);
-                break;
+        int ans = table[i][2];
+        if (table[0][1] <= table[i][0]) {
+            ans += dfs(table, dp, find(i, table));
+        }
+        return dp[i] = Math.max(dfs(table, dp, i - 1), ans);
+    }
+
+    private int find(int i, int[][] table) {
+        int l = 0, r = i - 1, ans = 0;
+        while (l <= r) {
+            int m = (l + r) >> 1;
+            if (table[m][1] <= table[i][0]) {
+                ans = m;
+                l = m + 1;
+            } else {
+                r = m - 1;
             }
         }
-        return dp[i] = Math.max(a, b);
+        return ans;
     }
 
 }

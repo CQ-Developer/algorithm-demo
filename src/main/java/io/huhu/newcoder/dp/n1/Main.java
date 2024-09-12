@@ -21,14 +21,14 @@ class Main {
     public static void main(String[] args) throws Exception {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)); PrintWriter writer = new PrintWriter(System.out)) {
             StreamTokenizer tokenizer = new StreamTokenizer(reader);
-            n = read(tokenizer);
-            k = read(tokenizer);
-            readNums(tokenizer);
-            int[] sums = preSums();
+            n = readInt(tokenizer);
+            k = readInt(tokenizer);
+            collectNums(tokenizer);
+            int[] sums = preAccumulate();
             int ans = 0;
             for (int i = 0, sum = 0; i < n; i++) {
                 sum += ARR[i];
-                int pre = find(sums, sum - k);
+                int pre = findMostLeft(sums, sum - k);
                 int len = pre == -1 ? 0 : i - pre + 1;
                 ans = Math.max(ans, len);
             }
@@ -36,7 +36,7 @@ class Main {
         }
     }
 
-    private static int find(int[] sums, int num) {
+    private static int findMostLeft(int[] sums, int num) {
         int l = 0, r = n, find = -1;
         while (l <= r) {
             int m = (l + r) >> 1;
@@ -50,23 +50,22 @@ class Main {
         return find;
     }
 
-    private static int[] preSums() {
-        int sum = 0;
+    private static int[] preAccumulate() {
         int[] sums = new int[n + 1];
-        for (int i = 0; i < n; i++) {
+        for (int i = 0, sum = 0; i < n; i++) {
             sum += ARR[i];
             sums[i + 1] = Math.max(sum, sums[i]);
         }
         return sums;
     }
 
-    private static void readNums(StreamTokenizer tokenizer) throws Exception {
+    private static void collectNums(StreamTokenizer tokenizer) throws Exception {
         for (int i = 0; i < n; i++) {
-            ARR[i] = read(tokenizer);
+            ARR[i] = readInt(tokenizer);
         }
     }
 
-    private static int read(StreamTokenizer tokenizer) throws Exception {
+    private static int readInt(StreamTokenizer tokenizer) throws Exception {
         tokenizer.nextToken();
         return (int) tokenizer.nval;
     }

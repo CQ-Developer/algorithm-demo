@@ -7,14 +7,13 @@ class DFS implements Solution {
     @Override
     public int findRotateSteps(String ring, String key) {
         char[] rs = ring.toCharArray(), ks = key.toCharArray();
-        int n = rs.length, m = ks.length;
         int[] size = new int[26];
-        int[][] where = new int[26][n];
-        for (int i = 0; i < n; i++) {
+        int[][] where = new int[26][rs.length];
+        for (int i = 0; i < rs.length; i++) {
             int j = rs[i] - 'a';
             where[j][size[j]++] = i;
         }
-        int[][] dp = new int[n][m];
+        int[][] dp = new int[rs.length][ks.length];
         for (int[] a : dp) {
             Arrays.fill(a, -1);
         }

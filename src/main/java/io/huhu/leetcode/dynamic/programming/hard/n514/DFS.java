@@ -1,5 +1,7 @@
 package io.huhu.leetcode.dynamic.programming.hard.n514;
 
+import java.util.Arrays;
+
 class DFS implements Solution {
 
     @Override
@@ -10,21 +12,31 @@ class DFS implements Solution {
             int j = ring.charAt(i) - 'a';
             where[j][size[j]++] = i;
         }
-        return f(ring.toCharArray(), key.toCharArray(), where, size, 0, 0);
+        char[] r = ring.toCharArray(), k = key.toCharArray();
+        int[][] dp = new int[r.length][k.length];
+        for (int[] a : dp) {
+            Arrays.fill(a, -1);
+        }
+        return f(r, k, where, size, dp, 0, 0);
     }
 
-    private int f(char[] ring, char[] key, int[][] where, int[] size, int i, int j) {
+    private int f(char[] ring, char[] key, int[][] where, int[] size, int[][] dp, int i, int j) {
         if (j == key.length) {
             return 0;
         }
-        if (ring[i] == key[j]) {
-            return 1 + f(ring, key, where, size, i, j + 1);
+        if (dp[i][j] != -1) {
+            return dp[i][j];
         }
-        int i1 = findClockwisely(where, size, i, key[j] - 'a');
-        int c1 = i1 > i ? i1 - i : i1 - i + ring.length;
-        int i2 = findCounterclockwisely(where, size, i, key[j] - 'a');
-        int c2 = i > i2 ? i - i2 : i - i2 + ring.length;
-        return Math.min(c1 + f(ring, key, where, size, i1, j), c2 + f(ring, key, where, size, i2, j));
+        if (ring[i] == key[j]) {
+            dp[i][j] = 1 + f(ring, key, where, size, dp, i, j + 1);
+        } else {
+            int i1 = findClockwisely(where, size, i, key[j] - 'a');
+            int c1 = i1 > i ? i1 - i : i1 - i + ring.length;
+            int i2 = findCounterclockwisely(where, size, i, key[j] - 'a');
+            int c2 = i > i2 ? i - i2 : i - i2 + ring.length;
+            dp[i][j] = Math.min(c1 + f(ring, key, where, size, dp, i1, j), c2 + f(ring, key, where, size, dp, i2, j));
+        }
+        return dp[i][j];
     }
 
     private int findClockwisely(int[][] where, int[] size, int i, int v) {

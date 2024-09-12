@@ -6,18 +6,19 @@ class DFS implements Solution {
 
     @Override
     public int findRotateSteps(String ring, String key) {
+        char[] rs = ring.toCharArray(), ks = key.toCharArray();
+        int n = rs.length, m = ks.length;
         int[] size = new int[26];
-        int[][] where = new int[26][100];
-        for (int i = 0; i < ring.length(); i++) {
-            int j = ring.charAt(i) - 'a';
+        int[][] where = new int[26][n];
+        for (int i = 0; i < n; i++) {
+            int j = rs[i] - 'a';
             where[j][size[j]++] = i;
         }
-        char[] r = ring.toCharArray(), k = key.toCharArray();
-        int[][] dp = new int[r.length][k.length];
+        int[][] dp = new int[n][m];
         for (int[] a : dp) {
             Arrays.fill(a, -1);
         }
-        return f(r, k, where, size, dp, 0, 0);
+        return f(rs, ks, where, size, dp, 0, 0);
     }
 
     private int f(char[] ring, char[] key, int[][] where, int[] size, int[][] dp, int i, int j) {

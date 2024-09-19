@@ -33,4 +33,12 @@ abstract class SolutionTest {
         Assertions.assertArrayEquals(expected, solution.smallestSufficientTeam(req_skills, people));
     }
 
+    @Test
+    void test_3() {
+        String[] req_skills = {"mmcmnwacnhhdd", "vza", "mrxyc"};
+        List<List<String>> people = List.of(List.of("mmcmnwacnhhdd"), List.of(), List.of(), List.of("vza", "mrxyc"));
+        int[] expected = {0, 3};
+        Assertions.assertArrayEquals(expected, solution.smallestSufficientTeam(req_skills, people));
+    }
+
 }

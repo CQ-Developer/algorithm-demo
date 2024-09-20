@@ -31,7 +31,7 @@ class Main {
                 resistance[i] = readInt(tokenizer);
                 time[i] = readInt(tokenizer);
             }
-            setup(n, m, v);
+            setup(m, v);
             f(n, m, v);
             writer.println(dp[m][v]);
             writer.println(path[m][v]);
@@ -61,7 +61,7 @@ class Main {
         }
     }
 
-    private static void setup(int n, int m, int v) {
+    private static void setup(int m, int v) {
         for (int j = 1; j <= m; j++) {
             for (int k = 1; k <= v; k++) {
                 dp[j][k] = 0;

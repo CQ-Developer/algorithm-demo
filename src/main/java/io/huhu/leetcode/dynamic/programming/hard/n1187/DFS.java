@@ -14,13 +14,18 @@ class DFS implements Solution {
             }
         }
         int n = arr1.length;
-        int ans = f(arr1, arr2, n, m, 0);
+        int[] dp = new int[n];
+        Arrays.fill(dp, -1);
+        int ans = f(arr1, arr2, n, m, 0, dp);
         return ans == Integer.MAX_VALUE ? -1 : ans;
     }
 
-    private int f(int[] arr1, int[] arr2, int n, int m, int i) {
+    private int f(int[] arr1, int[] arr2, int n, int m, int i, int[] dp) {
         if (i == n) {
             return 0;
+        }
+        if (dp[i] != -1) {
+            return dp[i];
         }
         int ans = Integer.MAX_VALUE;
         int pre = i == 0 ? Integer.MIN_VALUE : arr1[i - 1];
@@ -30,7 +35,7 @@ class DFS implements Solution {
                 ans = Math.min(ans, k);
             } else {
                 if (pre < arr1[j]) {
-                    int next = f(arr1, arr2, n, m, j + 1);
+                    int next = f(arr1, arr2, n, m, j + 1, dp);
                     if (next != Integer.MAX_VALUE) {
                         ans = Math.min(ans, next + k);
                     }
@@ -42,11 +47,11 @@ class DFS implements Solution {
                 }
             }
         }
-        return ans;
+        return dp[i] = ans;
     }
 
     private int find(int[] arr, int len, int num) {
-        int l = 0, r = len -1, ans = -1;
+        int l = 0, r = len - 1, ans = -1;
         while (l <= r) {
             int m = (l + r) >> 1;
             if (arr[m] > num) {

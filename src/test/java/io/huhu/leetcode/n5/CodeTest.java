@@ -1,5 +1,7 @@
 package io.huhu.leetcode.n5;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +19,8 @@ abstract class CodeTest {
 
     @Test
     void test_1() {
-        Assertions.assertEquals("bab", code.longestPalindrome("babad"));
+        List<String> expected = List.of("bab", "aba");
+        Assertions.assertTrue(expected.contains(code.longestPalindrome("babad")));
     }
 
     @Test

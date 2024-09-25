@@ -25,4 +25,9 @@ abstract class CodeTest {
         Assertions.assertEquals("bb", code.longestPalindrome("cbbd"));
     }
 
+    @Test
+    void test_3() {
+        Assertions.assertEquals("aca", code.longestPalindrome("aacabdkacaa"));
+    }
+
 }

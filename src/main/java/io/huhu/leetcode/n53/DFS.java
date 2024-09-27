@@ -1,28 +1,23 @@
 package io.huhu.leetcode.n53;
 
-import java.util.Arrays;
-
 class DFS implements Code {
+
+    private int ans = Integer.MIN_VALUE;
 
     @Override
     public int maxSubArray(int[] nums) {
-        int[] cache = new int[nums.length];
-        Arrays.fill(cache, Integer.MIN_VALUE);
-        int ans = f(nums, nums.length - 1, cache);
-        for (int max : cache) {
-            ans = Math.max(ans, max);
-        }
+        f(nums, nums.length - 1);
         return ans;
     }
 
-    private int f(int[] nums, int i, int[] cache) {
+    private int f(int[] nums, int i) {
         if (i == 0) {
-            return cache[i] = nums[i];
+            ans = Math.max(ans, nums[i]);
+            return nums[i];
         }
-        if (cache[i] != Integer.MIN_VALUE) {
-            return cache[i];
-        }
-        return cache[i] = Math.max(nums[i], nums[i] + f(nums, i - 1, cache));
+        int max = Math.max(nums[i], nums[i] + f(nums, i - 1));
+        ans = Math.max(ans, max);
+        return max;
     }
 
 }

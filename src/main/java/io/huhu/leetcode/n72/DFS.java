@@ -23,17 +23,17 @@ class DFS implements Code {
             return dp[i][j];
         }
         int ans = Integer.MAX_VALUE;
-        if (i - 1 >= 0 && j - 1 >= 0) {
+        if (i >= 1 && j >= 1) {
             if (w1[i - 1] == w2[j - 1]) {
                 ans = f(w1, w2, i - 1, j - 1, dp);
             } else {
                 ans = Math.min(ans, f(w1, w2, i - 1, j - 1, dp) + 1);
             }
         }
-        if (i - 1 >= 0) {
+        if (i >= 1) {
             ans = Math.min(ans, f(w1, w2, i - 1, j, dp) + 1);
         }
-        if (j - 1 >= 0) {
+        if (j >= 1) {
             ans = Math.min(ans, f(w1, w2, i, j - 1, dp) + 1);
         }
         return dp[i][j] = ans;

@@ -17,7 +17,7 @@ abstract class CodeTest {
 
     @Test
     void test_1() {
-        Assertions.assertFalse(code.isInterleave("aabcc", "dbbca", "aadbbcbcac"));
+        Assertions.assertTrue(code.isInterleave("aabcc", "dbbca", "aadbbcbcac"));
     }
 
     @Test

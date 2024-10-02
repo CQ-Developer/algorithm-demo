@@ -19,12 +19,16 @@ abstract class CodeTest {
 
     @Test
     void test_1() {
-        Assertions.assertIterableEquals(List.of(0, 2), code.diffWaysToCompute("2-1-1"));
+        var actual = code.diffWaysToCompute("2-1-1");
+        actual.sort(Integer::compare);
+        Assertions.assertIterableEquals(List.of(0, 2), actual);
     }
 
     @Test
     void test_2() {
-        Assertions.assertIterableEquals(List.of(-34, -14, -10, -10, 10), code.diffWaysToCompute("2*3-4*5"));
+        List<Integer> actual = code.diffWaysToCompute("2*3-4*5");
+        actual.sort(Integer::compare);
+        Assertions.assertIterableEquals(List.of(-34, -14, -10, -10, 10), actual);
     }
 
 }

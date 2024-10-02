@@ -1,10 +1,10 @@
 package io.huhu.leetcode.n241;
 
-class DFSTest extends CodeTest {
+class DaCTest extends CodeTest {
 
     @Override
     Code getCode() {
-        return new DFS();
+        return new DaC();
     }
 
 }

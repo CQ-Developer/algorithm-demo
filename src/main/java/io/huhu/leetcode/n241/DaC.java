@@ -3,7 +3,7 @@ package io.huhu.leetcode.n241;
 import java.util.ArrayList;
 import java.util.List;
 
-class DFS implements Code {
+class DaC implements Code {
 
     @Override
     public List<Integer> diffWaysToCompute(String expression) {

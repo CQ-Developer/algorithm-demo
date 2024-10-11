@@ -1,10 +1,10 @@
 package io.huhu.leetcode.n368;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 abstract class CodeTest {
 
@@ -20,13 +20,17 @@ abstract class CodeTest {
     @Test
     void test_1() {
         int[] nums = {1, 2, 3};
-        Assertions.assertIterableEquals(List.of(1, 2), code.largestDivisibleSubset(nums));
+        var actual = code.largestDivisibleSubset(nums);
+        actual.sort(Integer::compare);
+        Assertions.assertIterableEquals(List.of(1, 2), actual);
     }
 
     @Test
     void test_2() {
         int[] nums = {1, 2, 4, 8};
-        Assertions.assertIterableEquals(List.of(1, 2, 4, 8), code.largestDivisibleSubset(nums));
+        var actual = code.largestDivisibleSubset(nums);
+        actual.sort(Integer::compare);
+        Assertions.assertIterableEquals(List.of(1, 2, 4, 8), actual);
     }
 
 }

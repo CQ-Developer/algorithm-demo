@@ -6,15 +6,25 @@ class DFS implements Code {
 
     @Override
     public boolean canPartition(int[] nums) {
-        int sum = 0;
+        if (nums.length < 2) {
+            return false;
+        }
+        int sum = 0, max = Integer.MIN_VALUE;
         for (int num : nums) {
+            if (num > max) {
+                max = num;
+            }
             sum += num;
         }
         if ((sum & 1) == 1) {
             return false;
         }
+        int target = sum >> 1;
+        if (max > target) {
+            return false;
+        }
         Arrays.sort(nums);
-        int n = nums.length, target = sum >> 1;
+        int n = nums.length;
         return f(nums, n - 1, target, new int[n][target + 1]);
     }
 

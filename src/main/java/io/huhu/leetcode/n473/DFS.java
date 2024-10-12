@@ -11,7 +11,8 @@ class DFS implements Code {
             return false;
         }
         Arrays.sort(matchsticks);
-        return f(matchsticks, (1 << matchsticks.length) - 1, m >> 2, 0, 4);
+        int n = 1 << matchsticks.length;
+        return f(matchsticks, n - 1, m >> 2, 0, 4, new int[n]);
     }
 
     /**
@@ -20,20 +21,24 @@ class DFS implements Code {
      * @param c 当前放置的边的长度
      * @param r 剩余边的数量
      */
-    private boolean f(int[] matchstick, int s, int n, int c, int r) {
+    private boolean f(int[] matchstick, int s, int n, int c, int r, int[] dp) {
         if (r == 0) {
             return s == 0;
+        }
+        if (dp[s] != 0) {
+            return dp[s] == 1;
         }
         boolean ans = false;
         for (int i = matchstick.length - 1; i >= 0 && !ans; i--) {
             if (((1 << i) & s) != 0) {
                 if (c + matchstick[i] == n) {
-                    ans = f(matchstick, s ^ (1 << i), n, 0, r - 1);
+                    ans = f(matchstick, s ^ (1 << i), n, 0, r - 1, dp);
                 } else if (c + matchstick[i] < n) {
-                    ans = f(matchstick, s ^ (1 << i), n, c + matchstick[i], r);
+                    ans = f(matchstick, s ^ (1 << i), n, c + matchstick[i], r, dp);
                 }
             }
         }
+        dp[s] = ans ? 1 : -1;
         return ans;
     }
 

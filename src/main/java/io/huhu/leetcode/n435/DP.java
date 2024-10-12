@@ -7,24 +7,37 @@ class DP implements Code {
     @Override
     public int eraseOverlapIntervals(int[][] intervals) {
         int n = intervals.length;
-        if (n < 2) {
-            return 0;
-        }
         Arrays.sort(intervals, (a, b) -> a[1] - b[1]);
-        // dp[i]表示必须包含i区间的情况下
-        // 以i结尾的最长不重复区间长度
+        // 无重复子区间的最右侧
         int[] dp = new int[n];
-        Arrays.fill(dp, 1);
-        int m = 0;
+        int m = 1;
+        dp[0] = intervals[0][1];
         for (int i = 1; i < n; i++) {
-            for (int j = 0; j < i; j++) {
-                if (intervals[j][1] <= intervals[i][0]) {
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
+            int[] interval = intervals[i];
+            if (interval[0] >= dp[m - 1]) {
+                dp[m++] = interval[1];
+            } else {
+                int j = bs(dp, m, interval);
+                if (j > 0 && interval[0] >= dp[j - 1]) {
+                    dp[j] = interval[1];
                 }
             }
-            m = Math.max(m, dp[i]);
         }
         return n - m;
+    }
+
+    private int bs(int[] dp, int n, int[] interval) {
+        int l = 0, r = n - 1, ans = -1;
+        while (l <= r) {
+            int m = (l + r) >> 1;
+            if (dp[m] < interval[1]) {
+                ans = m;
+                r = m - 1;
+            } else {
+                l = m + 1;
+            }
+        }
+        return ans;
     }
 
 }

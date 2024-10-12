@@ -10,9 +10,13 @@ class DFS implements Code {
         if (m % 4 != 0) {
             return false;
         }
+        m >>= 2;
         Arrays.sort(matchsticks);
-        int n = 1 << matchsticks.length;
-        return f(matchsticks, n - 1, m >> 2, 0, 4, new int[n]);
+        int n = matchsticks.length;
+        if (matchsticks[n - 1] > m) {
+            return false;
+        }
+        return f(matchsticks, (1 << n) - 1, m, 0, 4, new int[1 << n]);
     }
 
     /**

@@ -13,8 +13,13 @@ class BT implements Code {
         if (edge % 4 != 0) {
             return false;
         }
+        edge >>= 2;
         Arrays.sort(matchsticks);
-        return f(matchsticks, matchsticks.length - 1, edge >> 2, new int[4]);
+        int n = matchsticks.length;
+        if (matchsticks[n - 1] > edge) {
+            return false;
+        }
+        return f(matchsticks, n - 1, edge, new int[4]);
     }
 
     /**

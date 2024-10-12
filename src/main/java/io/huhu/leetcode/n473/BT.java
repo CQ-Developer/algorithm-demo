@@ -6,43 +6,41 @@ class BT implements Code {
 
     @Override
     public boolean makesquare(int[] matchsticks) {
-        int m = count(matchsticks);
-        if (m % 4 != 0) {
+        int edge = 0;
+        for (int matchstick : matchsticks) {
+            edge += matchstick;
+        }
+        if (edge % 4 != 0) {
             return false;
         }
         Arrays.sort(matchsticks);
-        return f(matchsticks, matchsticks.length - 1, m >> 2, new int[4]);
+        return f(matchsticks, matchsticks.length - 1, edge >> 2, new int[4]);
     }
 
     /**
-     * @param a 火柴
-     * @param i 当前要放置第i根火柴
-     * @param n 正方形的边长
-     * @param b 每条边的长度
+     * @param sticks 火柴
+     * @param i      当前要放置第i根火柴
+     * @param edge   边长
+     * @param side   每条边的长度
      */
-    private boolean f(int[] a, int i, int n, int[] b) {
+    private boolean f(int[] sticks, int i, int edge, int[] side) {
         if (i < 0) {
             return true;
         }
-        for (int j = 0; j < b.length; j++) {
-            if (a[i] + b[j] > n) {
+        for (int j = 0; j < side.length; j++) {
+            if (sticks[i] + side[j] > edge) {
                 continue;
             }
-            b[j] += a[i];
-            if (f(a, i - 1, n, b)) {
+            if (j > 0 && side[j - 1] < edge && side[j] == side[j - 1]) {
+                continue;
+            }
+            side[j] += sticks[i];
+            if (f(sticks, i - 1, edge, side)) {
                 return true;
             }
-            b[j] -= a[i];
+            side[j] -= sticks[i];
         }
         return false;
-    }
-
-    private int count(int[] sticks) {
-        int ans = 0;
-        for (int stick : sticks) {
-            ans += stick;
-        }
-        return ans;
     }
 
 }

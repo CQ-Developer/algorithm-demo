@@ -3,7 +3,7 @@ package io.huhu.leetcode.greedy.n1553;
 import java.util.HashMap;
 import java.util.Map;
 
-class DFS implements Code {
+class Greedy implements Code {
 
     @Override
     public int minDays(int n) {

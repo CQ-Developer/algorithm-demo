@@ -1,10 +1,10 @@
 package io.huhu.leetcode.greedy.n1553;
 
-class DFSTest extends CodeTest {
+class GreedyTest extends CodeTest {
 
     @Override
     Code getCode() {
-        return new DFS();
+        return new Greedy();
     }
 
 }

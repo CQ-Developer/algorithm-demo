@@ -11,7 +11,7 @@ class Greedy implements Code {
     }
 
     private int f(int n, Map<Integer, Integer> map) {
-        if (n <= 1) {
+        if (n <= 2) {
             return n;
         }
         if (map.containsKey(n)) {

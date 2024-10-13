@@ -1,7 +1,10 @@
 package io.huhu.leetcode.greedy.n1553;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * TODO: MLE
+ * TODO: TLE
  */
 class DP implements Code {
 
@@ -10,20 +13,15 @@ class DP implements Code {
         if (n <= 2) {
             return n;
         }
-        int[] dp = new int[n + 1];
-        dp[1] = 1;
-        dp[2] = 2;
+        Map<Integer, Integer> dp = new HashMap<>();
+        dp.put(0, 0);
+        dp.put(1, 1);
+        dp.put(2, 2);
         for (int i = 3; i <= n; i++) {
-            int min = dp[i - 1];
-            if (i % 2 == 0) {
-                min = Math.min(min, dp[i / 2]);
-            }
-            if (i % 3 == 0) {
-                min = Math.min(min, dp[i / 3]);
-            }
-            dp[i] = min + 1;
+            int min = Math.min(i % 2 + dp.getOrDefault(i / 2, 0), i % 3 + dp.getOrDefault(i / 3, 0)) + 1;
+            dp.put(i, min);
         }
-        return dp[n];
+        return dp.get(n);
     }
 
 }

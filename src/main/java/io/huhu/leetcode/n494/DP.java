@@ -13,19 +13,14 @@ class DP implements Code {
             return 0;
         }
         m >>= 1;
-        int n = nums.length;
-        int[][] dp = new int[n + 1][m + 1];
-        dp[0][0] = 1;
-        for (int i = 1; i <= n; i++) {
-            int k = nums[i - 1];
-            for (int j = 0; j <= m; j++) {
-                dp[i][j] = dp[i - 1][j];
-                if (j >= k) {
-                    dp[i][j] += dp[i - 1][j - k];
-                }
+        int[] dp = new int[m + 1];
+        dp[0] = 1;
+        for (int k : nums) {
+            for (int j = m; j >= k; j--) {
+                dp[j] += dp[j - k];
             }
         }
-        return dp[n][m];
+        return dp[m];
     }
 
 }

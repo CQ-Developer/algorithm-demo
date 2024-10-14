@@ -15,18 +15,17 @@ class DP implements Code {
                 }
             }
         }
-        int[][][] dp = new int[len + 1][m + 1][n + 1];
-        for (int i = len - 1; i >= 0; i--) {
-            for (int j = 0; j <= m; j++) {
-                for (int k = 0; k <= n; k++) {
-                    dp[i][j][k] = dp[i + 1][j][k];
+        int[][] dp = new int[m + 1][n + 1];
+        for (int i = 0; i < len; i++) {
+            for (int j = m; j >= 0; j--) {
+                for (int k = n; k >= 0; k--) {
                     if (j >= zero[i] && k >= one[i]) {
-                        dp[i][j][k] = Math.max(dp[i + 1][j][k], dp[i + 1][j - zero[i]][k - one[i]] + 1);
+                        dp[j][k] = Math.max(dp[j][k], dp[j - zero[i]][k - one[i]] + 1);
                     }
                 }
             }
         }
-        return dp[0][m][n];
+        return dp[m][n];
     }
 
 }

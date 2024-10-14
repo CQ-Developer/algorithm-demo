@@ -6,22 +6,25 @@ class DP implements Code {
     public int longestPalindromeSubseq(String s) {
         char[] c = s.toCharArray();
         int n = c.length;
-        int[][] dp = new int[n][n];
-        for (int i = 0; i < n - 1; i++) {
-            dp[i][i] = 1;
-            dp[i][i + 1] = c[i] == c[i + 1] ? 2 : 1;
-        }
-        dp[n - 1][n - 1] = 1;
-        for (int l = n - 3; l >= 0; l--) {
-            for (int r = l + 2; r < n; r++) {
-                if (c[l] == c[r]) {
-                    dp[l][r] = dp[l + 1][r - 1] + 2;
+        int[] dp = new int[n];
+        for (int i = n - 1; i >= 0; i--) {
+            int ld = 0;
+            dp[i] = 1;
+            if (i + 1 < n) {
+                ld = dp[i + 1];
+                dp[i + 1] = c[i] == c[i + 1] ? 2 : 1;
+            }
+            for (int j = i + 2; j < n; j++) {
+                int t = dp[j];
+                if (c[i] == c[j]) {
+                    dp[j] = ld + 2;
                 } else {
-                    dp[l][r] = Math.max(dp[l + 1][r], dp[l][r - 1]);
+                    dp[j] = Math.max(dp[j], dp[j - 1]);
                 }
+                ld = t;
             }
         }
-        return dp[0][n - 1];
+        return dp[n - 1];
     }
 
 }

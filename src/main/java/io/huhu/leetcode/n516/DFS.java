@@ -25,9 +25,11 @@ class DFS implements Code {
         if (dp[l][r] != -1) {
             return dp[l][r];
         }
-        int ans = Math.max(f(s, l + 1, r, dp), f(s, l, r - 1, dp));
+        int ans;
         if (s[l] == s[r]) {
-            ans = Math.max(ans, f(s, l + 1, r - 1, dp) + 2);
+            ans = f(s, l + 1, r - 1, dp) + 2;
+        } else {
+            ans = Math.max(f(s, l + 1, r, dp), f(s, l, r - 1, dp));
         }
         return dp[l][r] = ans;
     }

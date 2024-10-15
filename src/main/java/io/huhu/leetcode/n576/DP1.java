@@ -12,17 +12,18 @@ class DP1 implements Code {
     @Override
     public int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
         int ans = 0;
-        int[][][] dp = new int[maxMove + 1][m][n];
-        dp[0][startRow][startColumn] = 1;
+        int[][] dp = new int[m][n];
+        dp[startRow][startColumn] = 1;
         for (int k = 0; k < maxMove; k++) {
+            int[][] _dp = new int[m][n];
             for (int i = 0; i < m; i++) {
                 for (int j = 0; j < n; j++) {
-                    int step = dp[k][i][j];
+                    int step = dp[i][j];
                     if (step > 0) {
                         for (int[] dir : DIR) {
                             int _i = i + dir[0], _j = j + dir[1];
                             if (_i >= 0 && _i < m && _j >= 0 && _j < n) {
-                                dp[k + 1][_i][_j] = (dp[k + 1][_i][_j] + step) % M;
+                                _dp[_i][_j] = (_dp[_i][_j] + step) % M;
                             } else {
                                 ans = (ans + step) % M;
                             }
@@ -30,6 +31,7 @@ class DP1 implements Code {
                     }
                 }
             }
+            dp = _dp;
         }
         return ans;
     }

@@ -6,27 +6,28 @@ class DFS implements Code {
 
     @Override
     public int countArrangement(int n) {
-        int[][] dp = new int[n + 1][1 << (n + 1)];
-        for (int[] a : dp) {
-            Arrays.fill(a, -1);
-        }
-        return f(n, 0, n, dp);
+        int[] dp = new int[1 << n];
+        Arrays.fill(dp, -1);
+        return f(0, n, dp);
     }
 
-    private int f(int i, int j, int n, int[][] dp) {
-        if (i == 0) {
+    private int f(int s, int n, int[] dp) {
+        if ((1 << n) - 1 == s) {
             return 1;
         }
-        if (dp[i][j] != -1) {
-            return dp[i][j];
+        if (dp[s] != -1) {
+            return dp[s];
         }
         int ans = 0;
-        for (int num = 1; num <= n; num++) {
-            if (((1 << num) & j) == 0 && (i % num == 0 || num % i == 0)) {
-                ans += f(i - 1, (1 << num) | j, n, dp);
+        // bitCounts理解为数组的长度, +1表示下标从1开始
+        int i = Integer.bitCount(s) + 1;
+        for (int j = 1; j <= n; j++) {
+            int mask = 1 << (j - 1);
+            if ((mask & s) == 0 && (j % i == 0 || i % j == 0)) {
+                ans += f(mask | s, n, dp);
             }
         }
-        return dp[i][j] = ans;
+        return dp[s] = ans;
     }
 
 }

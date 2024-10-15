@@ -1,28 +1,22 @@
 package io.huhu.leetcode.n526;
 
-import java.util.Arrays;
-
 class DP implements Code {
 
     @Override
     public int countArrangement(int n) {
-        int m = 1 << (n + 1);
-        int[] pre = new int[m], cur = new int[m];
-        Arrays.fill(pre, 1);
-        for (int i = 1; i <= n; i++) {
-            for (int j = m - 1; j >= 0; j--) {
-                for (int num = 1; num <= n; num++) {
-                    if (((1 << num) & j) == 0 && (i % num == 0 || num % i == 0)) {
-                        cur[j] += pre[(1 << num) | j];
-                    }
+        int m = 1 << n;
+        int[] dp = new int[m];
+        dp[m - 1] = 1;
+        for (int s = m - 2; s >= 0; s--) {
+            int i = Integer.bitCount(s) + 1;
+            for (int j = 1; j <= n; j++) {
+                int mask = 1 << (j - 1);
+                if ((mask & s) == 0 && (j % i == 0 || i % j == 0)) {
+                    dp[s] += dp[mask | s];
                 }
             }
-            for (int j = 0; j < m; j++) {
-                pre[j] = cur[j];
-                cur[j] = 0;
-            }
         }
-        return pre[0];
+        return dp[0];
     }
 
 }

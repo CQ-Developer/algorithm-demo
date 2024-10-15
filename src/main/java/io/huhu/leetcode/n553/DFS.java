@@ -2,20 +2,25 @@ package io.huhu.leetcode.n553;
 
 class DFS implements Code {
 
+    private record Info(double minVal, double maxVal, String minExpr, String maxExpr) {}
+
     @Override
     public String optimalDivision(int[] nums) {
-        return f(nums, 0, nums.length - 1).maxExpr;
+        int n = nums.length;
+        return f(nums, 0, n - 1, new Info[n][n]).maxExpr;
     }
 
-    private Info f(int[] nums, int l, int r) {
+    private Info f(int[] nums, int l, int r, Info[][] dp) {
         if (l == r) {
             return new Info(nums[l], nums[l], String.valueOf(nums[l]), String.valueOf(nums[l]));
+        }
+        if (dp[l][r] != null) {
+            return dp[l][r];
         }
         double minVal = Double.MAX_VALUE, maxVal = Double.MIN_VALUE;
         String minExpr = "", maxExpr = "";
         for (int i = l; i < r; i++) {
-            Info left = f(nums, l, i);
-            Info right = f(nums, i + 1, r);
+            Info left = f(nums, l, i, dp), right = f(nums, i + 1, r, dp);
             // min value
             double min = left.minVal / right.maxVal;
             if (min < minVal) {
@@ -37,9 +42,7 @@ class DFS implements Code {
                 }
             }
         }
-        return new Info(minVal, maxVal, minExpr, maxExpr);
+        return dp[l][r] = new Info(minVal, maxVal, minExpr, maxExpr);
     }
-
-    private record Info(double minVal, double maxVal, String minExpr, String maxExpr) {}
 
 }

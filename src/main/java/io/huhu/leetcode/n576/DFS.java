@@ -6,6 +6,8 @@ class DFS implements Code {
 
     private static final int M = 1000000007;
 
+    private static final int[][] DIR = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
     @Override
     public int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
         int[][][] dp = new int[m][n][maxMove + 1];
@@ -26,14 +28,9 @@ class DFS implements Code {
         }
         int ans = 0;
         if (s != 0) {
-            ans += f(m, n, s - 1, i + 1, j, dp);
-            ans %= M;
-            ans += f(m, n, s - 1, i - 1, j, dp);
-            ans %= M;
-            ans += f(m, n, s - 1, i, j + 1, dp);
-            ans %= M;
-            ans += f(m, n, s - 1, i, j - 1, dp);
-            ans %= M;
+            for (int[] d : DIR) {
+                ans = (ans + f(m, n, s - 1, i + d[0], j + d[1], dp)) % M;
+            }
         }
         return dp[i][j][s] = ans;
     }

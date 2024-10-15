@@ -6,6 +6,9 @@ class DP2 implements Code {
 
     private static final int[][] DIR = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
+    /**
+     * dp[i][j][k]表示从i,j位置出发经历k步越界的最大路径数
+     */
     @Override
     public int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
         int[][][] dp = new int[m][n][maxMove + 1];

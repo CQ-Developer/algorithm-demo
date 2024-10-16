@@ -6,23 +6,24 @@ class DP implements Code {
     public int minDistance(String word1, String word2) {
         char[] w1 = word1.toCharArray(), w2 = word2.toCharArray();
         int m = w1.length, n = w2.length;
-        int[][] dp = new int[m + 1][n + 1];
+        int[] dp = new int[n + 1];
         for (int j = 0; j < n; j++) {
-            dp[m][j] = n - j;
-        }
-        for (int i = 0; i < m; i++) {
-            dp[i][n] = m - i;
+            dp[j] = n - j;
         }
         for (int i = m - 1; i >= 0; i--) {
+            int rd = dp[n];
+            dp[n] = m - i;
             for (int j = n - 1; j >= 0; j--) {
+                int _rd = dp[j];
                 if (w1[i] == w2[j]) {
-                    dp[i][j] = dp[i + 1][j + 1];
+                    dp[j] = rd;
                 } else {
-                    dp[i][j] = Math.min(dp[i + 1][j], dp[i][j + 1]) + 1;
+                    dp[j] = Math.min(dp[j], dp[j + 1]) + 1;
                 }
+                rd = _rd;
             }
         }
-        return dp[0][0];
+        return dp[0];
     }
 
 }

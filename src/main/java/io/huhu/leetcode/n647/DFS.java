@@ -6,26 +6,31 @@ class DFS implements Code {
     public int countSubstrings(String s) {
         char[] c = s.toCharArray();
         int n = c.length;
+        int[][] dp = new int[n][n];
         int ans = 0;
         for (int i = 0; i < n; i++) {
             for (int j = i; j < n; j++) {
-                ans += f(c, i, j);
+                if (f(c, i, j, dp)) {
+                    ans++;
+                }
             }
         }
         return ans;
     }
 
-    private int f(char[] c, int l, int r) {
+    private boolean f(char[] c, int l, int r, int[][] dp) {
+        if (dp[l][r] != 0) {
+            return dp[l][r] == 1;
+        }
+        boolean ans;
         if (l == r) {
-            return 1;
+            ans = true;
+        } else if (l + 1 == r) {
+            ans = c[l] == c[r];
+        } else {
+            ans = c[l] == c[r] && f(c, l + 1, r - 1, dp);
         }
-        if (l + 1 == r) {
-            return c[l] == c[r] ? 1 : 0;
-        }
-        int ans = 0;
-        if (c[l] == c[r]) {
-            return f(c, l + 1, r - 1);
-        }
+        dp[l][r] = ans ? 1 : -1;
         return ans;
     }
 

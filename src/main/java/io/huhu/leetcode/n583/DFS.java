@@ -12,26 +12,26 @@ class DFS implements Code {
         for (int[] a : dp) {
             Arrays.fill(a, -1);
         }
-        return f(w1, w2, m - 1, n - 1, dp);
+        return f(w1, w2, 0, 0, dp);
     }
 
     private int f(char[] w1, char[] w2, int i, int j, int[][] dp) {
-        if (i == -1 && j == -1) {
+        if (i == w1.length && j == w2.length) {
             return 0;
         }
-        if (i == -1) {
-            return j + 1;
+        if (i == w1.length) {
+            return w2.length - j;
         }
-        if (j == -1) {
-            return i + 1;
+        if (j == w2.length) {
+            return w1.length - i;
         }
         if (dp[i][j] != -1) {
             return dp[i][j];
         }
         if (w1[i] == w2[j]) {
-            return dp[i][j] = f(w1, w2, i - 1, j - 1, dp);
+            return dp[i][j] = f(w1, w2, i + 1, j + 1, dp);
         }
-        return dp[i][j] = Math.min(f(w1, w2, i - 1, j, dp), f(w1, w2, i, j - 1, dp)) + 1;
+        return dp[i][j] = Math.min(f(w1, w2, i + 1, j, dp), f(w1, w2, i, j + 1, dp)) + 1;
     }
 
 }

@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
 /**
  * <a href="https://www.luogu.com.cn/problem/P1090">
@@ -14,20 +12,58 @@ import java.util.Queue;
  */
 class Luogu {
 
+    private static int size;
+    private static final int N = 10001;
+    private static final int[] heap = new int[N];
+
+    private static void swap(int i, int j) {
+        int t = heap[i];
+        heap[i] = heap[j];
+        heap[j] = t;
+    }
+
+    private static void add(int num) {
+        int i = size;
+        heap[size++] = num;
+        while (heap[i] < heap[(i - 1) / 2]) {
+            swap(i, (i - 1) / 2);
+            i = (i - 1) / 2;
+        }
+    }
+
+    private static int remove() {
+        int ans = heap[0];
+        swap(0, --size);
+        int i = 0, l = 1;
+        while (l < size) {
+            // 找到i的左右两侧哪个更小
+            int j = l + 1 < size && heap[l + 1] < heap[l] ? l + 1 : l;
+            // 比较i和j中哪个更小
+            j = heap[j] < heap[i] ? j : i;
+            if (j == i) {
+                break;
+            }
+            swap(i, j);
+            i = j;
+            l = i * 2 + 1;
+        }
+        return ans;
+    }
+
     public static void main(String[] args) throws Exception {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-             PrintWriter writer = new PrintWriter(System.out)) {
-            StreamTokenizer tokenizer = new StreamTokenizer(reader);
+        size = 0;
+        try (var reader = new BufferedReader(new InputStreamReader(System.in));
+             var writer = new PrintWriter(System.out)) {
+            var tokenizer = new StreamTokenizer(reader);
             int n = readInt(tokenizer);
-            Queue<Integer> heap = new PriorityQueue<>();
             for (int i = 0; i < n; i++) {
-                heap.add(readInt(tokenizer));
+                add(readInt(tokenizer));
             }
             int ans = 0;
-            while (heap.size() > 1) {
-                int sum = heap.remove() + heap.remove();
+            while (size > 1) {
+                int sum = remove() + remove();
                 ans += sum;
-                heap.add(sum);
+                add(sum);
             }
             writer.println(ans);
         }

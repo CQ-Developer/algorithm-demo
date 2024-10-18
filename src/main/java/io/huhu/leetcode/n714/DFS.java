@@ -1,23 +1,32 @@
 package io.huhu.leetcode.n714;
 
+import java.util.Arrays;
+
 class DFS implements Code {
 
     @Override
     public int maxProfit(int[] prices, int fee) {
-        return f(prices, fee, 0, 0);
+        int[][] m = new int[prices.length][2];
+        for (int[] a : m) {
+            Arrays.fill(a, -1);
+        }
+        return f(prices, fee, 0, 0, m);
     }
 
-    private int f(int[] prices, int fee, int i, int hold) {
+    private int f(int[] prices, int fee, int i, int j, int[][] m) {
         if (i == prices.length) {
             return 0;
         }
-        int a = f(prices, fee, i + 1, hold);
-        if (hold == 1) {
-            a = Math.max(a, f(prices, fee, i + 1, 0) + prices[i] - fee);
-        } else {
-            a = Math.max(a, f(prices, fee, i + 1, 1) - prices[i]);
+        if (m[i][j] != -1) {
+            return m[i][j];
         }
-        return a;
+        int ans = f(prices, fee, i + 1, j, m);
+        if (j == 1) {
+            ans = Math.max(ans, f(prices, fee, i + 1, 0, m) + prices[i] - fee);
+        } else {
+            ans = Math.max(ans, f(prices, fee, i + 1, 1, m) - prices[i]);
+        }
+        return m[i][j] = ans;
     }
 
 }

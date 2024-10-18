@@ -20,11 +20,11 @@ class DFS implements Code {
         if (m[i][j] != -1) {
             return m[i][j];
         }
-        int ans = f(prices, fee, i + 1, j, m);
+        int ans;
         if (j == 1) {
-            ans = Math.max(ans, f(prices, fee, i + 1, 0, m) + prices[i] - fee);
+            ans = Math.max(f(prices, fee, i + 1, j, m), f(prices, fee, i + 1, 0, m) + prices[i] - fee);
         } else {
-            ans = Math.max(ans, f(prices, fee, i + 1, 1, m) - prices[i]);
+            ans = Math.max(f(prices, fee, i + 1, j, m), f(prices, fee, i + 1, 1, m) - prices[i]);
         }
         return m[i][j] = ans;
     }

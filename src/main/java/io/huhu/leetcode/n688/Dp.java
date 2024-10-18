@@ -6,27 +6,33 @@ public class Dp implements Code {
 
     @Override
     public double knightProbability(int n, int k, int row, int column) {
-        double[][][] f = new double[k + 1][n][n];
+        double[][] p = new double[n][n];
+        double[][] f = new double[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                f[0][i][j] = 1;
+                p[i][j] = 1;
             }
         }
-        for (int _k = 1; _k <= k; _k++) {
+        for (int _k = 0; _k < k; _k++) {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     double ans = 0;
                     for (int[] d : DIR) {
                         int x = i + d[0], y = j + d[1];
                         if (x >= 0 && x < n && y >= 0 && y < n) {
-                            ans += f[_k - 1][x][y] / 8;
+                            ans += p[x][y] / 8;
                         }
                     }
-                    f[_k][i][j] = ans;
+                    f[i][j] = ans;
+                }
+            }
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    p[i][j] = f[i][j];
                 }
             }
         }
-        return f[k][row][column];
+        return p[row][column];
     }
 
 }

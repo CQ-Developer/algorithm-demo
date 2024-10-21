@@ -1,5 +1,7 @@
 package io.huhu.leetcode.n740;
 
+import java.util.Arrays;
+
 class DFS implements Code {
 
     @Override
@@ -12,14 +14,19 @@ class DFS implements Code {
         for (int num : nums) {
             earns[num] += num;
         }
-        return f(earns, 0);
+        int[] dp = new int[n + 1];
+        Arrays.fill(dp, -1);
+        return f(earns, 0, dp);
     }
 
-    private int f(int[] nums, int i) {
+    private int f(int[] nums, int i, int[] dp) {
         if (i >= nums.length) {
             return 0;
         }
-        return Math.max(f(nums, i + 1), f(nums, i + 2) + nums[i]);
+        if (dp[i] != -1) {
+            return dp[i];
+        }
+        return dp[i] = Math.max(f(nums, i + 1, dp), f(nums, i + 2, dp) + nums[i]);
     }
 
 }

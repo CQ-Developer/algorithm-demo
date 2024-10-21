@@ -12,8 +12,8 @@ class DP implements Code {
         for (int num : nums) {
             _nums[num] += num;
         }
-        int p1 = 0, p2 = 0;
-        for (int i = n; i >= 0; i--) {
+        int p2 = _nums[0], p1 = Math.max(_nums[0], _nums[1]);
+        for (int i = 2; i <= n; i++) {
             int p = Math.max(p1, p2 + _nums[i]);
             p2 = p1;
             p1 = p;

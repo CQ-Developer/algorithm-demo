@@ -1,6 +1,6 @@
 package io.huhu.leetcode.n688;
 
-public class Dp implements Code {
+class Dp implements Code {
 
     private static final int[][] DIR = {{1, 2}, {1, -2}, {-1, 2}, {-1, -2}, {2, 1}, {2, -1}, {-2, 1}, {-2, -1}};
 

@@ -2,7 +2,7 @@ package io.huhu.leetcode.n698;
 
 import java.util.Arrays;
 
-public class DFS implements Code {
+class DFS implements Code {
 
     @Override
     public boolean canPartitionKSubsets(int[] nums, int k) {

@@ -2,7 +2,7 @@ package io.huhu.leetcode.n688;
 
 import java.util.Arrays;
 
-public class Dfs implements Code {
+class Dfs implements Code {
 
     @Override
     public double knightProbability(int n, int k, int row, int column) {

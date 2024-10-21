@@ -1,16 +1,14 @@
 package io.huhu.leetcode.n764;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 class DP implements Code {
 
     @Override
     public int orderOfLargestPlusSign(int n, int[][] mines) {
-        Set<Integer> set = new HashSet<>();
+        boolean[][] g = new boolean[n][n];
         for (int[] mine : mines) {
-            set.add(mine[0] * n + mine[1]);
+            g[mine[0]][mine[1]] = true;
         }
         int[][] f = new int[n][n];
         for (int[] a : f) {
@@ -20,7 +18,7 @@ class DP implements Code {
             // left -> right
             int count = 0;
             for (int j = 0; j < n; j++) {
-                if (set.contains(i * n + j)) {
+                if (g[i][j]) {
                     count = 0;
                 } else {
                     count++;
@@ -30,7 +28,7 @@ class DP implements Code {
             // right -> left
             count = 0;
             for (int j = n - 1; j >= 0; j--) {
-                if (set.contains(i * n + j)) {
+                if (g[i][j]) {
                     count = 0;
                 } else {
                     count++;
@@ -43,7 +41,7 @@ class DP implements Code {
             // up -> down
             int count = 0;
             for (int i = 0; i < n; i++) {
-                if (set.contains(i * n + j)) {
+                if (g[i][j]) {
                     count = 0;
                 } else {
                     count++;
@@ -53,7 +51,7 @@ class DP implements Code {
             // down -> up
             count = 0;
             for (int i = n - 1; i >= 0; i--) {
-                if (set.contains(i * n + j)) {
+                if (g[i][j]) {
                     count = 0;
                 } else {
                     count++;

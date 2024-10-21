@@ -12,11 +12,13 @@ class DP implements Code {
         for (int num : nums) {
             _nums[num] += num;
         }
-        int[] f = new int[n + 3];
+        int p1 = 0, p2 = 0;
         for (int i = n; i >= 0; i--) {
-            f[i] = Math.max(f[i + 1], f[i + 2] + _nums[i]);
+            int p = Math.max(p1, p2 + _nums[i]);
+            p2 = p1;
+            p1 = p;
         }
-        return f[0];
+        return p1;
     }
 
 }

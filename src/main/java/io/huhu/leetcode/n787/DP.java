@@ -8,20 +8,20 @@ class DP implements Code {
 
     @Override
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-        int[][] dp = new int[k + 2][n];
-        for (int[] a : dp) {
-            Arrays.fill(a, INF);
-        }
-        dp[0][src] = 0;
+        int ans = INF;
+        int[] pre = new int[n], cur = new int[n];
+        Arrays.fill(pre, INF);
+        pre[src] = 0;
         for (int i = 1; i <= k + 1; i++) {
+            Arrays.fill(cur, INF);
             for (int[] flight : flights) {
                 int f = flight[0], t = flight[1], p = flight[2];
-                dp[i][t] = Math.min(dp[i][t], dp[i - 1][f] + p);
+                cur[t] = Math.min(cur[t], pre[f] + p);
             }
-        }
-        int ans = INF;
-        for (int i = 0; i <= k + 1; i++) {
-            ans = Math.min(ans, dp[i][dst]);
+            for (int j = 0; j < n; j++) {
+                pre[j] = cur[j];
+            }
+            ans = Math.min(ans, pre[dst]);
         }
         return ans == INF ? -1 : ans;
     }

@@ -4,17 +4,17 @@ class DFS implements Solution {
 
     @Override
     public int atMostNGivenDigitSet(String[] digits, int n) {
-        int tmp = n / 10, len = 1, offset = 1;
+        int tmp = n / 10, len = 1, mask = 1;
         while (tmp > 0) {
             tmp /= 10;
-            offset *= 10;
+            mask *= 10;
             len++;
         }
         int[] nums = new int[digits.length];
         for (int i = 0; i < digits.length; i++) {
             nums[i] = Integer.parseInt(digits[i]);
         }
-        return f(nums, n, offset, len, 0, 0);
+        return f(nums, n, mask, len, 0, 0);
     }
 
     private int f(int[] digits, int num, int i, int n, int used, int free) {

@@ -1,7 +1,9 @@
 package io.huhu.leetcode.dynamic.programming.medium.n357;
 
 /**
- * <a href="https://leetcode.cn/problems/count-numbers-with-unique-digits/description/">Count Number with Unique Digits</a>
+ * <a href="https://leetcode.cn/problems/count-numbers-with-unique-digits/description/">
+ * Count Number with Unique Digits
+ * </a>
  */
 class Solution {
 

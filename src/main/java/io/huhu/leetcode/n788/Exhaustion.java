@@ -1,36 +1,33 @@
 package io.huhu.leetcode.n788;
 
-import java.util.Arrays;
-import java.util.Map;
-
 class Exhaustion implements Code {
 
-    private static final Map<Character, Character> MAP = Map.ofEntries(
-            Map.entry('0', '0'), Map.entry('1', '1'), Map.entry('8', '8'),
-            Map.entry('2', '5'), Map.entry('5', '2'),
-            Map.entry('6', '9'), Map.entry('9', '6'));
+    private static final int[] TABLE = {0, 1, 5, -1, -1, 2, 9, -1, 8, 6};
 
     @Override
     public int rotatedDigits(int n) {
         int ans = 0;
-        for (int i = 1; i <= n; i++) {
-            if (check(String.valueOf(i).toCharArray())) {
+        for (int num = 1; num <= n; num++) {
+            if (check1(num)) {
                 ans++;
             }
         }
         return ans;
     }
 
-    private boolean check(char[] num) {
-        int n = num.length;
-        char[] rotate = Arrays.copyOf(num, n);
-        for (int i = 0; i < n; i++) {
-            if (!MAP.containsKey(num[i])) {
+    private boolean check1(int num) {
+        int ans = 0, factor = 1;
+        int _num = num;
+        while (_num > 0) {
+            int i = _num % 10;
+            _num /= 10;
+            if (TABLE[i] == -1) {
                 return false;
             }
-            rotate[i] = MAP.get(num[i]);
+            ans = TABLE[i] * factor + ans;
+            factor *= 10;
         }
-        return !Arrays.equals(rotate, num);
+        return ans != num;
     }
 
 }

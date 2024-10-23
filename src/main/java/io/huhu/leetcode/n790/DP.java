@@ -20,13 +20,14 @@ class DP implements Code {
         if (n == 1) {
             return 1;
         }
-        long[] f = new long[n + 1];
-        f[0] = f[1] = 1;
-        f[2] = 2;
+        long a = 1, b = 1, c = 2;
         for (int i = 3; i <= n; i++) {
-            f[i] = (2 * f[i - 1] + f[i - 3]) % M;
+            long t = (2 * c + a) % M;
+            a = b;
+            b = c;
+            c = t;
         }
-        return (int) f[n];
+        return (int) c;
     }
 
 }

@@ -11,14 +11,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 abstract class CodeTest {
 
     Code code;
-    Validator validator;
+    
+    final Validator validator = new Validator();
 
     abstract Code code();
 
     @BeforeEach
     void setup() {
         code = code();
-        validator = new Validator();
     }
 
     @ParameterizedTest

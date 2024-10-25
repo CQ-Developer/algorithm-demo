@@ -1,9 +1,8 @@
 package io.huhu.leetcode.n823;
 
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 class DepthFirstSearch implements Code {
 
@@ -11,29 +10,32 @@ class DepthFirstSearch implements Code {
 
     @Override
     public int numFactoredBinaryTrees(int[] arr) {
-        Set<Integer> set = new HashSet<>();
-        for (int a : arr) {
-            set.add(a);
+        int n = arr.length;
+        Arrays.sort(arr);
+        Map<Integer, Integer> map = HashMap.newHashMap(n);
+        for (int i = 0; i < n; i++) {
+            map.put(arr[i], i);
         }
+        long[] dp = new long[n];
+        Arrays.fill(dp, -1);
         long ans = 0;
-        for (int a : arr) {
-            ans += f(set, a, new HashMap<>());
+        for (int i = 0; i < n; i++) {
+            ans += f(arr, map, i, dp);
         }
         return (int) (ans % M);
     }
 
-    private long f(Set<Integer> arr, int root, Map<Integer, Long> map) {
-        if (map.containsKey(root)) {
-            return map.get(root);
+    private long f(int[] arr, Map<Integer, Integer> map, int i, long[] dp) {
+        if (dp[i] != -1) {
+            return dp[i];
         }
-        long ans = 1;
-        for (int a : arr) {
-            if (root % a == 0 && arr.contains(root / a)) {
-                ans += f(arr, a, map) * f(arr, root / a, map);
+        dp[i] = 1;
+        for (int j = 0; j < i; j++) {
+            if (arr[i] % arr[j] == 0 && map.containsKey(arr[i] / arr[j])) {
+                dp[i] += f(arr, map, j, dp) * f(arr, map, map.get(arr[i] / arr[j]), dp);
             }
         }
-        map.put(root, ans);
-        return ans;
+        return dp[i];
     }
 
 }

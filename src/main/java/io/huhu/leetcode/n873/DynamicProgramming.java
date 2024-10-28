@@ -1,26 +1,30 @@
 package io.huhu.leetcode.n873;
 
-import java.util.HashMap;
-import java.util.Map;
-
 class DynamicProgramming implements Code {
 
     @Override
     public int lenLongestFibSubseq(int[] arr) {
         int n = arr.length;
-        Map<Integer, Integer> table = HashMap.newHashMap(n);
-        for (int i = 0; i < n; i++) {
-            table.put(arr[i], i);
-        }
         int ans = 0;
         int[][] f = new int[n][n];
-        for (int k = 0; k < n; k++) {
-            for (int j = k - 1; j >= 0 && 2 * arr[j] > arr[k]; j--) {
-                int i = table.getOrDefault(arr[k] - arr[j], -1);
-                if (i != -1) {
-                    f[j][k] = Math.max(f[i][j] + 1, 3);
+        for (int i = 0; i < n; i++) {
+            // k < j < i
+            int k = 0, j = i - 1;
+            while (k < j) {
+                if (arr[k] + arr[j] == arr[i]) {
+                    f[j][i] = Math.max(3, f[k][j] + 1);
+                    ans = Math.max(ans, f[j][i]);
+                    k++;
+                    j--;
                 }
-                ans = Math.max(ans, f[j][k]);
+                // 将k指针右移获取更大的和
+                else if (arr[k] + arr[j] < arr[i]) {
+                    k++;
+                }
+                // 将j指针左移获取更小的值
+                else {
+                    j--;
+                }
             }
         }
         return ans;

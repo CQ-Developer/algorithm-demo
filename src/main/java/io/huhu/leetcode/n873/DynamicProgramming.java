@@ -15,11 +15,8 @@ class DynamicProgramming implements Code {
         int ans = 0;
         int[][] f = new int[n][n];
         for (int k = 0; k < n; k++) {
-            for (int j = k - 1; j >= 0; j--) {
+            for (int j = k - 1; j >= 0 && 2 * arr[j] > arr[k]; j--) {
                 int i = table.getOrDefault(arr[k] - arr[j], -1);
-                if (i >= j) {
-                    break;
-                }
                 if (i != -1) {
                     f[j][k] = Math.max(f[i][j] + 1, 3);
                 }

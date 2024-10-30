@@ -1,6 +1,7 @@
 package io.huhu.leetcode.n907;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
 
 class MonotoneStack implements Code {
@@ -10,24 +11,15 @@ class MonotoneStack implements Code {
     @Override
     public int sumSubarrayMins(int[] arr) {
         int n = arr.length;
-        int[] left = new int[n];
+        int[] left = new int[n], right = new int[n];
+        Arrays.fill(right, n);
         Deque<Integer> stack = new ArrayDeque<>();
         stack.addFirst(-1);
         for (int i = 0; i < n; i++) {
             while (stack.size() > 1 && arr[stack.getFirst()] >= arr[i]) {
-                stack.removeFirst();
+                right[stack.removeFirst()] = i;
             }
             left[i] = stack.getFirst();
-            stack.addFirst(i);
-        }
-        int[] right = new int[n];
-        stack.clear();
-        stack.addFirst(n);
-        for (int i = n - 1; i >= 0; i--) {
-            while (stack.size() > 1 && arr[stack.getFirst()] > arr[i]) {
-                stack.removeFirst();
-            }
-            right[i] = stack.getFirst();
             stack.addFirst(i);
         }
         long ans = 0;

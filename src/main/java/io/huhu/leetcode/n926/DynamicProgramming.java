@@ -1,7 +1,7 @@
 package io.huhu.leetcode.n926;
 
 /**
- * MLE
+ * TLE
  */
 class DynamicProgramming implements Code {
 
@@ -9,18 +9,21 @@ class DynamicProgramming implements Code {
     public int minFlipsMonoIncr(String s) {
         char[] c = s.toCharArray();
         int n = c.length;
-        int[][] f = new int[n][n];
-        for (int l = n - 2; l >= 0; l--) {
-            f[l][l + 1] = c[l] <= c[l + 1] ? 0 : 1;
-            for (int r = l + 2; r < n; r++) {
-                if (c[l] == c[r]) {
-                    f[l][r] = Math.min(f[l + 1][r - 1] + 1, c[l] == '0' ? f[l + 1][r] : f[l][r - 1]);
+        int[] f = new int[n];
+        for (int i = n - 2; i >= 0; i--) {
+            int leftDown = i - 1 < 0 ? 0 : f[i - 1];
+            f[i + 1] = c[i] <= c[i + 1] ? 0 : 1;
+            for (int j = i + 2; j < n; j++) {
+                int _leftDown = f[j];
+                if (c[i] == c[j]) {
+                    f[j] = Math.min(leftDown + 1, c[i] == '0' ? f[j] : f[j - 1]);
                 } else {
-                    f[l][r] = c[l] == '0' ? f[l + 1][r - 1] : Math.min(f[l + 1][r] + 1, f[l][r - 1] + 1);
+                    f[j] = c[i] == '0' ? leftDown : Math.min(f[j] + 1, f[j - 1] + 1);
                 }
+                leftDown = _leftDown;
             }
         }
-        return f[0][n - 1];
+        return f[n - 1];
     }
 
 }

@@ -7,22 +7,25 @@ class DynamicProgramming implements Code {
 
     @Override
     public int minFallingPathSum(int[][] matrix) {
-        int ans = Integer.MAX_VALUE, n = matrix.length;
-        int[][] f = new int[n + 1][n];
+        int n = matrix.length;
+        int[] f = new int[n];
         for (int i = n - 1; i >= 0; i--) {
+            int ld = 0;
             for (int j = 0; j < n; j++) {
-                int _ans = f[i + 1][j];
+                int _ld = f[j];
                 if (j - 1 >= 0) {
-                    _ans = Math.min(_ans, f[i + 1][j - 1]);
+                    f[j] = Math.min(f[j], ld);
                 }
                 if (j + 1 < n) {
-                    _ans = Math.min(_ans, f[i + 1][j + 1]);
+                    f[j] = Math.min(f[j], f[j + 1]);
                 }
-                f[i][j] = _ans + matrix[i][j];
+                ld = _ld;
+                f[j] += matrix[i][j];
             }
         }
-        for (int j = 0; j < n; j++) {
-            ans = Math.min(ans, f[0][j]);
+        int ans = f[0];
+        for (int j = 1; j < n; j++) {
+            ans = Math.min(ans, f[j]);
         }
         return ans;
     }

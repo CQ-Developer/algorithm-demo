@@ -1,10 +1,10 @@
 package io.huhu.leetcode.n926;
 
+import io.huhu.MLE;
+
 import java.util.Arrays;
 
-/**
- * MLE
- */
+@MLE
 class DepthFirstSearch implements Code {
 
     @Override

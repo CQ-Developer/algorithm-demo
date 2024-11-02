@@ -1,5 +1,8 @@
 package io.huhu.leetcode.n983;
 
+import io.huhu.AC;
+
+@AC
 class DepthFirstSearch implements Code {
 
     @Override

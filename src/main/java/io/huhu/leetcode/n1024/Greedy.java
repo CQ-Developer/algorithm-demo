@@ -1,27 +1,28 @@
 package io.huhu.leetcode.n1024;
 
-import java.util.Arrays;
-
 class Greedy implements Code {
 
     @Override
     public int videoStitching(int[][] clips, int time) {
-        Arrays.sort(clips, (a, b) -> a[0] - b[0]);
-        int i = 0, r = 0, maxR = 0, n = clips.length, ans = 0;
-        while (i < n) {
-            if (clips[i][0] > maxR) {
-                break;
+        // furthest coverage to right
+        int[] f = new int[time];
+        for (int[] clip : clips) {
+            if (clip[0] < time) {
+                f[clip[0]] = Math.max(f[clip[0]], clip[1]);
             }
-            while (i < n && clips[i][0] <= r) {
-                maxR = Math.max(maxR, clips[i++][1]);
-            }
-            ans++;
-            if (maxR >= time) {
-                return ans;
-            }
-            r = maxR;
         }
-        return -1;
+        int pre = 0, last = 0, ans = 0;
+        for (int i = 0; i < time; i++) {
+            last = Math.max(last, f[i]);
+            if (i == last) {
+                return -1;
+            }
+            if (i == pre) {
+                pre = last;
+                ans++;
+            }
+        }
+        return ans;
     }
 
 }

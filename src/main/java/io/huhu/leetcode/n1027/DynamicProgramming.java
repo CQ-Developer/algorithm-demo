@@ -6,21 +6,20 @@ class DynamicProgramming implements Code {
 
     @Override
     public int longestArithSeqLength(int[] nums) {
-        int max = Integer.MIN_VALUE;
+        int n = Integer.MIN_VALUE;
         for (int num : nums) {
-            max = Math.max(max, num);
+            n = Math.max(n, num);
         }
-        int ans = 1;
-        int[] f = new int[max + 1];
-        for (int dif = -max; dif <= max; dif++) {
-            Arrays.fill(f, -1);
-            for (int cur : nums) {
-                int pre = cur - dif;
-                if (pre >= 0 && pre <= max && f[pre] != -1) {
-                    f[cur] = Math.max(f[cur], f[pre] + 1);
-                    ans = Math.max(ans, f[cur]);
-                }
-                f[cur] = Math.max(f[cur], 1);
+        int ans = 2;
+        // 枚举所有公差
+        int[] f = new int[n + 1];
+        for (int d = -n; d <= n; d++) {
+            Arrays.fill(f, 0);
+            for (int c : nums) {
+                int p = c - d;
+                // 越界则形成长度为1的等差序列
+                f[c] = p >= 0 && p <= n ? f[p] + 1 : 1;
+                ans = Math.max(ans, f[c]);
             }
         }
         return ans;

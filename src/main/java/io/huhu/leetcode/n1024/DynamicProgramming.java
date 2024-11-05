@@ -6,21 +6,22 @@ class DynamicProgramming implements Code {
 
     @Override
     public int videoStitching(int[][] clips, int time) {
-        int[] f = new int[time + 1];
+        int[] dp = new int[time + 1];
         for (int i = 1; i <= time; i++) {
-            f[i] = MAX;
+            dp[i] = MAX;
         }
         for (int i = 1; i <= time; i++) {
             for (int[] clip : clips) {
-                if (clip[0] < i && i <= clip[1]) {
-                    f[i] = Math.min(f[i], f[clip[0]] + 1);
+                int f = clip[0];
+                if (f < i && i <= clip[1]) {
+                    dp[i] = Math.min(dp[i], dp[f] + 1);
                 }
             }
         }
-        if (f[time] == MAX) {
+        if (dp[time] == MAX) {
             return -1;
         }
-        return f[time];
+        return dp[time];
     }
 
 }

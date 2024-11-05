@@ -5,20 +5,22 @@ class Greedy implements Code {
     @Override
     public int videoStitching(int[][] clips, int time) {
         // furthest coverage to right
-        int[] f = new int[time];
+        // 记录每个开始时间能够达到的最远结束时间
+        int[] furthest = new int[time];
         for (int[] clip : clips) {
-            if (clip[0] < time) {
-                f[clip[0]] = Math.max(f[clip[0]], clip[1]);
+            int f = clip[0];
+            if (f < time) {
+                furthest[f] = Math.max(furthest[f], clip[1]);
             }
         }
-        int pre = 0, last = 0, ans = 0;
+        int pre = 0, end = 0, ans = 0;
         for (int i = 0; i < time; i++) {
-            last = Math.max(last, f[i]);
-            if (i == last) {
+            end = Math.max(end, furthest[i]);
+            if (i == end) {
                 return -1;
             }
             if (i == pre) {
-                pre = last;
+                pre = end;
                 ans++;
             }
         }

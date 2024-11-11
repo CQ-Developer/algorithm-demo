@@ -8,17 +8,16 @@ class DynamicProgramming implements Code {
         for (int stone : stones) {
             sum += stone;
         }
-        int n = stones.length, m = sum >> 1;
-        int[][] f = new int[n + 1][m + 1];
-        for (int i = 1; i <= n; i++) {
-            for (int j = 0; j <= m; j++) {
-                f[i][j] = f[i - 1][j];
-                if (j - stones[i - 1] >= 0) {
-                    f[i][j] = Math.max(f[i][j], f[i - 1][j - stones[i - 1]] + stones[i - 1]);
+        int n = sum >> 1;
+        int[] f = new int[n + 1];
+        for (int stone : stones) {
+            for (int i = n; i >= 0; i--) {
+                if (i - stone >= 0) {
+                    f[i] = Math.max(f[i], f[i - stone] + stone);
                 }
             }
         }
-        return sum - f[n][m] - f[n][m];
+        return sum - (f[n] << 1);
     }
 
 }

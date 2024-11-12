@@ -2,7 +2,7 @@ package io.huhu.leetcode.n1035;
 
 import java.util.Arrays;
 
-public class DepthFirstSearch implements Code {
+class DepthFirstSearch implements Code {
 
     @Override
     public int maxUncrossedLines(int[] nums1, int[] nums2) {

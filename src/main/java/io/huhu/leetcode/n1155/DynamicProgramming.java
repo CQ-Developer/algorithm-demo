@@ -9,20 +9,19 @@ class DynamicProgramming implements Code {
 
     @Override
     public int numRollsToTarget(int n, int k, int target) {
-        int[][] f = new int[n + 1][target + 1];
-        f[0][0] = 1;
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= target; j++) {
-                int ans = 0;
+        int[] f = new int[target + 1];
+        for (int i = 0; i < n; i++) {
+            f[0] = i == 0 ? 1 : 0;
+            for (int j = target; j >= 1; j--) {
+                f[j] = 0;
                 for (int _k = 1; _k <= k; _k++) {
                     if (j - _k >= 0) {
-                        ans = (ans + f[i - 1][j - _k]) % M;
+                        f[j] = (f[j] + f[j - _k]) % M;
                     }
                 }
-                f[i][j] = ans;
             }
         }
-        return f[n][target];
+        return f[target];
     }
 
 }

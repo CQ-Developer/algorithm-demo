@@ -18,14 +18,13 @@ class DynamicProgramming implements Code {
          * j = 1
          * f[i][j] = MAX( f[i-1][0], f[i-1][1] + arr[i-1] )
          */
-        int ans = Integer.MIN_VALUE;
-        int n = arr.length;
-        int[][] f = new int[n + 1][2];
-        f[0][0] = f[0][1] = Integer.MIN_VALUE / 2;
-        for (int i = 1; i <= n; i++) {
-            f[i][0] = Math.max(f[i - 1][0], 0) + arr[i - 1];
-            f[i][1] = Math.max(f[i - 1][0], f[i - 1][1] + arr[i - 1]);
-            ans = Math.max(ans, Math.max(f[i][0], f[i][1]));
+        int ans = Integer.MIN_VALUE / 2;
+        int p0 = ans, p1 = ans;
+        for (int num : arr) {
+            int _p0 = Math.max(p0, 0) + num;
+            p1 = Math.max(p0, p1 + num);
+            p0 = _p0;
+            ans = Math.max(ans, Math.max(p0, p1));
         }
         return ans;
     }

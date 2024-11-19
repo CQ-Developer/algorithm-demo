@@ -10,16 +10,13 @@ class DynamicProgramming implements Code {
         if (n == 1) {
             return 1;
         }
-        double[] f = new double[n + 1];
-        f[1] = 1;
-        f[2] = 0.5;
-        double pre = 0.5;
+        double pre = 0.5, cur = pre;
         for (int i = 3; i <= n; i++) {
             double factor = 1.0 / i;
-            f[i] = factor + factor * pre;
-            pre += f[i];
+            cur = factor + factor * pre;
+            pre += cur;
         }
-        return f[n];
+        return cur;
     }
 
 }

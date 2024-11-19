@@ -2,20 +2,16 @@ package io.huhu.leetcode.n1218;
 
 import io.huhu.AC;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @AC
 class DynamicProgramming implements Code {
 
     @Override
     public int longestSubsequence(int[] arr, int difference) {
-        int ans = 1;
-        Map<Integer, Integer> f = HashMap.newHashMap(arr.length);
+        int ans = 1, offset = 20000;
+        int[] f = new int[40001];
         for (int num : arr) {
-            int max = f.getOrDefault(num - difference, 0) + 1;
-            ans = Math.max(ans, max);
-            f.put(num, max);
+            f[num + offset] = f[num + offset - difference] + 1;
+            ans = Math.max(ans, f[num + offset]);
         }
         return ans;
     }

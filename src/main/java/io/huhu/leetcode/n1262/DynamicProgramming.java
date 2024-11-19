@@ -7,15 +7,17 @@ class DynamicProgramming implements Code {
 
     @Override
     public int maxSumDivThree(int[] nums) {
-        int n = nums.length;
-        int[][] f = new int[2][3];
-        f[0][1] = f[0][2] = Integer.MIN_VALUE;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < 3; j++) {
-                f[(i + 1) % 2][j] = Math.max(f[i % 2][j], f[i % 2][(j + nums[i]) % 3] + nums[i]);
+        int[] f = new int[3], g = new int[3];
+        f[1] = f[2] = Integer.MIN_VALUE;
+        for (int num : nums) {
+            for (int i = 0; i < 3; i++) {
+                g[i] = Math.max(f[i], f[(i + num) % 3] + num);
+            }
+            for (int i = 0; i < 3; i++) {
+                f[i] = g[i];
             }
         }
-        return f[n % 2][0];
+        return f[0];
     }
 
 }

@@ -6,17 +6,22 @@ class DynamicProgramming implements Code {
     public int countSquares(int[][] matrix) {
         int ans = 0;
         int m = matrix.length, n = matrix[0].length;
-        int[][] f = new int[m][n];
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (i == 0 || j == 0) {
-                    f[i][j] = matrix[i][j];
-                } else if (matrix[i][j] == 0) {
-                    f[i][j] = 0;
+        int[] f = new int[n];
+        for (int j = 0; j < n; j++) {
+            ans += f[j] = matrix[0][j];
+        }
+        for (int i = 1; i < m; i++) {
+            int lu = f[0];
+            ans += f[0] = matrix[i][0];
+            for (int j = 1; j < n; j++) {
+                int _lu = f[j];
+                if (matrix[i][j] == 0) {
+                    f[j] = 0;
                 } else {
-                    f[i][j] = Math.min(f[i - 1][j], Math.min(f[i][j - 1], f[i - 1][j - 1])) + 1;
+                    f[j] = Math.min(f[j], Math.min(f[j - 1], lu)) + 1;
                 }
-                ans += f[i][j];
+                lu = _lu;
+                ans += f[j];
             }
         }
         return ans;

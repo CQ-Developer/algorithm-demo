@@ -1,32 +1,29 @@
 package io.huhu.leetcode.n1372;
 
-import io.huhu.TLE;
+import io.huhu.AC;
 
-@TLE
+@AC
 class DepthFirstSearch implements Code {
+
+    private int ans;
 
     @Override
     public int longestZigZag(TreeNode root) {
-        return f(root, 0) - 1;
+        f(root, 0, 0);
+        return ans;
     }
 
-    /**
-     * dir = 0: left or right
-     * dir = 1: left
-     * dir = 2: right
-     */
-    private int f(TreeNode node, int dir) {
+    private void f(TreeNode node, int l, int r) {
+        ans = Math.max(ans, Math.max(l, r));
         if (node == null) {
-            return 0;
+            return;
         }
-        int ans;
-        if (dir == 0) {
-            ans = Math.max(f(node.left, 2), f(node.right, 1)) + 1;
-            ans = Math.max(ans, Math.max(f(node.left, 0), f(node.right, 0)));
-        } else {
-            ans = dir == 1 ? f(node.left, 2) + 1 : f(node.right, 1) + 1;
+        if (node.left != null) {
+            f(node.left, r + 1, 0);
         }
-        return ans;
+        if (node.right != null) {
+            f(node.right, 0, l + 1);
+        }
     }
 
 }

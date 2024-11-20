@@ -16,12 +16,11 @@ class DynamicProgramming implements Code {
             int f = edge[0], t = edge[1];
             g[f][t] = g[t][f] = edge[2];
         }
-        int[][][] dp = new int[n + 1][n][n];
-        dp[0] = g;
+        int[][] dp = g;
         for (int k = 0; k < n; k++) {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
-                    dp[k + 1][i][j] = Math.min(dp[k][i][j], dp[k][i][k] + dp[k][k][j]);
+                    dp[i][j] = Math.min(dp[i][j], dp[i][k] + dp[k][j]);
                 }
             }
         }
@@ -29,7 +28,7 @@ class DynamicProgramming implements Code {
         for (int i = 0; i < n; i++) {
             int _cnt = 0;
             for (int j = 0; j < n; j++) {
-                if (j != i && dp[n][i][j] <= distanceThreshold) {
+                if (j != i && dp[i][j] <= distanceThreshold) {
                     _cnt++;
                 }
             }

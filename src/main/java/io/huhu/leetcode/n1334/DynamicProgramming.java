@@ -16,11 +16,11 @@ class DynamicProgramming implements Code {
             int f = edge[0], t = edge[1];
             g[f][t] = g[t][f] = edge[2];
         }
-        int[][] dp = g;
+        // 可以看出空间压缩后的dp算法基本等同于floyd算法
         for (int k = 0; k < n; k++) {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
-                    dp[i][j] = Math.min(dp[i][j], dp[i][k] + dp[k][j]);
+                    g[i][j] = Math.min(g[i][j], g[i][k] + g[k][j]);
                 }
             }
         }
@@ -28,7 +28,7 @@ class DynamicProgramming implements Code {
         for (int i = 0; i < n; i++) {
             int _cnt = 0;
             for (int j = 0; j < n; j++) {
-                if (j != i && dp[i][j] <= distanceThreshold) {
+                if (j != i && g[i][j] <= distanceThreshold) {
                     _cnt++;
                 }
             }

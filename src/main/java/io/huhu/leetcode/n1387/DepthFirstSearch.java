@@ -1,9 +1,12 @@
 package io.huhu.leetcode.n1387;
 
+import io.huhu.AC;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+@AC
 class DepthFirstSearch implements Code {
 
     private static final Map<Integer, Integer> MEM = new HashMap<>();

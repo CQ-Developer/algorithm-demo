@@ -1,5 +1,8 @@
 package io.huhu.leetcode.n1395;
 
+import io.huhu.AC;
+
+@AC
 class BruteForceSearch implements Code {
 
     @Override

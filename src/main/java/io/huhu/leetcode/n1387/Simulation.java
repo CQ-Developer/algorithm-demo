@@ -1,7 +1,10 @@
 package io.huhu.leetcode.n1387;
 
+import io.huhu.AC;
+
 import java.util.Arrays;
 
+@AC
 class Simulation implements Code {
 
     @Override

@@ -6,9 +6,10 @@ class Simulation implements Code {
 
     @Override
     public int getKth(int lo, int hi, int k) {
+        int offset = 0;
         int[][] arr = new int[hi - lo + 1][];
-        for (int i = 0, num = lo; num <= hi; i++, num++) {
-            int _num = num, step = 0;
+        for (int i = 0; i < arr.length; i++) {
+            int num = lo + offset++, _num = num, step = 0;
             while (_num > 1) {
                 _num = _num % 2 == 0 ? _num / 2 : _num * 3 + 1;
                 step++;

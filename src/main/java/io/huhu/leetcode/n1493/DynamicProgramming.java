@@ -9,17 +9,16 @@ class DynamicProgramming implements Code {
     @Override
     public int longestSubarray(int[] nums) {
         int n = nums.length, ans = 0;
-        int[] pre = new int[n], oneDeletionPre = new int[n];
-        pre[0] = oneDeletionPre[0] = nums[0];
+        int a = nums[0], b = nums[0];
         for (int i = 1; i < n; i++) {
             if (nums[i] == 1) {
-                pre[i] = pre[i - 1] + 1;
-                oneDeletionPre[i] = oneDeletionPre[i - 1] + 1;
+                a++;
+                b++;
             } else {
-                pre[i] = 0;
-                oneDeletionPre[i] = pre[i - 1];
+                b = a;
+                a = 0;
             }
-            ans = Math.max(ans, oneDeletionPre[i]);
+            ans = Math.max(ans, b);
         }
         if (ans == n) {
             ans--;

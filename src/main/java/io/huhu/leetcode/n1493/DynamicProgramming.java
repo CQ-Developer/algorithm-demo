@@ -3,15 +3,14 @@ package io.huhu.leetcode.n1493;
 class DynamicProgramming implements Code {
 
     /**
-     * pre[i]表示以i位置结尾的连续1的最长子数组长度
-     * oneDeletionPre[i]表示以i位置结尾且可以删除一个0后得到的连续1的最长子数组
+     * a表示以i位置结尾的连续1的最长子数组长度
+     * b表示以i位置结尾且可以删除一个0后得到的连续1的最长子数组
      */
     @Override
     public int longestSubarray(int[] nums) {
-        int n = nums.length, ans = 0;
-        int a = nums[0], b = nums[0];
-        for (int i = 1; i < n; i++) {
-            if (nums[i] == 1) {
+        int ans = 0, a = 0, b = 0;
+        for (int num : nums) {
+            if (num == 1) {
                 a++;
                 b++;
             } else {
@@ -20,7 +19,7 @@ class DynamicProgramming implements Code {
             }
             ans = Math.max(ans, b);
         }
-        if (ans == n) {
+        if (ans == nums.length) {
             ans--;
         }
         return ans;

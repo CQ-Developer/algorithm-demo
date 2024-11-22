@@ -1,5 +1,8 @@
 package io.huhu.leetcode.n1493;
 
+import io.huhu.AC;
+
+@AC
 class DynamicProgramming implements Code {
 
     /**

@@ -1,9 +1,12 @@
 package io.huhu.leetcode.n1477;
 
+import io.huhu.AC;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+@AC
 class PrefixSumSlidingWindow implements Code {
 
     @Override

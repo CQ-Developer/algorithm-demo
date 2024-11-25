@@ -7,38 +7,32 @@ import java.util.Arrays;
 @AC
 class Memoization implements Code {
 
-    @Override
     public int cherryPickup(int[][] grid) {
         int n = grid.length;
-        int[][][] mem = new int[n][n][n];
+        int[][][] mem = new int[2 * n - 1][n][n];
         for (int[][] a : mem) {
             for (int[] b : a) {
-                Arrays.fill(b, -2);
+                Arrays.fill(b, -1);
             }
         }
-        int ans = f(grid, n, mem, 0, 0, 0);
-        return ans == -1 ? 0 : ans;
+        return Math.max(0, f(grid, mem, 2 * n - 2, n - 1, n - 1));
     }
 
-    private int f(int[][] g, int n, int[][][] mem, int a, int b, int c) {
-        int d = a + b - c;
-        if (a == n || b == n || c == n || d == n || g[a][b] == -1 || g[c][d] == -1) {
-            return -1;
+    private int f(int[][] g, int[][][] mem, int n, int i1, int i2) {
+        if (i1 < 0 || n < i1 || i2 < 0 || n < i2 || g[i1][n - i1] == -1 || g[i2][n - i2] == -1) {
+            return -2;
         }
-        if (a == n - 1 && b == n - 1) {
-            return g[a][b];
+        if (n == 0) {
+            return g[0][0];
         }
-        if (mem[a][b][c] != -2) {
-            return mem[a][b][c];
+        if (mem[n][i1][i2] != -1) {
+            return mem[n][i1][i2];
         }
-        int ans = f(g, n, mem, a + 1, b, c + 1);
-        ans = Math.max(ans, f(g, n, mem, a + 1, b, c));
-        ans = Math.max(ans, f(g, n, mem, a, b + 1, c + 1));
-        ans = Math.max(ans, f(g, n, mem, a, b + 1, c));
-        if (ans != -1) {
-            ans += a == c && b == d ? g[a][b] : g[a][b] + g[c][d];
+        int ans = mem[n][i1][i2] = Math.max(f(g, mem, n - 1, i1, i2), Math.max(f(g, mem, n - 1, i1 - 1, i2), Math.max(f(g, mem, n - 1, i1, i2 - 1), f(g, mem, n - 1, i1 - 1, i2 - 1))));
+        if (ans != -2) {
+            ans += g[i1][n - i1] + (i1 == i2 ? 0 : g[i2][n - i2]);
         }
-        return mem[a][b][c] = ans;
+        return mem[n][i1][i2] = ans;
     }
 
 }

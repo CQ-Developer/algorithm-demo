@@ -10,40 +10,27 @@ class DynamicProgramming implements Code {
     @Override
     public int cherryPickup(int[][] grid) {
         int n = grid.length;
-        int[][] f = new int[n + 1][n + 1], _f = new int[n + 1][n + 1];
-        for (int[] a : f) {
-            Arrays.fill(a, -1);
+        int[][] f = new int[n + 1][n + 1];
+        for (int[] _f : f) {
+            Arrays.fill(_f, -2);
         }
-        for (int a = n - 1; a >= 0; a--) {
-            for (int b = n; b >= 0; b--) {
-                for (int c = n; c >= 0; c--) {
-                    int d = a + b - c;
-                    if (d >= 0 && d <= n) {
-                        int ans;
-                        if (b == n || c == n || d == n || grid[a][b] == -1 || grid[c][d] == -1) {
-                            ans = -1;
-                        } else if (a == n - 1 && b == n - 1) {
-                            ans = grid[a][b];
-                        } else {
-                            ans = f[b][c + 1];
-                            ans = Math.max(ans, f[b][c]);
-                            ans = Math.max(ans, _f[b + 1][c + 1]);
-                            ans = Math.max(ans, _f[b + 1][c]);
-                            if (ans != -1) {
-                                ans += a == c && b == d ? grid[a][b] : grid[a][b] + grid[c][d];
-                            }
+        f[1][1] = grid[0][0];
+        for (int s = 1; s < 2 * n - 1; s++) {
+            for (int i1 = Math.min(s, n - 1); i1 >= Math.max(s - n + 1, 0); i1--) {
+                for (int i2 = Math.min(s, n - 1); i2 >= i1; i2--) {
+                    if (grid[i1][s - i1] == -1 || grid[i2][s - i2] == -1) {
+                        f[i1 + 1][i2 + 1] = -2;
+                    } else {
+                        int ans = Math.max(f[i1 + 1][i2 + 1], Math.max(f[i1][i2 + 1], Math.max(f[i1 + 1][i2], f[i1][i2])));
+                        if (ans != -2) {
+                            ans += grid[i1][s - i1] + (i1 == i2 ? 0 : grid[i2][s - i2]);
                         }
-                        _f[b][c] = ans;
+                        f[i1 + 1][i2 + 1] = ans;
                     }
                 }
             }
-            for (int i = 0; i <= n; i++) {
-                for (int j = 0; j <= n; j++) {
-                    f[i][j] = _f[i][j];
-                }
-            }
         }
-        return f[0][0] == -1 ? 0 : f[0][0];
+        return Math.max(f[n][n], 0);
     }
 
 }

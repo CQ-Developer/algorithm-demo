@@ -7,27 +7,30 @@ class DepthFirstSearch implements Code {
 
     @Override
     public int cherryPickup(int[][] grid) {
-        int ans = f(grid, grid.length, 0, 0, 0);
-        return ans == -1 ? 0 : ans;
+        int n = grid.length;
+        return Math.max(0, f(grid, 2 * n - 2, n - 1, n - 1));
     }
 
-    private int f(int[][] g, int n, int a, int b, int c) {
-        int d = a + b - c;
-        if (a == n || b == n || c == n || d == n || g[a][b] == -1 || g[c][d] == -1) {
-            return -1;
+    /**
+     * n represent the total steps can move,
+     * j1 = n - i1, j2 = n - i2
+     */
+    private int f(int[][] g, int n, int i1, int i2) {
+        if (i1 < 0 || n < i1 || i2 < 0 || n < i2 || g[i1][n - i1] == -1 || g[i2][n - i2] == -1) {
+            return -2;
         }
-        if (a == n - 1 && b == n - 1) {
-            return g[a][b];
+        if (n == 0) {
+            return g[0][0];
         }
-        int pickup = a == c && b == d ? g[a][b] : g[a][b] + g[c][d];
-        int ans = f(g, n, a + 1, b, c + 1);
-        ans = Math.max(ans, f(g, n, a + 1, b, c));
-        ans = Math.max(ans, f(g, n, a, b + 1, c + 1));
-        ans = Math.max(ans, f(g, n, a, b + 1, c));
-        if (ans == -1) {
-            return ans;
+        // (n - 1, i1,         i2) means (i1,     j1 - 1, i2,     j2 - 1)
+        // (n - 1, i1 - 1,     i2) means (i1 - 1, j1,     i2,     j2 - 1)
+        // (n - 1, i1,     i2 - 1) means (i1,     j1 - 1, i2 - 1, j2)
+        // (n - 1, i1 - 1, i2 - 1) means (i1 - 1, j1,     i2 - 1, j2)
+        int ans = Math.max(f(g, n - 1, i1, i2), Math.max(f(g, n - 1, i1 - 1, i2), Math.max(f(g, n - 1, i1, i2 - 1), f(g, n - 1, i1 - 1, i2 - 1))));
+        if (ans != -2) {
+            ans += g[i1][n - i1] + (i1 == i2 ? 0 : g[i2][n - i2]);
         }
-        return ans + pickup;
+        return ans;
     }
 
 }

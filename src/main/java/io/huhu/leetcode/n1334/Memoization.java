@@ -1,7 +1,10 @@
 package io.huhu.leetcode.n1334;
 
+import io.huhu.AC;
+
 import java.util.Arrays;
 
+@AC
 class Memoization implements Code {
 
     private static final int INF = Integer.MAX_VALUE >> 1;

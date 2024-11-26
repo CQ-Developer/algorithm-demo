@@ -1,5 +1,8 @@
 package io.huhu.leetcode.n1504;
 
+import io.huhu.AC;
+
+@AC
 class BitManipulation implements Code {
 
     @Override

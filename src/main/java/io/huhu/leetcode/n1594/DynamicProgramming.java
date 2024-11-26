@@ -1,5 +1,8 @@
 package io.huhu.leetcode.n1594;
 
+import io.huhu.AC;
+
+@AC
 class DynamicProgramming implements Code {
 
     private static final int M = 1_000_000_007;

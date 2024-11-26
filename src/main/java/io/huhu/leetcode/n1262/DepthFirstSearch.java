@@ -1,5 +1,8 @@
 package io.huhu.leetcode.n1262;
 
+import io.huhu.TLE;
+
+@TLE
 class DepthFirstSearch implements Code {
 
     @Override

@@ -7,18 +7,15 @@ class DynamicProgramming implements Code {
 
     @Override
     public int countVowelStrings(int n) {
-        int[][] f = new int[n + 1][5];
-        for (int j = 0; j < 5; j++) {
-            f[0][j] = 1;
-        }
+        int[] f = {1, 1, 1, 1, 1};
         for (int i = 1; i <= n; i++) {
-            for (int j = 0; j < 5; j++) {
-                for (int _j = j; _j >= 0; _j--) {
-                    f[i][j] += f[i - 1][_j];
+            for (int j = 4; j >= 0; j--) {
+                for (int _j = j - 1; _j >= 0; _j--) {
+                    f[j] += f[_j];
                 }
             }
         }
-        return f[n][4];
+        return f[4];
     }
 
 }

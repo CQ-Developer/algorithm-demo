@@ -14,11 +14,9 @@ class DynamicProgramming implements Code {
     public int minimumDeletions(String s) {
         int f = 0, b = 0;
         for (char c : s.toCharArray()) {
-            if (c == 'b') {
-                b++;
-            } else {
-                f = Math.min(b, f + 1);
-            }
+            int d = c - 'a';
+            b += d;
+            f = Math.min(b, f + (d ^ 1));
         }
         return f;
     }

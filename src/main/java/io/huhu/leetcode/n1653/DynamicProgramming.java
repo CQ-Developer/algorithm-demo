@@ -12,18 +12,15 @@ class DynamicProgramming implements Code {
      */
     @Override
     public int minimumDeletions(String s) {
-        char[] c = s.toCharArray();
-        int n = c.length;
-        int[] f = new int[n + 1];
-        for (int i = 0, b = 0; i < n; i++) {
-            if (c[i] == 'b') {
-                f[i + 1] = f[i];
+        int f = 0, b = 0;
+        for (char c : s.toCharArray()) {
+            if (c == 'b') {
                 b++;
             } else {
-                f[i + 1] = Math.min(b, f[i] + 1);
+                f = Math.min(b, f + 1);
             }
         }
-        return f[n];
+        return f;
     }
 
 }

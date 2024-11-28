@@ -9,16 +9,14 @@ class DynamicProgramming implements Code {
         for (int i = 0; i < n; i++) {
             pre[i + 1] = pre[i] + stones[i];
         }
-        int[][] f = new int[n][n];
+        int[] f = new int[n];
         for (int l = n - 1; l >= 0; l--) {
-            f[l][l] = 0;
+            f[l] = 0;
             for (int r = l + 1; r < n; r++) {
-                int a = pre[r + 1] - pre[l + 1] - f[l + 1][r];
-                int b = pre[r] - pre[l] - f[l][r - 1];
-                f[l][r] = Math.max(a, b);
+                f[r] = Math.max(pre[r + 1] - pre[l + 1] - f[r], pre[r] - pre[l] - f[r - 1]);
             }
         }
-        return f[0][n - 1];
+        return f[n - 1];
     }
 
 }

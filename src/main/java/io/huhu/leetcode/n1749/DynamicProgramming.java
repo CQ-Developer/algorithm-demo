@@ -10,12 +10,11 @@ class DynamicProgramming implements Code {
      */
     @Override
     public int maxAbsoluteSum(int[] nums) {
-        int n = nums.length, ans = 0;
-        int[] maxF = new int[n + 1], minF = new int[n + 1];
-        for (int i = 0; i < n; i++) {
-            maxF[i + 1] = Math.max(0, maxF[i]) + nums[i];
-            minF[i + 1] = Math.min(0, minF[i]) + nums[i];
-            ans = Math.max(ans, Math.max(maxF[i + 1], -minF[i + 1]));
+        int mx = 0, mn = 0, ans = 0;
+        for (int num : nums) {
+            mx = Math.max(0, mx) + num;
+            mn = Math.min(0, mn) + num;
+            ans = Math.max(ans, Math.max(mx, -mn));
         }
         return ans;
     }

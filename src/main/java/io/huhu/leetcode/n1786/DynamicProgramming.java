@@ -44,27 +44,22 @@ class DynamicProgramming implements Code {
                 }
             }
         }
-        int[][] arr = new int[n][2];
-        for (int i = 0; i < n; i++) {
-            arr[i] = new int[]{i + 1, distances[i + 1]};
+        for (int i = 1; i <= n; i++) {
+            queue.offer(new int[]{i, distances[i]});
         }
-        Arrays.sort(arr, (a, b) -> a[1] - b[1]);
-        // dp
-        int[] dp = new int[n + 1];
-        dp[n] = 1;
-        for (int i = 0; i < n; i++) {
-            int f = arr[i][0], d = arr[i][1];
-            for (int[] next : graph.get(f)) {
-                int t = next[0];
-                if (d > distances[t]) {
-                    dp[f] = (dp[f] + dp[t]) % M;
+        int[] f = new int[n + 1];
+        f[n] = 1;
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int i = cur[0], d = cur[1];
+            for (int[] next : graph.get(i)) {
+                int _i = next[0], _d = distances[_i];
+                if (_d < d) {
+                    f[i] = (f[i] + f[_i]) % M;
                 }
             }
-            if (f == 1) {
-                break;
-            }
         }
-        return dp[1];
+        return f[1];
     }
 
 }

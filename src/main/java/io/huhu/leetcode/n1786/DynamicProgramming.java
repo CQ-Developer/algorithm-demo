@@ -15,7 +15,6 @@ class DynamicProgramming implements Code {
 
     @Override
     public int countRestrictedPaths(int n, int[][] edges) {
-        // build graph
         List<List<int[]>> graph = new ArrayList<>();
         for (int i = 0; i <= n; i++) {
             graph.add(new ArrayList<>());
@@ -25,41 +24,33 @@ class DynamicProgramming implements Code {
             graph.get(f).add(new int[]{t, d});
             graph.get(t).add(new int[]{f, d});
         }
-        // Dijkstra
-        boolean[] visited = new boolean[n + 1];
-        int[] distances = new int[n + 1];
-        Arrays.fill(distances, Integer.MAX_VALUE);
-        distances[n] = 0;
-        Queue<int[]> queue = new PriorityQueue<>((a, b) -> a[1] - b[1]);
-        queue.add(new int[]{n, 0});
-        while (!queue.isEmpty()) {
-            int[] cur = queue.poll();
-            int t = cur[0];
-            if (!visited[t]) {
-                visited[t] = true;
-                for (int[] pre : graph.get(t)) {
-                    int f = pre[0];
-                    distances[f] = Math.min(distances[f], distances[t] + pre[1]);
-                    queue.offer(new int[]{f, distances[f]});
+        int[] ds = new int[n + 1];
+        Arrays.fill(ds, Integer.MAX_VALUE);
+        ds[n] = 0;
+        int[] dp = new int[n + 1];
+        dp[n] = 1;
+        Queue<int[]> heap = new PriorityQueue<>((a, b) -> a[1] - b[1]);
+        heap.offer(new int[]{n, 0});
+        while (!heap.isEmpty()) {
+            int[] top = heap.poll();
+            int f = top[0], d = top[1];
+            if (f == 1) {
+                break;
+            }
+            if (d <= ds[f]) {
+                for (int[] next : graph.get(f)) {
+                    int t = next[0], _d = next[1];
+                    if (ds[t] > ds[f] + _d) {
+                        ds[t] = ds[f] + _d;
+                        heap.offer(new int[]{t, ds[t]});
+                    }
+                    if (ds[t] > ds[f]) {
+                        dp[t] = (dp[t] + dp[f]) % M;
+                    }
                 }
             }
         }
-        for (int i = 1; i <= n; i++) {
-            queue.offer(new int[]{i, distances[i]});
-        }
-        int[] f = new int[n + 1];
-        f[n] = 1;
-        while (!queue.isEmpty()) {
-            int[] cur = queue.poll();
-            int i = cur[0], d = cur[1];
-            for (int[] next : graph.get(i)) {
-                int _i = next[0], _d = distances[_i];
-                if (_d < d) {
-                    f[i] = (f[i] + f[_i]) % M;
-                }
-            }
-        }
-        return f[1];
+        return dp[1];
     }
 
 }

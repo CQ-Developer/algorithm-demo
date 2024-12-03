@@ -1,5 +1,8 @@
 package io.huhu.leetcode.n1824;
 
+import io.huhu.AC;
+
+@AC
 class Greedy implements Code {
 
     @Override

@@ -1,5 +1,8 @@
 package io.huhu.leetcode.n1824;
 
+import io.huhu.AC;
+
+@AC
 class DynamicProgramming implements Code {
 
     private static final int INF = 0x3f3f3f3f;

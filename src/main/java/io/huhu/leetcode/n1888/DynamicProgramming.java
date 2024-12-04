@@ -1,5 +1,8 @@
 package io.huhu.leetcode.n1888;
 
+import io.huhu.AC;
+
+@AC
 class DynamicProgramming implements Code {
 
     @Override
@@ -22,16 +25,10 @@ class DynamicProgramming implements Code {
             return ans;
         }
         for (char c : chars) {
-            int _f0 = f0;
-            if (c == '1') {
-                f0 = f1 + 1;
-                f1 = _f0 - 1;
-                ans = Math.min(ans, f1);
-            } else {
-                f0 = f1 - 1;
-                f1 = _f0 + 1;
-                ans = Math.min(ans, f0);
-            }
+            int f = c == '1' ? 1 : -1, _f0 = f0;
+            f0 = f1 + f;
+            f1 = _f0 - f;
+            ans = Math.min(ans, Math.min(f0, f1));
         }
         return ans;
     }

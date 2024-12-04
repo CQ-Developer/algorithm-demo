@@ -12,20 +12,15 @@ class SlidingWindow implements Code {
         char[] c = s.toCharArray();
         int n = c.length, cnt = 0;
         for (int i = 0; i < n; i++) {
-            if (c[i] != C[i % 2]) {
-                cnt++;
-            }
+            cnt += c[i] ^ C[i & 1];
         }
         int ans = Math.min(cnt, n - cnt);
         if ((n & 1) == 0) {
             return ans;
         }
-        for (int i = 0; i < n; i++) {
-            if (c[i] == C[i % 2]) {
-                cnt++;
-            } else {
-                cnt--;
-            }
+        for (int i = 1; i < n; i++) {
+            cnt -= c[i - 1] ^ C[(i - 1) & 1];
+            cnt += c[i - 1] ^ C[i & 1];
             ans = Math.min(ans, Math.min(cnt, n - cnt));
         }
         return ans;

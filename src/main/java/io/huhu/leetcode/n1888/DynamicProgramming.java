@@ -5,6 +5,11 @@ import io.huhu.AC;
 @AC
 class DynamicProgramming implements Code {
 
+    /**
+     * <a href="https://leetcode.cn/problems/minimum-number-of-flips-to-make-the-binary-string-alternating/solutions/1383188/by-nayuta-c0-xujq/">
+     * review
+     * </a>
+     */
     @Override
     public int minFlips(String s) {
         char[] chars = s.toCharArray();

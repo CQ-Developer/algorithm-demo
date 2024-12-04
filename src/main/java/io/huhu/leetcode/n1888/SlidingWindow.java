@@ -7,6 +7,11 @@ class SlidingWindow implements Code {
 
     private static final char[] C = {'0', '1'};
 
+    /**
+     * <a href="https://leetcode.cn/problems/minimum-number-of-flips-to-make-the-binary-string-alternating/solutions/815295/minimum-number-of-flips-by-ikaruga-lu32/">
+     * review
+     * </a>
+     */
     @Override
     public int minFlips(String s) {
         char[] c = s.toCharArray();

@@ -7,11 +7,11 @@ class Simulation implements Code {
 
     @Override
     public int twoEggDrop(int n) {
-        int ans = 0;
-        for (int i = 1; n > 0; i++, ans++) {
+        int i = 1;
+        for (; n > 0; i++) {
             n -= i;
         }
-        return ans;
+        return i - 1;
     }
 
 }

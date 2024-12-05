@@ -29,9 +29,9 @@ class DynamicProgramming implements Solution {
         for (int i = 1; i <= n; i++) {
             // 在0..i范围上调整1次
             f[i][1] = cost[0][i - 1];
-            // 前i个数最多调整i次且共最多调整k+1次
+            // 前i个数最多调整i次, 总共最多调整k+1次
             int len = Math.min(i, k + 1);
-            for (int j = 2; j < len + 1; j++) {
+            for (int j = 2; j <= len; j++) {
                 for (int _i = j - 1; _i < i; _i++) {
                     f[i][j] = Math.min(f[i][j], f[_i][j - 1] + cost[_i][i - 1]);
                 }

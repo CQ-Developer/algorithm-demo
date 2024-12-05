@@ -8,17 +8,17 @@ class DynamicProgramming implements Code {
     @Override
     public int maxCompatibilitySum(int[][] students, int[][] mentors) {
         int m = students.length, n = 1 << m;
-        int[][] f = new int[m + 1][1 << m];
-        for (int i = m - 1; i >= 0; i--) {
-            for (int s = n - 1; s >= 0; s--) {
+        int[] f = new int[1 << m];
+        for (int[] student : students) {
+            for (int s = 0; s < n; s++) {
                 for (int j = 0; j < m; j++) {
                     if (((1 << j) & s) == 0) {
-                        f[i][s] = Math.max(f[i][s], f[i + 1][s | (1 << j)] + score(students[i], mentors[j]));
+                        f[s] = Math.max(f[s], f[s | (1 << j)] + score(student, mentors[j]));
                     }
                 }
             }
         }
-        return f[0][0];
+        return f[0];
     }
 
     private int score(int[] stu, int[] men) {

@@ -2,26 +2,39 @@ package io.huhu.leetcode.n1981;
 
 import io.huhu.AC;
 
-import java.math.BigInteger;
-
 @AC
 class DynamicProgramming implements Solution {
 
     @Override
     public int minimizeTheDifference(int[][] mat, int target) {
-        BigInteger f = BigInteger.ONE;
+        boolean[] f = new boolean[2 * target + 1];
+        f[0] = true;
+        int minSum = 0, maxSum = 0;
         for (int[] row : mat) {
-            BigInteger g = BigInteger.ZERO;
+            int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
             for (int num : row) {
-                g = g.or(f.shiftLeft(num));
+                min = Math.min(min, num);
+                max = Math.max(max, num);
             }
-            f = g;
-        }
-        for (int d = 0; ; d++) {
-            if (f.testBit(target + d) || target > d && f.testBit(target - d)) {
-                return d;
+            minSum += min;
+            maxSum = Math.min(maxSum + max, target * 2);
+            for (int j = maxSum; j >= 0; j--) {
+                f[j] = false;
+                for (int num : row) {
+                    if (j >= num && f[j - num]) {
+                        f[j] = true;
+                        break;
+                    }
+                }
             }
         }
+        int res = Math.abs(minSum - target);
+        for (int j = 1; j <= target * 2; j++) {
+            if (f[j]) {
+                res = Math.min(res, Math.abs(j - target));
+            }
+        }
+        return res;
     }
 
 }

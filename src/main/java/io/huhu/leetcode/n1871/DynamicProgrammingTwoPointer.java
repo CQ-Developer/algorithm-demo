@@ -3,7 +3,7 @@ package io.huhu.leetcode.n1871;
 import io.huhu.AC;
 
 @AC
-public class DynamicProgrammingTwoPointer implements Code {
+class DynamicProgrammingTwoPointer implements Code {
 
     @Override
     public boolean canReach(String s, int minJump, int maxJump) {

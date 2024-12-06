@@ -9,15 +9,8 @@ class Memoization implements Solution {
 
     @Override
     public int minimizeTheDifference(int[][] mat, int target) {
-        int m = mat.length, n = 0;
-        for (int[] a : mat) {
-            int max = 0;
-            for (int b : a) {
-                max = Math.max(max, b);
-            }
-            n += max;
-        }
-        int[][] mem = new int[m][n + 1];
+        int m = mat.length;
+        int[][] mem = new int[m][5000];
         for (int[] a : mem) {
             Arrays.fill(a, -1);
         }

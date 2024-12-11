@@ -21,26 +21,17 @@ class DynamicProgramming implements Solution {
             }
             return res;
         }
-        int[] left = new int[n];
-        left[0] = 1;
-        for (int i = 1; i < n; i++) {
+        int[] inc = new int[n], dec = new int[n];
+        for (int i = 1, j = n - 2; i < n; i++, j--) {
             if (security[i - 1] >= security[i]) {
-                left[i] = left[i - 1] + 1;
-            } else {
-                left[i] = 1;
+                inc[i] = inc[i - 1] + 1;
             }
-        }
-        int[] right = new int[n];
-        right[n - 1] = 1;
-        for (int i = n - 2; i >= 0; i--) {
-            if (security[i] <= security[i + 1]) {
-                right[i] = right[i + 1] + 1;
-            } else {
-                right[i] = 1;
+            if (security[j] <= security[j + 1]) {
+                dec[j] = dec[j + 1] + 1;
             }
         }
         for (int i = time; i < n - time; i++) {
-            if (left[i] > time && right[i] > time) {
+            if (inc[i] >= time && dec[i] >= time) {
                 res.add(i);
             }
         }

@@ -1,8 +1,11 @@
 package io.huhu.leetcode.n2266;
 
+import io.huhu.AC;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@AC
 class DynamicProgramming implements Solution {
 
     private static final int M = 1_000_000_007;

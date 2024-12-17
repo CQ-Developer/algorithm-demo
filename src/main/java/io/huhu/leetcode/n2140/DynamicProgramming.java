@@ -1,5 +1,8 @@
 package io.huhu.leetcode.n2140;
 
+import io.huhu.AC;
+
+@AC
 class DynamicProgramming implements Solution {
 
     @Override
